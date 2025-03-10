@@ -96,6 +96,15 @@ This roadmap follows agile-style iterations to keep things structured.
 ⬜ Choose Database Solution (CockroachDB, Free Audiobook APIs, or another option)
 ⬜ Gather UI References & Design Discussion
 
+Here is what ChatGPT propose when you ask for an audiobook platform (we can do better!):
+
+![Sketch1](Sketch1.webp "Sketch1")
+
+![Sketch2](Sketch2.webp "Sketch2")
+
+![Sketch3](Sketch3.webp "Sketch3")
+
+
 **🟡 Phase 2: Backend & API Development**
 ⬜ Set Up Django Project & Dependencies
 ⬜ Define User Roles & Authentication (JWT)
