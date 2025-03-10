@@ -91,9 +91,13 @@ This project is an **audiobook streaming platform** where users can listen to au
 This roadmap follows agile-style iterations to keep things structured.
 
 **🟢 Phase 1: Project Setup & Planning**
+
 ⬜ Review README & Define Scope
+
 ⬜ Create GitHub Repository
+
 ⬜ Choose Database Solution (CockroachDB, Free Audiobook APIs, or another option)
+
 ⬜ Gather UI References & Design Discussion
 
 Here is what ChatGPT propose when you ask for an audiobook platform (we can do better!):
@@ -106,26 +110,43 @@ Here is what ChatGPT propose when you ask for an audiobook platform (we can do b
 
 
 **🟡 Phase 2: Backend & API Development**
+
 ⬜ Set Up Django Project & Dependencies
+
 ⬜ Define User Roles & Authentication (JWT)
+
 ⬜ Database Schema & Models
+
 ⬜ Audio Upload & Storage Solution
+
 ⬜ Implement API Endpoints for Users & Audiobooks
+
 ⬜ Set Up Admin Dashboard Features
+
 ⬜ Test integration of Free Audiobook APIs (if applicable)
 
 **🟠 Phase 3: Frontend Development**
+
 ⬜ Initialize React Project & Dependencies
+
 ⬜ Build Core UI Components (Audio Player, Navigation, Dark Mode Toggle, etc.)
+
 ⬜ Connect Frontend to API (Authentication, Audio Streaming, etc.)
+
 ⬜ Develop User, Author, and Admin Dashboards
+
 ⬜ Implement search & filtering (by tags, author, etc.)
 
 **🔵 Phase 4: Testing & Deployment**
+
 ⬜ Test Backend API & Fix Bugs
+
 ⬜ Test Frontend UI & Refine User Experience
+
 ⬜ Implement automated testing (unit tests, integration tests)
+
 ⬜ Optimize for Mobile & Performance Improvements
+
 ⬜ Deploy Application (Potential Hosting: Railway, Render, Vercel, Netlify)
 
 ### **Individual Developer Roadmaps**
