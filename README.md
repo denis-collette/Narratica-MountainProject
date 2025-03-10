@@ -1,164 +1,153 @@
 # MountainProject-AudioBook
 
+#### **This document is a draft — let’s discuss improvements with the team! 🚀**
+
 ## 1. Project Description
-
-This project is an audio book streaming platform where users can listen to audio books and manage favorites. The application will have different user roles with specific permissions and a modern frontend built with React. The backend will be powered by Django and Django Rest Framework (DRF) to manage users, audio files, and authentication.
-
+This project is an **audiobook streaming platform** where users can listen to audiobooks, manage favorites, and interact with structured book collections. The application will have different user roles with specific permissions and a modern frontend built with **React**. The backend will be powered by **Django and Django Rest Framework (DRF)** to manage users, audio files, and authentication.
 
 ## 2. Technologies Used
 
 ### Frontend:
-
-React (for UI)
-
-React Router (for navigation)
-
-Tailwind CSS (for styling)
-
-Axios (for API requests)
-
-React Query (for data fetching)
+- **React** (for UI)
+- **React Router** (for navigation)
+- **Tailwind CSS** (for styling)
+- **Axios** (for API requests)
+- **React Query** (for data fetching)
 
 ### Backend:
-
-Django (Python framework)
-
-Django Rest Framework (DRF) (for API)
-
-PostgreSQL (or SQLite for development)
-
-JWT Authentication (for user login and permissions)
-
-Free Cloud Storage Solution (TBD - alternatives to AWS S3 or Firebase Storage)
-
+- **Django** (Python framework)
+- **Django Rest Framework (DRF)** (for API)
+- **PostgreSQL** (or SQLite for development)
+- **JWT Authentication** (for user login and permissions)
+- **CockroachDB** (considered for hosting, pending decision)
+- **Free Audiobook APIs** (exploring options like LibriVox, Open Library)
 
 ## 3. Frontend Structure
 
-### Main Features:
+### **Main Features:**
+- **Audio Player**: Always visible across all pages.
+- **Homepage**: Displays latest uploads, news from favorite authors, and categorized tags.
+- **User Dashboard**: Manage favorites, private playlists, and settings (including dark mode toggle).
+- **Author/Publisher Pages**: Managed by users to upload and organize audiobooks (books as playlists, chapters as audio files).
+- **Admin Dashboard**: Manage users, content, and system-wide settings.
 
-Audio Player: Always visible across all pages.
-
-Homepage: Shows latest uploads, news from favorite authors, and categorized tags.
-
-User Dashboard: Manage favorites and settings (including dark mode toggle).
-
-Author/Publisher Pages: Managed by users to upload and organize audio (books as playlists, chapter as audio file).
-
-Admin Dashboard: Manage users, content, and system-wide settings.
-
-### Homepage Details:
-
-Displays latest uploads.
-
-Highlights news from favorite authors.
-
-Includes tag-based categories to organize content.
-
+### **Homepage Details:**
+- Displays **latest audiobook uploads**.
+- Highlights **news from favorite authors**.
+- Includes **tag-based categories** for organizing content.
+- **Personalized recommendations** based on user listening history and favorite tags.
+- **Search & Filtering**: Users can search by **title, author, or tags** and filter by **multiple tags at once**.
 
 ## 4. Backend Structure
 
-### Key Functionalities:
+### **Key Functionalities:**
+- **User Authentication** (Register/Login with JWT, role-based access)
+- **Audiobook File Management** (Upload, store, and stream audio files)
+- **Playlist & Favorites Management** (Users can create and manage them)
+- **Admin Controls** (Manage users and content, approve author pages, moderate audiobooks)
+- **Integration with Free Audiobook APIs** (If applicable, these APIs will provide **metadata and external streaming links**.)
+- **Caching for External APIs** (To reduce excessive calls and API rate limits.)
 
-User Authentication (Register/Login with JWT, role-based access)
-
-Audio File Management (Upload, store, and stream audio files)
-
-Playlist & Favorites Management (Users can create and manage them)
-
-Admin Controls (Manage users and content)
-
-### User Roles & Permissions:
-
+### **User Roles & Permissions:**
 | Role            | Permissions                                                    |
 |-----------------|----------------------------------------------------------------|
-| Guest           | Listen to extracts of audio files, view homepage               |
-| Subscribed User | Listen to full audio, add favorites (author, books,...)        |
-| Author          | Upload audio files, create public playlists (books)            |
-| Admin           | Manage users, handle CRUD operations for the entire app        |
-
+| **Guest**       | Listen to extracts of audiobooks, view homepage               |
+| **Subscribed User** | Listen to full audiobooks, add favorites (books, authors) |
+| **Author/Publisher** | Upload audiobooks, create public playlists (books)       |
+| **Admin**       | Manage users, handle CRUD operations, moderate reports        |
 
 ## 5. Database Schema
 
-Main Tables:
-
-User (Django built-in with custom roles)
-
-UserProfile (Extends User with roles & permissions)
-
-AuthorPage (Managed by users for uploading content)
-
-AudioFile (Stores uploaded audio files with tags)
-
-Playlist/Books (Managed by AuthorPage to organize content)
-
-Tag (Associated with audio files for categorization, one mandatory, maximum 3 per playlist/book)
-
-Favorite (Links users to favorite books or author)
-
+### **Main Tables:**
+1. **User** (Django built-in with custom roles)
+2. **UserProfile** (Extends User with roles & permissions)
+3. **AuthorPage** (Managed by users for uploading content)
+4. **AudioFile** (Stores uploaded audio files with tags)
+5. **Playlist/Books** (Managed by AuthorPage to organize content)
+6. **Tag** (Associated with audiobooks for categorization, min 1, max 3 per book)
+7. **Favorite** (Links users to favorite books or authors)
 
 ## 6. API Endpoints
 
-### Authentication & User Management
+### **Authentication & User Management**
+- `POST /api/register/` → Register a new user
+- `POST /api/login/` → Authenticate user (JWT token)
+- `POST /api/admin/approve-author/` → Approve author pages (Admin only)
+- `POST /api/admin/review-reports/` → Handle user-reported content (Admin only)
 
-POST /api/register/ → Register a new user
+### **Audiobook File Management**
+- `GET /api/audio/` → Get all public audiobooks
+- `GET /api/audio/{id}/` → Get full audiobook (if user) or extract (if guest)
+- `POST /api/audio/upload/` → Upload audiobook file (Author only)
 
-POST /api/login/ → Authenticate user (JWT token)
+### **Playlist & Favorites Management**
+- `POST /api/playlists/create/` → Create a playlist
+- `GET /api/playlists/{id}/` → Get playlist details
+- `POST /api/favorites/` → Add an audiobook to favorites
 
-POST /api/admin/approve-author/ → Approve author pages (Admin only)
+## 7. Roadmap
 
-### Audio File Management
+### **Global Roadmap**
+This roadmap follows agile-style iterations to keep things structured.
 
-GET /api/audio/ → Get all public audio files
+**🟢 Phase 1: Project Setup & Planning**
+⬜ Review README & Define Scope
+⬜ Create GitHub Repository
+⬜ Choose Database Solution (CockroachDB, Free Audiobook APIs, or another option)
+⬜ Gather UI References & Design Discussion
 
-GET /api/audio/{id}/ → Get full audio (if user) or extract (if guest)
+**🟡 Phase 2: Backend & API Development**
+⬜ Set Up Django Project & Dependencies
+⬜ Define User Roles & Authentication (JWT)
+⬜ Database Schema & Models
+⬜ Audio Upload & Storage Solution
+⬜ Implement API Endpoints for Users & Audiobooks
+⬜ Set Up Admin Dashboard Features
+⬜ Test integration of Free Audiobook APIs (if applicable)
 
-POST /api/audio/upload/ → Upload audio file (Author only)
+**🟠 Phase 3: Frontend Development**
+⬜ Initialize React Project & Dependencies
+⬜ Build Core UI Components (Audio Player, Navigation, Dark Mode Toggle, etc.)
+⬜ Connect Frontend to API (Authentication, Audio Streaming, etc.)
+⬜ Develop User, Author, and Admin Dashboards
+⬜ Implement search & filtering (by tags, author, etc.)
 
-### Playlist & Favorites Management
+**🔵 Phase 4: Testing & Deployment**
+⬜ Test Backend API & Fix Bugs
+⬜ Test Frontend UI & Refine User Experience
+⬜ Implement automated testing (unit tests, integration tests)
+⬜ Optimize for Mobile & Performance Improvements
+⬜ Deploy Application (Potential Hosting: Railway, Render, Vercel, Netlify)
 
-POST /api/playlists/create/ → Create a playlist
+### **Individual Developer Roadmaps**
 
-GET /api/playlists/{id}/ → Get playlist details
+**🟢 Backend Dev 1 (Authentication & Users)**
+- Set up Django project and database.
+- Implement JWT authentication & user roles.
+- Build user management endpoints (register, login, profile).
+- Create admin dashboard to manage users.
 
-POST /api/favorites/ → Add an audio file to favorites
+**🟡 Backend Dev 2 (Audiobooks & Playlists)**
+- Implement audio file upload & storage.
+- Create playlist/book structure & API endpoints.
+- Set up search & filtering (by tags, author, etc.).
+- Optimize API performance (pagination, caching).
 
+**🟠 Frontend Dev 1 (Core UI & Player)**
+- Set up React project structure.
+- Build global UI components (navbar, dark mode toggle, layout).
+- Implement audio player (always visible).
+- Integrate authentication system.
 
-## 7. Steps
+**🔵 Frontend Dev 2 (Dashboards & API Integration)**
+- Develop User, Author & Admin dashboards.
+- Fetch & display audiobooks, playlists & favorites.
+- Implement forms for uploading & managing audiobooks.
+- Handle frontend error handling & validation.
 
-### First Steps & Priorities
-
-✅ Setup GitHub repository & project structure
-
-✅ Initialize Django backend (install dependencies, create models, configure database)
-
-✅ Set up authentication & user roles
-
-✅ Define API endpoints & permissions
-
-✅ Set up React frontend (install dependencies, create basic page structure)
-
-✅ Implement user authentication flow (login/register pages)
-
-✅ Build User Dashboard (favorites, settings including dark mode toggle)
-
-✅ Implement Author Pages (upload & manage audio files, organize in playlists/books)
-
-✅ Create Admin Dashboard (manage users & content)
-
-✅ Set up free cloud storage solution for audio files
-
-✅ Develop API integration between frontend and backend
-
-✅ Test & refine core features
-
-### Bonus Features (If Time Allows)
-
-✅ Optimize for mobile & add progressive web app (PWA) features
-
-✅ Use tag-based recommendations for users based on listening history
-
-✅ Enable rating system for audio files
-
-✅ Implement editor/publisher company pages
-
-✅ Deploy application with a free hosting solution
+### **Bonus Features (If Time Allows)**
+- ✅ **Optimize for mobile & add progressive web app (PWA) features**
+- ✅ **Use tag-based recommendations for users based on listening history**
+- ✅ **Enable rating system for audiobooks**
+- ✅ **Implement editor/publisher company pages**
+- ✅ **Deploy application with a free hosting solution**
