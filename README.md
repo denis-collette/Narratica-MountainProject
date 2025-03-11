@@ -126,13 +126,13 @@ Here is what ChatGPT propose when you ask for an audiobook platform (we can do b
 
 ⬜ Set Up Django Project & Dependencies
 
+⬜ Implement API Endpoints for Users & Audiobooks (with fake DB for front)
+
 ⬜ Define User Roles & Authentication (JWT)
 
 ⬜ Database Schema & Models
 
 ⬜ Audio Upload & Storage Solution
-
-⬜ Implement API Endpoints for Users & Audiobooks
 
 ⬜ Set Up Admin Dashboard Features
 
