@@ -75,8 +75,8 @@ This project is an **audiobook streaming platform** where users can listen to au
 1. **User** (Django built-in with custom roles)
 2. **UserProfile** (Extends User with roles & permissions)
 3. **AuthorPage** (Managed by users for uploading content)
-4. **AudioFile** (Stores uploaded audio files with tags)
-5. **Playlist/Books** (Managed by AuthorPage to organize content)
+4. **AudioFile** (Stores uploaded audio files)
+5. **Playlist/Books** (Managed by AuthorPage to organize content with tags)
 6. **Tag** (Associated with audiobooks for categorization, min 1, max 3 per book)
 7. **Favorite** (Links users to favorite books or authors)
 
