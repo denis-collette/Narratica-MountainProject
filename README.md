@@ -108,7 +108,7 @@ This roadmap follows agile-style iterations to keep things structured.
 
 ⬜ Review README & Define Scope
 
-⬜ Create GitHub Repository
+✅ Create GitHub Repository
 
 ⬜ Choose Database Solution (CockroachDB, Free Audiobook APIs, or another option)
 
