@@ -5,7 +5,7 @@
 **Name suggestions:**
 | A | C | D | H | Name |
 |---|---|---|---|------|
-|   |   |⬜|   | Narratica |
+|||⬜|| Narratica |
 |||✅|| TaleWave |
 |||⬜|| Narravox |
 |||⬜|| TuneTale |
