@@ -77,7 +77,7 @@ This project is an **audiobook streaming platform** where users can listen to au
 3. **AuthorPage** (Managed by users for uploading content)
 4. **AudioFile** (Stores uploaded audio files)
 5. **Playlist/Books** (Managed by AuthorPage to organize content with tags)
-6. **Tag** (Associated with audiobooks for categorization, min 1, max 3 per book)
+6. **Tag** (Associated with audiobooks for categorization, min 1, max 3 per book) => .json in src ?
 7. **Favorite** (Links users to favorite books or authors)
 
 ## 6. API Endpoints
