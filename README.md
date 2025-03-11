@@ -3,9 +3,9 @@
 #### **This document is a draft — let’s discuss improvements with the team! 🚀**
 
 **Name suggestions:**
-|A|C|D|H| Name |
----------------------
-|||⬜|| Narratica |
+| A | C | D | H | Name |
+|---|---|---|---|------|
+|   |   |⬜|   | Narratica |
 |||✅|| TaleWave |
 |||⬜|| Narravox |
 |||⬜|| TuneTale |
