@@ -33,7 +33,7 @@ This project is an **audiobook streaming platform** where users can listen to au
 - **Django Rest Framework (DRF)** (for API)
 - **PostgreSQL** (or SQLite for development)
 - **JWT Authentication** (for user login and permissions)
-- **CockroachDB** (considered for hosting, pending decision)
+- **Render** (for hosting)
 - **Free Audiobook APIs** (exploring options like LibriVox, Open Library)
 
 ## 3. Frontend Structure
