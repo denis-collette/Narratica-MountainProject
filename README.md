@@ -15,7 +15,7 @@
 | ⬜ | ⬜ | ⬜ | ⬜ | HarmonicTales         | Free   |
 | ⬜ | ✅ | ✅ | ✅ | Narra(tion)Nation     | Taken  |
 | ⬜ | ✅ | ⬜ | ⬜ | Audivine              | Taken  |
-| ⬜ | ⬜ | ⬜ | ⬜ | Narratales            | Meh... |
+| ⬜ | ⬜ | ⬜ | ⬜ | Narratales            | Taken  |
 |    |    |    |    |                       |        |
 
 ## 1. Project Description
