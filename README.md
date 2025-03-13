@@ -30,7 +30,7 @@
 |    |    |    |    |                       |        |
 | ⬜ | ⬜ | ⬜ | ⬜ | Blablabook            | Free   |
 | ⬜ | ⬜ | ⬜ | ⬜ | Babelbook             | +/-    |
-| ⬜ | ⬜ | ⬜ | ⬜ | Babelbul              | Free   |
+| ⬜ | ⬜ | ✅ | ⬜ | Babelbul              | Free   |
 | ⬜ | ⬜ | ⬜ | ⬜ | Blabelbul             | Free   |
 | ⬜ | ⬜ | ⬜ | ⬜ |                       |        |
 
