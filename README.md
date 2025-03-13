@@ -27,7 +27,7 @@
 | ⬜ | ⬜ | ✅ | ⬜ | Audiovel              | Taken  |
 | ⬜ | ⬜ | ⬜ | ⬜ | Boodio                | Taken  |
 | ⬜ | ⬜ | ⬜ | ⬜ | Librio                | Taken  |
-| ⬜ | ⬜ | ⬜ | ⬜ | ----------------------|--------|
+|    |    |    |    |                       |        |
 | ⬜ | ⬜ | ⬜ | ⬜ | Blablabook            | Free   |
 | ⬜ | ⬜ | ⬜ | ⬜ | Babelbook             | +/-    |
 | ⬜ | ⬜ | ⬜ | ⬜ | Babelbul              | Free   |
