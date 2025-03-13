@@ -3,18 +3,20 @@
 #### **This document is a draft — let’s discuss improvements with the team! 🚀**
 
 **Name suggestions:**
-| A | C | D | H | Name |
-|---|---|---|---|------|
-|⬜|✅|⬜|✅| Narratica |
-|⬜|⬜|✅|⬜| TaleWave |
-|⬜|⬜|⬜|✅| Narravox |
-|⬜|⬜|⬜|⬜| TuneTale |
-|⬜|✅|⬜|⬜| EchoTales |
-|⬜|⬜|⬜|⬜| WhisperingPages |
-|⬜|✅|⬜|⬜| ChronicleSounds |
-|⬜|⬜|⬜|⬜| HarmonicTales |
-|⬜|✅|✅|✅| NarrationNation / NarraNation |
-|⬜|✅|⬜|⬜|   Audivine |
+|  A |  C |  D |  H | Name                  | Status |
+|----|----|----|----|-----------------------|--------|
+| ⬜ | ✅ | ⬜ | ✅ | Narratica             | Taken  |
+| ⬜ | ⬜ | ✅ | ⬜ | TaleWave              | Taken  |
+| ⬜ | ⬜ | ⬜ | ✅ | Narravox              | Taken  |
+| ⬜ | ⬜ | ⬜ | ⬜ | TuneTale              | Taken  |
+| ⬜ | ✅ | ⬜ | ⬜ | EchoTales             | Free   |
+| ⬜ | ⬜ | ⬜ | ⬜ | WhisperingPages       | Taken  |
+| ⬜ | ✅ | ⬜ | ⬜ | ChronicleSounds       | Free   |
+| ⬜ | ⬜ | ⬜ | ⬜ | HarmonicTales         | Free   |
+| ⬜ | ✅ | ✅ | ✅ | Narra(tion)Nation     | Taken  |
+| ⬜ | ✅ | ⬜ | ⬜ | Audivine              | Taken  |
+| ⬜ | ⬜ | ⬜ | ⬜ | Narratales            | Meh... |
+|    |    |    |    |                       |        |
 
 ## 1. Project Description
 This project is an **audiobook streaming platform** where users can listen to audiobooks, manage favorites, and interact with structured book collections. The application will have different user roles with specific permissions and a modern frontend built with **React**. The backend will be powered by **Django and Django Rest Framework (DRF)** to manage users, audio files, and authentication.
