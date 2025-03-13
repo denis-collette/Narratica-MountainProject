@@ -8,7 +8,10 @@
 | ⬜ | ✅ | ⬜ | ⬜ | ChronicleSounds       | Free   |
 | ⬜ | ✅ | ⬜ | ⬜ | EchoTales             | Free   |
 | ⬜ | ⬜ | ⬜ | ⬜ | Echo                  | ~~~~~  |
+| ⬜ | ⬜ | ⬜ | ⬜ | Audiolore             | Free   |
 | ⬜ | ⬜ | ⬜ | ⬜ | HarmonicTales         | Free   |
+| ⬜ | ⬜ | ⬜ | ⬜ |                       | Free   |
+|----|----|----|----|-----------------------|--------|
 | ⬜ | ⬜ | ✅ | ⬜ | TaleWave              | Taken  |
 | ⬜ | ⬜ | ⬜ | ⬜ | TuneTale              | Taken  |
 | ⬜ | ✅ | ⬜ | ✅ | Narratica             | Taken  |
@@ -19,10 +22,10 @@
 | ⬜ | ✅ | ⬜ | ⬜ | Audivine              | Taken  |
 | ⬜ | ⬜ | ⬜ | ⬜ | AudioNation           | Taken  |
 | ⬜ | ⬜ | ⬜ | ⬜ | Audiopen              | Taken  |
+| ⬜ | ⬜ | ⬜ | ⬜ | Audiovel              | Taken  |
 | ⬜ | ⬜ | ⬜ | ⬜ | Boodio                | Taken  |
 | ⬜ | ⬜ | ⬜ | ⬜ | Librio                | Taken  |
-| ⬜ | ⬜ | ⬜ | ⬜ | Audiovel              | Taken  |
-| ⬜ | ⬜ | ⬜ | ⬜ |                       |        |
+| ⬜ | ⬜ | ⬜ | ⬜ |                       | Taken  |
 
 ## 1. Project Description
 This project is an **audiobook streaming platform** where users can listen to audiobooks, manage favorites, and interact with structured book collections. The application will have different user roles with specific permissions and a modern frontend built with **React**. The backend will be powered by **Django and Django Rest Framework (DRF)** to manage users, audio files, and authentication.
@@ -71,12 +74,12 @@ This project is an **audiobook streaming platform** where users can listen to au
 - **Caching for External APIs** (To reduce excessive calls and API rate limits.)
 
 ### **User Roles & Permissions:**
-| Role            | Permissions                                                    |
-|-----------------|----------------------------------------------------------------|
-| **Guest**       | Listen to extracts of audiobooks, view homepage               |
-| **Subscribed User** | Listen to full audiobooks, add favorites (books, authors) |
-| **Author/Publisher** | Upload audiobooks, create public playlists (books)       |
-| **Admin**       | Manage users, handle CRUD operations, moderate reports        |
+| Role                 | Permissions                                               |
+|----------------------|-----------------------------------------------------------|
+| **Guest**            | Listen to extracts of audiobooks, view homepage           |
+| **Subscribed User**  | Listen to full audiobooks, add favorites (books, authors) |
+| **Author/Publisher** | Upload audiobooks, create public playlists (books)        |
+| **Admin**            | Manage users, handle CRUD operations, moderate reports    |
 
 ## 5. Database Schema
 
@@ -114,11 +117,11 @@ This roadmap follows agile-style iterations to keep things structured.
 
 **🟢 Phase 1: Project Setup & Planning**
 
-⬜ Review README & Define Scope
+✅ Review README & Define Scope
 
 ✅ Create GitHub Repository
 
-⬜ Choose Database Solution (CockroachDB, Free Audiobook APIs, or another option)
+✅ Choose Database Solution (Render hosting & LibriVox API)
 
 ⬜ Gather UI References & Design Discussion
 
@@ -198,8 +201,8 @@ Here is what ChatGPT propose when you ask for an audiobook platform (we can do b
 - Handle frontend error handling & validation.
 
 ### **Bonus Features (If Time Allows)**
-- ✅ **Optimize for mobile & add progressive web app (PWA) features**
-- ✅ **Use tag-based recommendations for users based on listening history**
-- ✅ **Enable rating system for audiobooks**
-- ✅ **Implement editor/publisher company pages**
-- ✅ **Deploy application with a free hosting solution**
+- ⬜ **Optimize for mobile & add progressive web app (PWA) features**
+- ⬜ **Use tag-based recommendations for users based on listening history**
+- ⬜ **Enable rating system for audiobooks**
+- ⬜ **Implement editor/publisher company pages**
+- ⬜ **Deploy application with a free hosting solution**
