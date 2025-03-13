@@ -7,14 +7,15 @@
 |----|----|----|----|-----------------------|--------|
 | ⬜ | ✅ | ⬜ | ⬜ | ChronicleSounds       | Free   |
 | ⬜ | ✅ | ⬜ | ⬜ | EchoTales             | Free   |
-| ⬜ | ⬜ | ⬜ | ⬜ | Echo                  | ~~~~~  |
-| ⬜ | ⬜ | ⬜ | ⬜ | Audiolore             | Free   |
+| ⬜ | ⬜ | ⬜ | ⬜ | Echo                  | +/-    |
+| ⬜ | ⬜ | ✅ | ⬜ | Audiolore             | Free   |
 | ⬜ | ⬜ | ⬜ | ⬜ | HarmonicTales         | Free   |
-| ⬜ | ⬜ | ⬜ | ⬜ |                       | Free   |
-|----|----|----|----|-----------------------|--------|
+| ⬜ | ⬜ | ✅ | ⬜ | DACH ? -> Dash ? (—)  | Free   | 
+| ⬜ | ⬜ | ✅ | ⬜ | CHAD ?                | Free   |
+| ⬜ | ⬜ | ✅ | ⬜ | Voxtale               | Free?  |
 | ⬜ | ⬜ | ✅ | ⬜ | TaleWave              | Taken  |
 | ⬜ | ⬜ | ⬜ | ⬜ | TuneTale              | Taken  |
-| ⬜ | ✅ | ⬜ | ✅ | Narratica             | Taken  |
+| ⬜ | ✅ | ✅ | ✅ | Narratica             | Taken  |
 | ⬜ | ⬜ | ⬜ | ✅ | Narravox              | Taken  |
 | ⬜ | ✅ | ✅ | ✅ | Narra(tion)Nation     | Taken  |
 | ⬜ | ⬜ | ⬜ | ⬜ | Narratales            | Taken  |
@@ -22,10 +23,10 @@
 | ⬜ | ✅ | ⬜ | ⬜ | Audivine              | Taken  |
 | ⬜ | ⬜ | ⬜ | ⬜ | AudioNation           | Taken  |
 | ⬜ | ⬜ | ⬜ | ⬜ | Audiopen              | Taken  |
-| ⬜ | ⬜ | ⬜ | ⬜ | Audiovel              | Taken  |
+| ⬜ | ⬜ | ✅ | ⬜ | Audiovel              | Taken  |
 | ⬜ | ⬜ | ⬜ | ⬜ | Boodio                | Taken  |
 | ⬜ | ⬜ | ⬜ | ⬜ | Librio                | Taken  |
-| ⬜ | ⬜ | ⬜ | ⬜ |                       | Taken  |
+| ⬜ | ⬜ | ⬜ | ⬜ |                       |        |
 
 ## 1. Project Description
 This project is an **audiobook streaming platform** where users can listen to audiobooks, manage favorites, and interact with structured book collections. The application will have different user roles with specific permissions and a modern frontend built with **React**. The backend will be powered by **Django and Django Rest Framework (DRF)** to manage users, audio files, and authentication.
