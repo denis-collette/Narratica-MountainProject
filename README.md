@@ -29,7 +29,7 @@
 | ⬜ | ⬜ | ⬜ | ⬜ | Librio                | Taken  |
 |    |    |    |    |                       |        |
 | ⬜ | ⬜ | ⬜ | ⬜ | Blablabook            | Free   |
-| ⬜ | ⬜ | ⬜ | ⬜ | Babelbook             | +/-    |
+| ⬜ | ⬜ | ✅ | ⬜ | Babelbook             | +/-    |
 | ⬜ | ⬜ | ✅ | ⬜ | Babelbul              | Free   |
 | ⬜ | ⬜ | ⬜ | ⬜ | Blabelbul             | Free   |
 | ⬜ | ⬜ | ⬜ | ⬜ | ...                   | ...    |
