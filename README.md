@@ -11,9 +11,9 @@
 | ⬜ | ⬜ | ✅ | ⬜ | Audiolore             | Free   |
 | ⬜ | ⬜ | ⬜ | ⬜ | HarmonicTales         | Free   |
 | ⬜ | ⬜ | ✅ | ⬜ | DACH ? -> Dash ? (—)  | Free   | 
-| ⬜ | ⬜ | ✅ | ⬜ | CHAD ?                | Free   |
+| ✅ | ⬜ | ✅ | ⬜ | CHAD ?                | Free   |
 | ⬜ | ⬜ | ✅ | ⬜ | Voxtale               | Free   |
-| ⬜ | ⬜ | ⬜ | ⬜ | Audiotales            | Free   |
+| ✅ | ⬜ | ⬜ | ⬜ | Audiotales            | Free   |
 | ⬜ | ⬜ | ✅ | ⬜ | TaleWave              | Taken  |
 | ⬜ | ⬜ | ⬜ | ⬜ | TuneTale              | Taken  |
 | ⬜ | ✅ | ✅ | ✅ | Narratica             | Taken  |
@@ -28,7 +28,7 @@
 | ⬜ | ⬜ | ⬜ | ⬜ | Boodio                | Taken  |
 | ⬜ | ⬜ | ⬜ | ⬜ | Librio                | Taken  |
 |    |    |    |    |                       |        |
-| ⬜ | ⬜ | ⬜ | ⬜ | Blablabook            | Free   |
+| ✅ | ⬜ | ⬜ | ⬜ | Blablabook            | Free   |
 | ⬜ | ⬜ | ✅ | ⬜ | Babelbook             | +/-    |
 | ⬜ | ⬜ | ✅ | ⬜ | Babelbul              | Free   |
 | ⬜ | ⬜ | ⬜ | ⬜ | Blabelbul             | Free   |
