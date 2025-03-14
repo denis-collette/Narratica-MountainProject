@@ -12,7 +12,7 @@
 | ⬜ | ⬜ | ⬜ | ⬜ | HarmonicTales         | Free   |
 | ⬜ | ⬜ | ✅ | ⬜ | DACH ? -> Dash ? (—)  | Free   | 
 | ✅ | ⬜ | ✅ | ⬜ | CHAD ?                | Free   |
-| ⬜ | ⬜ | ✅ | ⬜ | Voxtale               | Free   |
+| ✅ | ⬜ | ✅ | ⬜ | Voxtales              | Free   |
 | ✅ | ⬜ | ⬜ | ⬜ | Audiotales            | Free   |
 | ⬜ | ⬜ | ✅ | ⬜ | TaleWave              | Taken  |
 | ⬜ | ⬜ | ⬜ | ⬜ | TuneTale              | Taken  |
