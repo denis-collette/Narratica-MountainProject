@@ -2,38 +2,6 @@
 
 #### **This document is a draft — let’s discuss improvements with the team! 🚀**
 
-**Name suggestions:**
-|  A |  C |  D |  H | Name                  | Status |
-|----|----|----|----|-----------------------|--------|
-| ⬜ | ✅ | ⬜ | ⬜ | ChronicleSounds       | Free   |
-| ⬜ | ✅ | ⬜ | ⬜ | EchoTales             | Free   |
-| ⬜ | ⬜ | ⬜ | ⬜ | Echo                  | +/-    |
-| ⬜ | ⬜ | ✅ | ⬜ | Audiolore             | Free   |
-| ⬜ | ⬜ | ⬜ | ⬜ | HarmonicTales         | Free   |
-| ⬜ | ⬜ | ✅ | ⬜ | DACH ? -> Dash ? (—)  | Free   | 
-| ✅ | ⬜ | ✅ | ⬜ | CHAD ?                | Free   |
-| ✅ | ⬜ | ✅ | ⬜ | Voxtales              | Free   |
-| ✅ | ⬜ | ⬜ | ⬜ | Audiotales            | Free   |
-| ⬜ | ⬜ | ✅ | ⬜ | TaleWave              | Taken  |
-| ⬜ | ⬜ | ⬜ | ⬜ | TuneTale              | Taken  |
-| ⬜ | ✅ | ✅ | ✅ | Narratica             | Taken  |
-| ⬜ | ⬜ | ⬜ | ✅ | Narravox              | Taken  |
-| ⬜ | ✅ | ✅ | ✅ | Narra(tion)Nation     | Taken  |
-| ⬜ | ⬜ | ⬜ | ⬜ | Narratales            | Taken  |
-| ⬜ | ⬜ | ⬜ | ⬜ | WhisperingPages       | Taken  |
-| ⬜ | ✅ | ⬜ | ⬜ | Audivine              | Taken  |
-| ⬜ | ⬜ | ⬜ | ⬜ | AudioNation           | Taken  |
-| ⬜ | ⬜ | ⬜ | ⬜ | Audiopen              | Taken  |
-| ⬜ | ⬜ | ✅ | ⬜ | Audiovel              | Taken  |
-| ⬜ | ⬜ | ⬜ | ⬜ | Boodio                | Taken  |
-| ⬜ | ⬜ | ⬜ | ⬜ | Librio                | Taken  |
-|    |    |    |    |                       |        |
-| ✅ | ⬜ | ⬜ | ⬜ | Blablabook            | Free   |
-| ⬜ | ⬜ | ✅ | ⬜ | Babelbook             | +/-    |
-| ⬜ | ⬜ | ✅ | ⬜ | Babelbul              | Free   |
-| ⬜ | ⬜ | ⬜ | ⬜ | Blabelbul             | Free   |
-| ⬜ | ⬜ | ⬜ | ⬜ | ...                   | ...    |
-
 ## 1. Project Description
 This project is an **audiobook streaming platform** where users can listen to audiobooks, manage favorites, and interact with structured book collections. The application will have different user roles with specific permissions and a modern frontend built with **React**. The backend will be powered by **Django and Django Rest Framework (DRF)** to manage users, audio files, and authentication.
 
@@ -213,3 +181,36 @@ Here is what ChatGPT propose when you ask for an audiobook platform (we can do b
 - ⬜ **Enable rating system for audiobooks**
 - ⬜ **Implement editor/publisher company pages**
 - ⬜ **Deploy application with a free hosting solution**
+
+
+**Name suggestions:**
+|  A |  C |  D |  H | Name                  | Status |
+|----|----|----|----|-----------------------|--------|
+| ⬜ | ✅ | ⬜ | ⬜ | ChronicleSounds       | Free   |
+| ⬜ | ✅ | ⬜ | ⬜ | EchoTales             | Free   |
+| ⬜ | ⬜ | ⬜ | ⬜ | Echo                  | +/-    |
+| ⬜ | ⬜ | ✅ | ⬜ | Audiolore             | Free   |
+| ⬜ | ⬜ | ⬜ | ⬜ | HarmonicTales         | Free   |
+| ⬜ | ⬜ | ✅ | ⬜ | DACH ? -> Dash ? (—)  | Free   | 
+| ✅ | ⬜ | ✅ | ⬜ | CHAD ?                | Free   |
+| ✅ | ⬜ | ✅ | ⬜ | Voxtales              | Free   |
+| ✅ | ⬜ | ⬜ | ⬜ | Audiotales            | Free   |
+| ⬜ | ⬜ | ✅ | ⬜ | TaleWave              | Taken  |
+| ⬜ | ⬜ | ⬜ | ⬜ | TuneTale              | Taken  |
+| ✅ | ✅ | ✅ | ✅ | **Narratica**         | Taken  |  🥇
+| ⬜ | ⬜ | ⬜ | ✅ | Narravox              | Taken  |
+| ⬜ | ✅ | ✅ | ✅ | Narra(tion)Nation     | Taken  |
+| ⬜ | ⬜ | ⬜ | ⬜ | Narratales            | Taken  |
+| ⬜ | ⬜ | ⬜ | ⬜ | WhisperingPages       | Taken  |
+| ⬜ | ✅ | ⬜ | ⬜ | Audivine              | Taken  |
+| ⬜ | ⬜ | ⬜ | ⬜ | AudioNation           | Taken  |
+| ⬜ | ⬜ | ⬜ | ⬜ | Audiopen              | Taken  |
+| ⬜ | ⬜ | ✅ | ⬜ | Audiovel              | Taken  |
+| ⬜ | ⬜ | ⬜ | ⬜ | Boodio                | Taken  |
+| ⬜ | ⬜ | ⬜ | ⬜ | Librio                | Taken  |
+|    |    |    |    |                       |        |
+| ✅ | ⬜ | ⬜ | ⬜ | Blablabook            | Free   |
+| ⬜ | ⬜ | ✅ | ⬜ | Babelbook             | +/-    |
+| ⬜ | ⬜ | ✅ | ⬜ | Babelbul              | Free   |
+| ⬜ | ⬜ | ⬜ | ⬜ | Blabelbul             | Free   |
+| ⬜ | ⬜ | ⬜ | ⬜ | ...                   | ...    |
