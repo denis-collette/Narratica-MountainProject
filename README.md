@@ -76,8 +76,9 @@ This project is an **audiobook streaming platform** where users can listen to au
 - `POST /api/admin/review-reports/` → Handle user-reported content (Admin only)
 
 ### **Audiobook File Management**
-- `GET /api/audio/` → Get all public audiobooks
-- `GET /api/audio/{id}/` → Get full audiobook (if user) or extract (if guest)
+- `GET /api/audio/` → Get all public audiobooks (the first X all of them is useless) 
+- `GET /api/audio/{book_id}/` → Get full audiobook infos (author, narrator, date, cover, etc... )
+- `GET /api/audio/{book_id}/{chapter_Number}` → Get chapter info and audio or extract (if guest)
 - `POST /api/audio/upload/` → Upload audiobook file (Author only)
 
 ### **Playlist & Favorites Management**
