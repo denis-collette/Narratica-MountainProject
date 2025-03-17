@@ -197,7 +197,7 @@ Here is what ChatGPT propose when you ask for an audiobook platform (we can do b
 | ✅ | ⬜ | ⬜ | ⬜ | Audiotales            | Free   |
 | ⬜ | ⬜ | ✅ | ⬜ | TaleWave              | Taken  |
 | ⬜ | ⬜ | ⬜ | ⬜ | TuneTale              | Taken  |
-| ✅ | ✅ | ✅ | ✅ | **Narratica**         | Taken  |  🥇
+| ✅ | ✅ | ✅ | ✅ | **Narratica** 🥇      | Taken  |
 | ⬜ | ⬜ | ⬜ | ✅ | Narravox              | Taken  |
 | ⬜ | ✅ | ✅ | ✅ | Narra(tion)Nation     | Taken  |
 | ⬜ | ⬜ | ⬜ | ⬜ | Narratales            | Taken  |
