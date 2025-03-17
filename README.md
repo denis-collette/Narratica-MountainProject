@@ -1,4 +1,4 @@
-# MountainProject-AudioBook
+# Narratica-MountainProject-Audiobook
 
 #### **This document is a draft — let’s discuss improvements with the team! 🚀**
 
