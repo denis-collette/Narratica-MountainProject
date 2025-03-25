@@ -111,6 +111,15 @@ Here is what ChatGPT propose when you ask for an audiobook platform (we can do b
 
 ![Sketch3](docs/Sketch3.webp "Sketch3")
 
+And here is what Copilot suggest for the logo (it took some time but I think we have a great starting point!):
+
+![Logo1](docs/Logo1.jpeg "Logo1")
+
+![Logo2](docs/Logo1.jpeg "Logo2")
+
+![Logo3](docs/Logo1.jpeg "Logo3")
+
+![Logo4](docs/Logo1.jpeg "Logo4")
 
 **🟡 Phase 2: Backend & API Development**
 
