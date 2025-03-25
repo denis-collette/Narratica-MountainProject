@@ -115,11 +115,11 @@ And here is what Copilot suggest for the logo (it took some time but I think we 
 
 ![Logo1](docs/Logo1.jpeg "Logo1")
 
-![Logo2](docs/Logo1.jpeg "Logo2")
+![Logo2](docs/Logo2.jpeg "Logo2")
 
-![Logo3](docs/Logo1.jpeg "Logo3")
+![Logo3](docs/Logo3.jpeg "Logo3")
 
-![Logo4](docs/Logo1.jpeg "Logo4")
+![Logo4](docs/Logo4.jpeg "Logo4")
 
 **🟡 Phase 2: Backend & API Development**
 
