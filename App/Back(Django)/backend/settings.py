@@ -85,7 +85,7 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'narratica_db',
+        'NAME': 'Narratica_db',
         'USER': 'postgres',
         'PASSWORD': 'hamburger',
         'HOST': 'localhost',  # Change if using a remote DB
