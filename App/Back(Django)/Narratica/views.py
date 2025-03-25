@@ -1,25 +1,30 @@
 from  rest_framework.response import Response 
 from rest_framework.decorators import api_view
-
+from Narratica.models import AudioBook
+from backend.serializers import AudioBookSerializer
 
 
 @api_view(['GET'])
 # return json 
 def getAudio(request, *args, **kwargs):
 
- #sql search
+    try:
+        if(kwargs['book_id'] != None ):
+            response = {'audio_book_id' : kwargs['book_id']}
+    except:
+        response = AudioBook.objects.all()
+        serializer = AudioBookSerializer(response, many=True)
+        response = serializer.data
+    
 
-    #if(kwargs['book_id'] != None && kwargs['chapter_Number'] != None):
-        # Sql search for chapter in book 
-
-     #if(kwargs['book_id'] != None ):
-        # Sql search for book 
-
-    response = { 'audio_book_id' : kwargs['book_id'],
-                'chapter_Number' : kwargs['chapter_Number']
-                }
+    try:
+        if(kwargs['book_id'] != None and kwargs['chapter_Number'] != None):
+            response = { 'audio_book_id' : kwargs['book_id'],
+                    'chapter_Number' : kwargs['chapter_Number']
+                    }
+    except:
+        pass
     return Response(response)
-
 
 
 @api_view(['GET'])
@@ -32,16 +37,14 @@ def getMenu(request):
 
 @api_view(['GET'])
 def getTest(request):
-    chapter = {'turtle' : 'hello'}
+    chapter = {'mine turtle' : 'hellooooo'}
     return Response(chapter)
 
 
+@api_view(['POST'])
+def postAudioBook(request):
+    serializer = AudioBookSerializer(data=request.data)
 
-
-@api_view(['GET'])
-def getBookTest(request, *args, **kwargs):
-
-
-
-    chapter = { 'id' : kwargs['id']}
-    return Response(chapter)
+    if serializer.is_valid():
+        serializer.save()
+    return Response(serializer.data)

@@ -6,5 +6,6 @@ urlpatterns = [
     path('audio/',views.getAudio ),
     path('audio/<int:book_id>/',views.getAudio ),
     path('audio/<int:book_id>/<int:chapter_Number>',views.getAudio ),
-    path('bookTest/<int:id>/', views.getBookTest)
-]
+    path('turtle/',views.getTest),
+    path('audio/upload/',views.postAudioBook),
+    ]
