@@ -1,0 +1,100 @@
+Database Narratica
+
+TABLE 
+bookChapter
+COLUMNS
+id : serial (primary key) (NOT NULL)
+bookId : foreign key to TABLE audiobook (NOT NULL)
+numberOfListening : int
+totalTime : timestamp (HH:MM:SS) (NOT NULL)
+uploadDate : date (NOT NULL)
+audioData : text (link to cloud?) (NOT NULL)
+
+TABLE
+tag
+COLUMNS
+id : serial (primary key) (NOT NULL)
+tag : varchar (NOT NULL)
+
+TABLE
+audioBook
+COLUMNS
+id : serial (primary key) (NOT NULL)
+author : foreign key to TABLE author
+title : varchar (NOT NULL)
+description : varchar
+coverArtJpg : text (link to cloud?)
+coverArtThumbnail : text (link to cloud?)
+language : varchar (NOT NULL)
+tag1 : foreign key to TABLE tag (NOT NULL)
+tag2 : foreign key to TABLE tag
+tag3 : foreign key to TABLE tag
+narrator : foreign key to TABLE narrator
+publisher : foreign key to TABLE publisher
+totalTime : timestamp (HH:MM:SS) (NOT NULL)
+totalNumberOfListening : int (NOT NULL)
+
+TABLE
+author
+COLUMNS
+id : serial (primary key) (NOT NULL)
+name : varchar (NOT NULL)
+
+TABLE
+narrator
+COLUMNS
+id : serial (primary key) (NOT NULL)
+name : varchar (NOT NULL)
+
+TABLE
+publisher
+COLUMNS
+id : serial (primary key) (NOT NULL)
+name : varchar (NOT NULL)
+
+TABLE
+playlist
+COLUMNS
+id : serial (primary key)
+name : varchar (NOT NULL)
+bookId : foreign key to TABLE audiobook (NOT NULL)
+userId : foreign key to TABLE user (NOT NULL)
+creationDate : date (NOT NULL)
+
+TABLE
+favoriteAuthor
+COLUMNS
+userId : foreign key to TABLE user (NOT NULL)
+authorId : foreign key to TABLE author (NOT NULL)
+
+TABLE
+favoriteNarrator
+COLUMNS
+userId : foreign key to TABLE user (NOT NULL)
+narratorId : foreign key to TABLE narrator (NOT NULL)
+
+TABLE
+favoriteBook
+COLUMNS
+userId : foreign key to TABLE user (NOT NULL)
+bookId : foreign key to TABLE audiobook (NOT NULL)
+
+TABLE
+favoritePublisher
+COLUMNS
+userId : foreign key to TABLE user (NOT NULL)
+publisherId : foreign key to TABLE publisher (NOT NULL)
+
+TABLE
+users
+COLUMNS
+id : serial (primary key) (NOT NULL)
+firstName : varchar (NOT NULL)
+lastName : varchar (NOT NULL)
+pseudo : varchar (NOT NULL)
+email : varchar (NOT NULL)
+password : text (hashed) (NOT NULL)
+profileImg : text (link to cloud?)
+creationDate : date (NOT NULL)
+
+
