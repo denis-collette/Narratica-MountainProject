@@ -2,6 +2,8 @@
 
 #### **This document is a draft — let’s discuss improvements with the team! 🚀**
 
+### !!! Check the [process](docs/PROCESS.md) for first step when you clone the repo !!!
+
 ## 1. Project Description
 This project is an **audiobook streaming platform** where users can listen to audiobooks, manage favorites, and interact with structured book collections. The application will have different user roles with specific permissions and a modern frontend built with **React**. The backend will be powered by **Django and Django Rest Framework (DRF)** to manage users, audio files, and authentication.
 
@@ -103,11 +105,11 @@ This roadmap follows agile-style iterations to keep things structured.
 
 Here is what ChatGPT propose when you ask for an audiobook platform (we can do better!):
 
-![Sketch1](Sketch1.webp "Sketch1")
+![Sketch1](docs/Sketch1.webp "Sketch1")
 
-![Sketch2](Sketch2.webp "Sketch2")
+![Sketch2](docs/Sketch2.webp "Sketch2")
 
-![Sketch3](Sketch3.webp "Sketch3")
+![Sketch3](docs/Sketch3.webp "Sketch3")
 
 
 **🟡 Phase 2: Backend & API Development**
