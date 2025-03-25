@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 
 # Create your models here.
 
@@ -70,7 +71,7 @@ class BookChapter(models.Model):
 class Playlist(models.Model):
     name = models.CharField(max_length=255)
     book = models.ForeignKey(AudioBook, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     created_at = models.DateField(auto_now_add=True)
 
     def __str__(self):
@@ -78,28 +79,28 @@ class Playlist(models.Model):
 
 # FAVORITE RELATIONSHIP MODELS
 class FavoriteAuthor(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
 
     class Meta:
         unique_together = ('user', 'author')
 
 class FavoriteNarrator(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     narrator = models.ForeignKey(Narrator, on_delete=models.CASCADE)
 
     class Meta:
         unique_together = ('user', 'narrator')
 
 class FavoriteBook(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     book = models.ForeignKey(AudioBook, on_delete=models.CASCADE)
 
     class Meta:
         unique_together = ('user', 'book')
 
 class FavoritePublisher(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     publisher = models.ForeignKey(Publisher, on_delete=models.CASCADE)
 
     class Meta:
