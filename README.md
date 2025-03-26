@@ -78,14 +78,18 @@ This project is an **audiobook streaming platform** where users can listen to au
 - `POST /api/admin/review-reports/` → Handle user-reported content (Admin only)
 
 ### **Audiobook File Management**
-- `GET /api/audio/` → Get all public audiobooks (the first X all of them is useless) 
-- `GET /api/audio/{book_id}/` → Get full audiobook infos (author, narrator, date, cover, etc... )
-- `GET /api/audio/{book_id}/{chapter_Number}` → Get chapter info and audio or extract (if guest)
-- `POST /api/audio/upload/` → Upload audiobook file (Author only)
+- `GET /api/audio/` → Get all public audiobooks (the first X all of them is useless) ok
+- `GET /api/audio/{book_id}/` → Get full audiobook infos (author, narrator, date, cover, etc... ) ok
+- `GET /api/audio/{book_id}/{chapter_Number}` → Get chapter info and audio or extract (if guest) ok
+- `GET /api/audio/new/{(optional)quantity }` → Get the X latest upload book ok
+- `GET /api/audio/tag/{tag_id}/{(optional)quantity}` → Get the X most view audio book with this tag ok
+- `GET /api/audio/author/{author_id}/{(optional)quantity}` → Get the X most view audio book from this author ok
+- `GET /api/audio/publisher/{publisher_id}/{(optional)quantity}` → Get the X most view audio book from this publisher ok
+- `POST /api/audio/upload/` → Upload audiobook file (Author only) ok for post author not checked for now
 
 ### **Playlist & Favorites Management**
-- `POST /api/playlists/create/` → Create a playlist
-- `GET /api/playlists/{id}/` → Get playlist details
+- `POST /api/playlists/create/` → Create a playlist ok
+- `GET /api/playlists/{id}/` → Get playlist details ok
 - `POST /api/favorites/` → Add an audiobook to favorites
 
 ## 7. Roadmap
@@ -111,6 +115,15 @@ Here is what ChatGPT propose when you ask for an audiobook platform (we can do b
 
 ![Sketch3](docs/Sketch3.webp "Sketch3")
 
+And here is what Copilot suggest for the logo (it took some time but I think we have a great starting point!):
+
+![Logo1](docs/Logo1.jpeg "Logo1")
+
+![Logo2](docs/Logo2.jpeg "Logo2")
+
+![Logo3](docs/Logo3.jpeg "Logo3")
+
+![Logo4](docs/Logo4.jpeg "Logo4")
 
 **🟡 Phase 2: Backend & API Development**
 
