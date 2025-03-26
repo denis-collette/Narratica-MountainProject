@@ -146,12 +146,13 @@ def getPublisher(request, *args, **kwargs):
 
 
 
-
-
 @api_view(['POST'])
 def postAudioBook(request):
-    serializer = AudioBookSerializer(data=request.data)
 
+    # check recived data
+
+    # The id beggin to 1 for the first Post 
+    serializer = AudioBookSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
     return Response(serializer.data)
@@ -159,8 +160,31 @@ def postAudioBook(request):
 
 
 
-def sortBook(listObj):
+@api_view(['GET'])
+def getPlaylist(request, *args, **kwargs):
+    try:
+        if(kwargs['playlist_id'] != None):
+            response = Playlist.objects.filter( id = kwargs['playlist_id'])
+            serializer = PlaylistSerializer(response, many=True)
+            response = serializer.data
+            return Response(response)
+        
+    except Exception as e:
+        return Response(errorMsg ,  repr(e))
 
+@api_view(['POST'])
+def postPlaylist(request):
+    
+    # check recived data
+
+    # The id beggin to 1 for the first Post 
+    serializer = PlaylistSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+    return Response(serializer.data)
+
+
+def sortBook(listObj):
     bookIdList = []
 
     for chapter in listObj:

@@ -16,4 +16,6 @@ urlpatterns = [
     path('audio/publisher/<int:publisher_id>',views.getPublisher),
     path('audio/publisher/<int:publisher_id>/<int:quantity>',views.getPublisher),
     path('audio/upload/',views.postAudioBook),
+    path('playlists/<int:playlist_id>',views.getPlaylist),
+    path('playlists/create',views.postPlaylist),
     ]

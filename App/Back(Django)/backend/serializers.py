@@ -2,7 +2,7 @@
 
 
 from rest_framework import serializers
-from Narratica.models import AudioBook, BookChapter,Playlist,FavoriteAuthor,FavoriteNarrator,FavoriteBook,FavoritePublisher,Tag
+from Narratica.models import *
 
 
 class AudioBookSerializer(serializers.ModelSerializer):
@@ -20,3 +20,9 @@ class TagsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tag
         fields = '__all__'
+
+class PlaylistSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Playlist
+        fields = '__all__'
+        
