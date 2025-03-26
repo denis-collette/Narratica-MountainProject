@@ -6,6 +6,7 @@ cd Narratica/App/Back (Django)
 #### 2. Create and activate the virtual environment:
 
 python -m venv venv
+
 .\venv\Scripts\activate  # Windows
 
 OR
