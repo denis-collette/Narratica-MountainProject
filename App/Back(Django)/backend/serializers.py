@@ -9,3 +9,9 @@ class AudioBookSerializer(serializers.ModelSerializer):
     class Meta:
         model = AudioBook
         fields = '__all__'
+
+
+class BookChapterSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BookChapter
+        fields = '__all__'
