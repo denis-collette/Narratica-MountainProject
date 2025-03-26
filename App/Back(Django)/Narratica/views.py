@@ -1,10 +1,17 @@
-from  rest_framework.response import Response 
+from rest_framework.response import Response 
 from rest_framework.decorators import api_view
 from Narratica.models import *
 from backend.serializers import *
 
+#TESTME !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# from django.http import JsonResponse
 
-errorMsg ="An error have occured"
+# def audiobooks_list(request):
+#     return JsonResponse({"message": "List of audiobooks"})
+#TESTME !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+errorMsg ="An error have occurred"
 
 @api_view(['GET'])
 # return json 
