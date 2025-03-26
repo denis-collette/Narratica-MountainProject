@@ -78,18 +78,18 @@ This project is an **audiobook streaming platform** where users can listen to au
 - `POST /api/admin/review-reports/` → Handle user-reported content (Admin only)
 
 ### **Audiobook File Management**
-- `GET /api/audio/` → Get all public audiobooks (the first X all of them is useless) ok
-- `GET /api/audio/{book_id}/` → Get full audiobook infos (author, narrator, date, cover, etc... ) ok
-- `GET /api/audio/{book_id}/{chapter_Number}` → Get chapter info and audio or extract (if guest) ok
-- `GET /api/audio/new/{(optional)quantity }` → Get the X latest upload book ok
-- `GET /api/audio/tag/{tag_id}/{(optional)quantity}` → Get the X most view audio book with this tag ok
-- `GET /api/audio/author/{author_id}/{(optional)quantity}` → Get the X most view audio book from this author ok
-- `GET /api/audio/publisher/{publisher_id}/{(optional)quantity}` → Get the X most view audio book from this publisher ok
-- `POST /api/audio/upload/` → Upload audiobook file (Author only) ok for post author not checked for now
+- `GET /api/audio/` → <span style="color:green"> Get all public audiobooks (the first X all of them is useless) ok </span>.
+- `GET /api/audio/{book_id}/` → <span style="color:green"> Get full audiobook infos (author, narrator, date, cover, etc... ) ok </span>.
+- `GET /api/audio/{book_id}/{chapter_Number}` → <span style="color:green"> Get chapter info and audio or extract (if guest) ok </span>.
+- `GET /api/audio/new/{(optional)quantity }` → <span style="color:green"> Get the X latest upload book ok </span>.
+- `GET /api/audio/tag/{tag_id}/{(optional)quantity}` → <span style="color:green">  Get the X most view audio book with this tag ok </span>.
+- `GET /api/audio/author/{author_id}/{(optional)quantity}` → <span style="color:green"> Get the X most view audio book from this author ok </span>.
+- `GET /api/audio/publisher/{publisher_id}/{(optional)quantity}` → <span style="color:green"> Get the X most view audio book from this publisher ok </span>.
+- `POST /api/audio/upload/` →  <span style="color:green"> Upload audiobook file (Author only) ok  for post </span>. author not checked for now
 
 ### **Playlist & Favorites Management**
-- `POST /api/playlists/create/` → Create a playlist ok
-- `GET /api/playlists/{id}/` → Get playlist details ok
+- `POST /api/playlists/create/` → <span style="color:green"> Create a playlist ok </span>.
+- `GET /api/playlists/{id}/` → <span style="color:green"> Get playlist details ok </span>.
 - `POST /api/favorites/` → Add an audiobook to favorites
 
 ## 7. Roadmap
