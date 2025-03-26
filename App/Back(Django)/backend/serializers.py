@@ -26,3 +26,9 @@ class PlaylistSerializer(serializers.ModelSerializer):
         model = Playlist
         fields = '__all__'
         
+
+class FavoriteBookSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = FavoriteBook
+        fields = '__all__'

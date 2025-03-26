@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django.utils import timezone
 
 # Create your models here.
 
@@ -62,7 +63,7 @@ class BookChapter(models.Model):
     chapter_number = models.PositiveIntegerField(default=1)  # Stores the chapter order
     number_of_listening = models.PositiveIntegerField(default=0)
     total_time = models.DurationField()
-    upload_date = models.DateField(auto_now_add=True)
+    upload_date = models.DateField(default=timezone.now)
     audio_data = models.TextField()  # Cloud storage link
 
     def __str__(self):
@@ -73,7 +74,7 @@ class Playlist(models.Model):
     name = models.CharField(max_length=255)
     book = models.ForeignKey(AudioBook, on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    created_at = models.DateField(auto_now_add=True)
+    created_at = models.DateField(default=timezone.now)
 
     def __str__(self):
         return f"{self.user.username}'s Playlist: {self.name}"

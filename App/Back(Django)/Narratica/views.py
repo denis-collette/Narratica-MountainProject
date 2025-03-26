@@ -174,15 +174,21 @@ def getPlaylist(request, *args, **kwargs):
 
 @api_view(['POST'])
 def postPlaylist(request):
-    
     # check recived data
-
     # The id beggin to 1 for the first Post 
     serializer = PlaylistSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
     return Response(serializer.data)
 
+@api_view(['POST'])
+def postFavoritesAudioBook(request):
+    # check recived data
+    # The id beggin to 1 for the first Post 
+    serializer = FavoriteBookSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+    return Response(serializer.data)
 
 def sortBook(listObj):
     bookIdList = []

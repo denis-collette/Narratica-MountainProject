@@ -90,7 +90,7 @@ This project is an **audiobook streaming platform** where users can listen to au
 ### **Playlist & Favorites Management**
 - `POST /api/playlists/create/` → <span style="color:green"> Create a playlist ok </span>.
 - `GET /api/playlists/{id}/` → <span style="color:green"> Get playlist details ok </span>.
-- `POST /api/favorites/` → Add an audiobook to favorites
+- `POST /api/favorites/audiobook` →  <span style="color:green"> Add an audiobook to favorites ok </span>.
 
 ## 7. Roadmap
 
