@@ -60,6 +60,8 @@ This project is an **audiobook streaming platform** where users can listen to au
 
 ## 5. Database Schema
 
+![SchemaDB](docs/SchemaDB.png "Schema DB")
+
 ### **Main Tables:**
 1. **User** (Django built-in with custom roles)
 2. **UserProfile** (Extends User with roles & permissions)
