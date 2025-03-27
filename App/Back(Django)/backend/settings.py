@@ -83,28 +83,33 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 #     }
 # }
 
+# LOCAL SETTINGS:
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'Narratica_db',
+#         'USER': 'postgres',
+#         'PASSWORD': '', #THIS IS A SECRET!
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#     }
+# }
+
+#TESTME Currently trying to host and connect to DB
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'Narratica_db',
+        'NAME': 'narratica-db',
         'USER': 'postgres',
-        'PASSWORD': 'hamburger',
-        'HOST': 'localhost',
+        'PASSWORD': '', #THIS IS A SECRET!
+        'HOST': 'narratica-db.c5ay4iuoirdg.eu-north-1.rds.amazonaws.com',
         'PORT': '5432',
+        'OPTIONS': {
+            'connect_timeout': 20,  # Increase timeout
+        },
+
     }
 }
-
-#TESTME Currently trying to host and connect to DB
-#! DATABASES = {
-#!     'default': {
-#!         'ENGINE': 'django.db.backends.postgresql',
-#!         'NAME': 'narratica-db',
-#!         'USER': 'postgres',
-#!         'PASSWORD': '', #THIS IS A SECRET!
-#!         'HOST': 'narratica-db.c5ay4iuoirdg.eu-north-1.rds.amazonaws.com',
-#!         'PORT': '5432',
-#!     }
-#! }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
