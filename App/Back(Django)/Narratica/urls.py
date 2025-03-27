@@ -19,4 +19,7 @@ urlpatterns = [
     path('api/playlists/<int:playlist_id>',views.getPlaylist),
     path('api/playlists/create',views.postPlaylist, name='create_audioBook'),
     path('api/favorites/audiobook',views.postFavoritesAudioBook),
+    path('api/favorites/author',views.postFavoritesAuthor),
+    #path('api/favorites/narrator',views.postFavoritesNarrator),
+    #path('api/favorites/publisher',views.postFavoritesPublisher),
     ]

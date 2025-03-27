@@ -156,8 +156,8 @@ def postAudioBook(request):
     serializer = AudioBookSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
-    return Response(serializer.data)
-
+        return Response(serializer.data , status = status.HTTP_201_CREATED)
+    return Response(serializer.errors, status= status.HTTP_400_BAD_REQUEST)
 
 
 
@@ -188,6 +188,22 @@ def postFavoritesAudioBook(request):
     # check recived data
     # The id beggin to 1 for the first Post 
     serializer = FavoriteBookSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data , status = status.HTTP_201_CREATED)
+    return Response(serializer.errors, status= status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST'])
+def postFavoritesAuthor(request):
+    serializer = FavoriteAuthorSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data , status = status.HTTP_201_CREATED)
+    return Response(serializer.errors, status= status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST'])
+def postFavoritesNarrator(request):
+    serializer = FavoriteNarratorSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data , status = status.HTTP_201_CREATED)

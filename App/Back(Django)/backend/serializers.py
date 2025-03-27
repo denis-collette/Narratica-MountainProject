@@ -32,3 +32,22 @@ class FavoriteBookSerializer(serializers.ModelSerializer):
     class Meta:
         model = FavoriteBook
         fields = '__all__'
+
+
+class FavoriteAuthorSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Author
+        fields = '__all__'
+
+class FavoriteNarratorSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Narrator
+        fields = '__all__'
+
+class FavoritePublisherSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Publisher
+        fields = '__all__'

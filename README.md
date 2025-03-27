@@ -78,20 +78,98 @@ This project is an **audiobook streaming platform** where users can listen to au
 - `POST /api/admin/review-reports/` → Handle user-reported content (Admin only)
 
 ### **Audiobook File Management**
-- `GET /api/audio/` → <span style="color:green"> Get all public audiobooks (the first X all of them is useless) ok </span>.
-- `GET /api/audio/{book_id}/` → <span style="color:green"> Get full audiobook infos (author, narrator, date, cover, etc... ) ok </span>.
-- `GET /api/audio/{book_id}/{chapter_Number}` → <span style="color:green"> Get chapter info and audio or extract (if guest) ok </span>.
-- `GET /api/audio/new/{(optional)quantity }` → <span style="color:green"> Get the X latest upload book ok </span>.
-- `GET /api/audio/tag/{tag_id}/{(optional)quantity}` → <span style="color:green">  Get the X most view audio book with this tag ok </span>.
-- `GET /api/audio/author/{author_id}/{(optional)quantity}` → <span style="color:green"> Get the X most view audio book from this author ok </span>.
-- `GET /api/audio/publisher/{publisher_id}/{(optional)quantity}` → <span style="color:green"> Get the X most view audio book from this publisher ok </span>.
-- `POST /api/audio/upload/` →  <span style="color:green"> Upload audiobook file (Author only) ok  for post </span>. author not checked for now
+### `GET /api/audio/`
+**Description**: Retrieve all publicly available audiobooks.  /
 
-### **Playlist & Favorites Management**
-- `POST /api/playlists/create/` → <span style="color:green"> Create a playlist ok </span>.
-- `GET /api/playlists/{id}/` → <span style="color:green"> Get playlist details ok </span>.
-- `POST /api/favorites/audiobook` →  <span style="color:green"> Add an audiobook to favorites ok </span>.
+---
 
+### `GET /api/audio/{book_id}/`
+**Description**: Get detailed information about a specific audiobook, including author, narrator, release date, cover art, and other metadata.
+
+---
+
+### `GET /api/audio/{book_id}/{chapter_number}`
+**Description**: Get detailed information about a specific chapter of an audiobook, including the chapter's audio file or extract (if the user is a guest).
+
+---
+
+### `GET /api/audio/new/{(optional)quantity}`
+**Description**: Retrieve the latest X uploaded audiobooks.  
+**Note**: The quantity parameter is optional.
+
+---
+
+### `GET /api/audio/tag/{tag_id}/{(optional)quantity}`
+**Description**: Retrieve the most-viewed audiobooks associated with a specific tag.  
+**Note**: The quantity parameter is optional.
+
+---
+
+### `GET /api/audio/author/{author_id}/{(optional)quantity}`
+**Description**: Retrieve the most-viewed audiobooks by a specific author.  
+**Note**: The quantity parameter is optional.
+
+---
+
+### `GET /api/audio/publisher/{publisher_id}/{(optional)quantity}`
+**Description**: Retrieve the most-viewed audiobooks from a specific publisher.  
+**Note**: The quantity parameter is optional.
+
+---
+
+### `POST /api/audio/upload/`
+**Description**: Upload an audiobook file.  
+*Author-only access. Author verification is not enforced at the moment.*  
+
+#### Request Body Parameters:
+
+| Key                        | Type   | Description                                                                 | Required |
+|----------------------------|--------|-----------------------------------------------------------------------------|----------|
+| `title`                    | string | The title of the audiobook.                                                 | Yes      |
+| `description`              | string | A brief description of the audiobook.                                       | No       |
+| `author`                   | int    | The ID of the author of the audiobook.                                      | Yes      |
+| `narrator`                 | int    | The ID of the narrator for the audiobook.                                   | Yes      |
+| `publisher`                | int    | The ID of the publisher of the audiobook.                                   | Yes      |
+| `cover_art_jpg`            | string | URL or file path to the cover art image in JPG format.                      | No       |
+| `cover_art_thumbnail`      | string | URL or file path to the cover art thumbnail image.                          | No       |
+| `language`                 | string | The language in which the audiobook is available.                           | Yes      |
+| `tags`                     | int    | A list of tags associated with the audiobook.                               | No       |
+| `total_time`               | string | Total duration of the audiobook in the format `hh:mm:ss`                    | No       |
+| `total_number_of_listening`| int    | The total number of times the audiobook has been listened to (default = 0). | No       |
+
+---
+
+## **Playlist & Favorites Management**
+
+### `POST /api/playlists/create/`
+**Description**: Create a new playlist.
+
+#### Request Body Parameters:
+
+| Key                        | Type   | Description                                                                 | Required |
+|----------------------------|--------|-----------------------------------------------------------------------------|----------|
+| `name`                     | string | The title of the audiobook.                                                 | Yes      |
+| `book`                     | int    | The ID of the audiobook.                                                    | Yes      |
+| `user`                     | int    | The ID of the user                                                          | Yes      |
+
+---
+
+### `GET /api/playlists/{id}/`
+**Description**: Retrieve the details of a specific playlist.
+
+---
+
+### `POST /api/favorites/audiobook`
+**Description**: Add an audiobook to the user's favorites list.
+
+#### Request Body Parameters:
+
+| Key                        | Type   | Description                                                                 | Required |
+|----------------------------|--------|-----------------------------------------------------------------------------|----------|
+| `user`                     | int    | The ID of the user                                                          | Yes      |
+| `book`                     | int    | The ID of the audiobook.                                                    | Yes      |
+
+---
 ## 7. Roadmap
 
 ### **Global Roadmap**

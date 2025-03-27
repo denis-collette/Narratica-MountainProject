@@ -44,14 +44,14 @@ class Tag(models.Model):
 class AudioBook(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
-    author = models.ForeignKey(Author, on_delete=models.SET_NULL, null=True, related_name="books")
-    narrator = models.ForeignKey(Narrator, on_delete=models.SET_NULL, null=True, related_name="narrations")
-    publisher = models.ForeignKey(Publisher, on_delete=models.SET_NULL, null=True, related_name="publications")
-    cover_art_jpg = models.TextField(blank=True, null=True)  # Cloud storage link
+    author = models.ForeignKey(Author, on_delete=models.CASCADE ,related_name="books")
+    narrator = models.ForeignKey(Narrator, on_delete=models.CASCADE,  related_name="narrations")
+    publisher = models.ForeignKey(Publisher, on_delete=models.CASCADE,  related_name="publications")
+    cover_art_jpg = models.TextField(blank=True)  # Cloud storage link
     cover_art_thumbnail = models.TextField(blank=True, null=True)  # Cloud storage link
     language = models.CharField(max_length=50)
     tags = models.ManyToManyField(Tag, blank=True)
-    total_time = models.DurationField()
+    total_time = models.DurationField(blank=True, null=True)
     total_number_of_listening = models.PositiveIntegerField(default=0)
 
     def __str__(self):
