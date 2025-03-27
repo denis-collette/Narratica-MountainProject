@@ -173,6 +173,68 @@ def getPlaylist(request, *args, **kwargs):
     except Exception as e:
         return Response(errorMsg ,  repr(e))
 
+@api_view(['GET'])
+def getUserPlaylist(request, *args, **kwargs):
+    try:
+        if(kwargs['user_id'] != None):
+            response = Playlist.objects.filter( user = kwargs['user_id'])
+            serializer = PlaylistSerializer(response, many=True)
+            response = serializer.data
+            return Response(response)
+        
+    except Exception as e:
+        return Response(errorMsg ,  repr(e))
+    
+@api_view(['GET'])
+def getUserFavoriteAudioBook(request, *args, **kwargs):
+    try:
+        if(kwargs['user_id'] != None):
+            response = FavoriteBook.objects.filter( user = kwargs['user_id'])
+            serializer = FavoriteBookSerializer(response, many=True)
+            response = serializer.data
+            return Response(response)
+        
+    except Exception as e:
+        return Response(errorMsg ,  repr(e))
+    
+@api_view(['GET'])
+def getUserFavoriteAuthor(request, *args, **kwargs):
+    try:
+        if(kwargs['user_id'] != None):
+            response = FavoriteAuthor.objects.filter( user = kwargs['user_id'])
+            serializer = FavoriteAuthorSerializer(response, many=True)
+            response = serializer.data
+            return Response(response)
+        
+    except Exception as e:
+        return Response(errorMsg ,  repr(e))
+    
+    
+@api_view(['GET'])
+def getUserFavoriteNarrator(request, *args, **kwargs):
+    try:
+        if(kwargs['user_id'] != None):
+            response = FavoriteNarrator.objects.filter( user = kwargs['user_id'])
+            serializer = FavoriteNarratorSerializer(response, many=True)
+            response = serializer.data
+            return Response(response)
+        
+    except Exception as e:
+        return Response(errorMsg ,  repr(e))
+    
+@api_view(['GET'])
+def getUserFavoritePublisher(request, *args, **kwargs):
+    try:
+        if(kwargs['user_id'] != None):
+            response = FavoritePublisher.objects.filter( user = kwargs['user_id'])
+            serializer = FavoritePublisherSerializer(response, many=True)
+            response = serializer.data
+            return Response(response)
+        
+    except Exception as e:
+        return Response(errorMsg ,  repr(e))
+
+
 @api_view(['POST'])
 def postPlaylist(request):
     # check recived data
@@ -208,6 +270,15 @@ def postFavoritesNarrator(request):
         serializer.save()
         return Response(serializer.data , status = status.HTTP_201_CREATED)
     return Response(serializer.errors, status= status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST'])
+def postFavoritesPublisher(request):
+    serializer = FavoritePublisherSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data , status = status.HTTP_201_CREATED)
+    return Response(serializer.errors, status= status.HTTP_400_BAD_REQUEST)
+
 
 def sortBook(listObj):
     bookIdList = []

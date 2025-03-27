@@ -4,8 +4,12 @@
 
 ### !!! Check the [process](docs/PROCESS.md) for first step when you clone the repo !!!
 
+---
+
 ## 1. Project Description
 This project is an **audiobook streaming platform** where users can listen to audiobooks, manage favorites, and interact with structured book collections. The application will have different user roles with specific permissions and a modern frontend built with **React**. The backend will be powered by **Django and Django Rest Framework (DRF)** to manage users, audio files, and authentication.
+
+---
 
 ## 2. Technologies Used
 
@@ -24,6 +28,8 @@ This project is an **audiobook streaming platform** where users can listen to au
 - **Render** (for hosting)
 - **Free Audiobook APIs** (exploring options like LibriVox, Open Library)
 
+---
+
 ## 3. Frontend Structure
 
 ### **Main Features:**
@@ -39,6 +45,8 @@ This project is an **audiobook streaming platform** where users can listen to au
 - Includes **tag-based categories** for organizing content.
 - **Personalized recommendations** based on user listening history and favorite tags.
 - **Search & Filtering**: Users can search by **title, author, or tags** and filter by **multiple tags at once**.
+
+---
 
 ## 4. Backend Structure
 
@@ -58,6 +66,8 @@ This project is an **audiobook streaming platform** where users can listen to au
 | **Author/Publisher** | Upload audiobooks, create public playlists (books)        |
 | **Admin**            | Manage users, handle CRUD operations, moderate reports    |
 
+---
+
 ## 5. Database Schema
 
 ### **Main Tables:**
@@ -69,6 +79,8 @@ This project is an **audiobook streaming platform** where users can listen to au
 6. **Tag** (Associated with audiobooks for categorization, min 1, max 3 per book) => .json in src ?
 7. **Favorite** (Links users to favorite books or authors)
 
+---
+
 ## 6. API Endpoints
 
 ### **Authentication & User Management**
@@ -78,46 +90,45 @@ This project is an **audiobook streaming platform** where users can listen to au
 - `POST /api/admin/review-reports/` → Handle user-reported content (Admin only)
 
 ### **Audiobook File Management**
-### `GET /api/audio/`
+- ### `GET /api/audio/`
 **Description**: Retrieve all publicly available audiobooks.  /
 
----
 
-### `GET /api/audio/{book_id}/`
+
+- #### `GET /api/audio/{book_id}/`
 **Description**: Get detailed information about a specific audiobook, including author, narrator, release date, cover art, and other metadata.
 
----
 
-### `GET /api/audio/{book_id}/{chapter_number}`
+
+- ### `GET /api/audio/{book_id}/{chapter_number}`
 **Description**: Get detailed information about a specific chapter of an audiobook, including the chapter's audio file or extract (if the user is a guest).
 
----
 
-### `GET /api/audio/new/{(optional)quantity}`
+
+- ### `GET /api/audio/new/{(optional)quantity}`
 **Description**: Retrieve the latest X uploaded audiobooks.  
 **Note**: The quantity parameter is optional.
 
----
 
-### `GET /api/audio/tag/{tag_id}/{(optional)quantity}`
+
+- ### `GET /api/audio/tag/{tag_id}/{(optional)quantity}`
 **Description**: Retrieve the most-viewed audiobooks associated with a specific tag.  
 **Note**: The quantity parameter is optional.
 
----
 
-### `GET /api/audio/author/{author_id}/{(optional)quantity}`
+
+- ### `GET /api/audio/author/{author_id}/{(optional)quantity}`
 **Description**: Retrieve the most-viewed audiobooks by a specific author.  
 **Note**: The quantity parameter is optional.
 
----
 
-### `GET /api/audio/publisher/{publisher_id}/{(optional)quantity}`
+
+- ### `GET /api/audio/publisher/{publisher_id}/{(optional)quantity}`
 **Description**: Retrieve the most-viewed audiobooks from a specific publisher.  
 **Note**: The quantity parameter is optional.
 
----
 
-### `POST /api/audio/upload/`
+- ### `POST /api/audio/upload/`
 **Description**: Upload an audiobook file.  
 *Author-only access. Author verification is not enforced at the moment.*  
 
@@ -137,11 +148,80 @@ This project is an **audiobook streaming platform** where users can listen to au
 | `total_time`               | string | Total duration of the audiobook in the format `hh:mm:ss`                    | No       |
 | `total_number_of_listening`| int    | The total number of times the audiobook has been listened to (default = 0). | No       |
 
----
 
 ## **Playlist & Favorites Management**
 
-### `POST /api/playlists/create/`
+
+
+- ### `GET /api/playlists/{id}/`
+**Description**: Retrieve the details of a specific playlist.
+
+
+
+- ### `GET /api/playlists/user/{user id}`
+**Description**: Retrieve all playlist of a user.
+
+
+
+- ### `GET /api/favorite/audioBook/{user_id}`
+**Description**: Retrieve all favorite audiobooks of a specific user.  
+
+#### Response Object:
+```json
+[
+  {
+    "id": 1,
+    "user": 3,
+    "book": 1
+  }
+]
+```
+
+
+- ### `GET /api/favorite/author/{user id}`
+**Description**: Retrieve all favorite author of a user.
+
+```json
+[
+  {
+    "id": 1,
+    "user": 3,
+    "author": 1
+  }
+]
+```
+
+
+- ### `GET /api/favorite/narrator/{user id}`
+**Description**: Retrieve all favorite narrator of a user.
+
+```json
+[
+  {
+    "id": 1,
+    "user": 3,
+    "narrator": 1
+  }
+]
+```
+
+
+- ### `GET /api/favorite/publisher/{user id}`
+**Description**: Retrieve all favorite publisher of a user.
+
+```json
+[
+  {
+    "id": 1,
+    "user": 3,
+    "publisher": 1
+  }
+]
+```
+
+
+
+- ### `POST /api/playlists/create/`
 **Description**: Create a new playlist.
 
 #### Request Body Parameters:
@@ -152,14 +232,9 @@ This project is an **audiobook streaming platform** where users can listen to au
 | `book`                     | int    | The ID of the audiobook.                                                    | Yes      |
 | `user`                     | int    | The ID of the user                                                          | Yes      |
 
----
 
-### `GET /api/playlists/{id}/`
-**Description**: Retrieve the details of a specific playlist.
 
----
-
-### `POST /api/favorites/audiobook`
+- ### `POST /api/favorites/addAudiobook`
 **Description**: Add an audiobook to the user's favorites list.
 
 #### Request Body Parameters:
@@ -169,11 +244,47 @@ This project is an **audiobook streaming platform** where users can listen to au
 | `user`                     | int    | The ID of the user                                                          | Yes      |
 | `book`                     | int    | The ID of the audiobook.                                                    | Yes      |
 
+
+
+- ### `POST /api/favorites/addAuthor`
+**Description**: Add an Author to the user's favorites list.
+
+#### Request Body Parameters:
+
+| Key                        | Type   | Description                                                                 | Required |
+|----------------------------|--------|-----------------------------------------------------------------------------|----------|
+| `user`                     | int    | The ID of the user                                                          | Yes      |
+| `author`                   | int    | The ID of the audiobook.                                                    | Yes      |
+
+
+- ### `POST /api/favorites/addNarrator`
+**Description**: Add a Narrator to the user's favorites list.
+
+#### Request Body Parameters:
+
+| Key                        | Type   | Description                                                                 | Required |
+|----------------------------|--------|-----------------------------------------------------------------------------|----------|
+| `user`                     | int    | The ID of the user                                                          | Yes      |
+| `narrator`                 | int    | The ID of the audiobook.                                                    | Yes      |
+
+
+
+- ### `POST /api/favorites/addPublisher`
+**Description**: Add a Publisher to the user's favorites list.
+
+#### Request Body Parameters:
+
+| Key                        | Type   | Description                                                                 | Required |
+|----------------------------|--------|-----------------------------------------------------------------------------|----------|
+| `user`                     | int    | The ID of the user                                                          | Yes      |
+| `bpublisher`               | int    | The ID of the audiobook.                                                    | Yes      |
+
 ---
+
 ## 7. Roadmap
 
 ### **Global Roadmap**
-This roadmap follows agile-style iterations to keep things structured.
+This roadmap follows agile-style iterations to keep things structured./
 
 **🟢 Phase 1: Project Setup & Planning**
 

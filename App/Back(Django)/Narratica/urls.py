@@ -18,8 +18,14 @@ urlpatterns = [
     path('api/audio/upload/',views.postAudioBook),
     path('api/playlists/<int:playlist_id>',views.getPlaylist),
     path('api/playlists/create',views.postPlaylist, name='create_audioBook'),
-    path('api/favorites/audiobook',views.postFavoritesAudioBook),
-    path('api/favorites/author',views.postFavoritesAuthor),
-    #path('api/favorites/narrator',views.postFavoritesNarrator),
-    #path('api/favorites/publisher',views.postFavoritesPublisher),
+    path('api/favorites/addAudiobook',views.postFavoritesAudioBook),
+    path('api/favorites/addAuthor',views.postFavoritesAuthor),
+    path('api/favorites/addNarrator',views.postFavoritesNarrator),
+    path('api/favorites/addPublisher',views.postFavoritesPublisher),
+    path('api/playlists/user/<int:user_id>',views.getUserPlaylist),
+    path('api/favorite/audioBook/<int:user_id>',views.getUserFavoriteAudioBook),
+    path('api/favorite/author/<int:user_id>',views.getUserFavoriteAuthor),
+    path('api/favorite/narrator/<int:user_id>',views.getUserFavoriteNarrator),
+    path('api/favorite/publisher/<int:user_id>',views.getUserFavoritePublisher),
+
     ]
