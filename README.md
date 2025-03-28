@@ -95,7 +95,7 @@ This project is an **audiobook streaming platform** where users can listen to au
 
 
 
-- #### `GET /api/audio/{book_id}/`
+- ### `GET /api/audio/{book_id}/`
 **Description**: Get detailed information about a specific audiobook, including author, narrator, release date, cover art, and other metadata.
 
 
