@@ -1,33 +1,134 @@
-#### 1. Clone the repository:
+# Narratica Project (AI README)
 
-git clone <repository_url>
-cd Narratica/App/Back (Django)
+Welcome to the Narratica project! This guide provides all the steps needed to set up the Django backend, connect to the PostgreSQL database hosted on AWS RDS, and import initial data into the system.
 
-#### 2. Create and activate the virtual environment:
+---
 
-python -m venv venv
-.\venv\Scripts\activate  # Windows
+## Prerequisites
+Before starting, ensure you have the following:
+- Python 3.x installed.
+- PostgreSQL client tools (e.g., `psql`) installed.
+- SSH access to the Narratica Bastion Host using the provided `.pem` key file.
+- Access to the project repository on GitHub.
+- Your network or IP configured to connect through the Bastion Host.
 
-OR
+---
 
-source venv/bin/activate  # Mac/Linux
+## Setup Instructions
 
-#### 3. Install dependencies:
+### 1. Clone the Repository
+1. Open a terminal and navigate to your workspace directory.
+2. Clone the Git repository:
+   git clone git@github.com:denis-collette/Narratica-MountainProject.git
+   cd Narratica-MountainProject/App/Back(Django)
 
-pip install -r requirements.txt
+---
 
-#### 4. Set up the database (run migrations):
+### 2. Set Up the Virtual Environment
+1. Create a virtual environment inside the project folder:
+   python -m venv env
+2. Activate the virtual environment:
+   - On Windows (Git Bash):
+     source env/Scripts/activate
+   - On Linux/macOS:
+     source env/bin/activate
 
-python manage.py migrate
+3. Install the required dependencies:
+   pip install -r requirements.txt
 
-#### 5. Create a superuser (optional, for admin access):
+---
 
-python manage.py createsuperuser
+### 3. Connect to the Bastion Host
+1. Use the provided `.pem` key file to establish an SSH connection to the bastion host:
+   ssh -i "narratica-bastion-host-key-pair.pem" ec2-user@<Bastion-Host-Public-IP>
+   Replace `<Bastion-Host-Public-IP>` with the actual IP of the bastion host.
 
-#### 6. Run the server:
+---
 
-python manage.py runserver
+### 4. Create an SSH Tunnel
+Set up a secure SSH tunnel to forward your local machine’s port to the RDS database:
+ssh -i "narratica-bastion-host-key-pair.pem" -L 5432:narratica-db.c5ay4iuoirdg.eu-north-1.rds.amazonaws.com:5432 ec2-user@<Bastion-Host-Public-IP>
+Leave this terminal session open to maintain the tunnel.
+
+---
+
+### 5. Configure Django
+Update the database settings in `settings.py`:
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'narratica-db',
+        'USER': 'postgres',
+        'PASSWORD': '<your-password>',
+        'HOST': '127.0.0.1',  # Localhost for tunnel
+        'PORT': '5432',
+    }
+}
+
+---
+
+### 6. Run Database Migrations
+1. Apply migrations to set up the database schema:
+   python manage.py makemigrations
+   python manage.py migrate
+
+---
+
+### 7. Import Data from CSV
+To import data into the `Publisher` table:
+1. Create a new file, e.g., `import_publishers.py`, and add the following script:
+   import csv
+   from your_app.models import Publisher  # Replace 'your_app' with your Django app name
+
+   with open('Narratica_publisher_202503261414.csv', newline='') as csvfile:
+       reader = csv.DictReader(csvfile)
+       for row in reader:
+           Publisher.objects.create(
+               id=row['id'],
+               name=row['name']
+           )
+   print("Import complete!")
+
+2. Run the script via Django’s shell:
+   python manage.py shell
+   Paste the script into the shell to execute it.
+
+---
+
+### 8. Verify the Setup
+1. Use Django ORM to verify the imported data:
+   from your_app.models import Publisher
+   print(Publisher.objects.all())
+
+2. Alternatively, check directly in PostgreSQL:
+   psql -h 127.0.0.1 -p 5432 -U postgres -d narratica-db
+   Run:
+   SELECT * FROM "Publisher";
+
+---
+
+## Troubleshooting
+1. Connection Issues:
+   - Ensure the bastion host is accessible and the SSH tunnel is active.
+   - Verify the IP address is allowed in the RDS security group.
+
+2. Migrations Issues:
+   - Ensure models are correctly defined in `models.py`.
+   - Check if the app is included in `INSTALLED_APPS` in `settings.py`.
+
+3. CSV Import Errors:
+   - Confirm the file name and column headers match the expected structure.
+
+---
+
+## Need Help?
+For any issues, reach out to the project administrator or check the AWS logs for the Bastion Host and RDS instance.
+
+---
 
 
-#### 7. DATABASES
-Ensure that you have the PostgreSQL database set up and accessible, and that the connection details (e.g., DATABASES in settings.py) are correctly configured. If you're' working locally, you might need to ensure that you set up the database with the same name and user, or you can use different credentials but update the settings.py accordingly.
+### Configure Environment Variables
+1. Ensure you have received the `.env` file from the project administrator.
+2. Place the `.env` file in the root of the project directory.
+3. Install dependencies:
+   pip install -r requirements.txt

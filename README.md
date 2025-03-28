@@ -70,6 +70,8 @@ This project is an **audiobook streaming platform** where users can listen to au
 
 ## 5. Database Schema
 
+![SchemaDB](docs/SchemaDB.png "Schema DB")
+
 ### **Main Tables:**
 1. **User** (Django built-in with custom roles)
 2. **UserProfile** (Extends User with roles & permissions)
@@ -294,7 +296,7 @@ This roadmap follows agile-style iterations to keep things structured./
 
 ✅ Choose Database Solution (Render hosting & LibriVox API)
 
-⬜ Gather UI References & Design Discussion
+✅ Gather UI References & Design Discussion
 
 Here is what ChatGPT propose when you ask for an audiobook platform (we can do better!):
 
@@ -316,7 +318,7 @@ And here is what Copilot suggest for the logo (it took some time but I think we 
 
 **🟡 Phase 2: Backend & API Development**
 
-⬜ Set Up Django Project & Dependencies
+✅ Set Up Django Project & Dependencies
 
 ⬜ Implement API Endpoints for Users & Audiobooks (with fake DB for front)
 
@@ -332,7 +334,7 @@ And here is what Copilot suggest for the logo (it took some time but I think we 
 
 **🟠 Phase 3: Frontend Development**
 
-⬜ Initialize React Project & Dependencies
+✅ Initialize React Project & Dependencies
 
 ⬜ Build Core UI Components (Audio Player, Navigation, Dark Mode Toggle, etc.)
 
@@ -389,33 +391,33 @@ And here is what Copilot suggest for the logo (it took some time but I think we 
 
 
 **Name suggestions:**
-|  A |  C |  D |  H | Name                  | Status |
-|----|----|----|----|-----------------------|--------|
-| ⬜ | ✅ | ⬜ | ⬜ | ChronicleSounds       | Free   |
-| ⬜ | ✅ | ⬜ | ⬜ | EchoTales             | Free   |
-| ⬜ | ⬜ | ⬜ | ⬜ | Echo                  | +/-    |
-| ⬜ | ⬜ | ✅ | ⬜ | Audiolore             | Free   |
-| ⬜ | ⬜ | ⬜ | ⬜ | HarmonicTales         | Free   |
-| ⬜ | ⬜ | ✅ | ⬜ | DACH ? -> Dash ? (—)  | Free   | 
-| ✅ | ⬜ | ✅ | ⬜ | CHAD ?                | Free   |
-| ✅ | ⬜ | ✅ | ⬜ | Voxtales              | Free   |
-| ✅ | ⬜ | ⬜ | ⬜ | Audiotales            | Free   |
-| ⬜ | ⬜ | ✅ | ⬜ | TaleWave              | Taken  |
-| ⬜ | ⬜ | ⬜ | ⬜ | TuneTale              | Taken  |
-| ✅ | ✅ | ✅ | ✅ | **Narratica** 🥇      | ???    |
-| ⬜ | ⬜ | ⬜ | ✅ | Narravox              | Taken  |
-| ⬜ | ✅ | ✅ | ✅ | Narra(tion)Nation     | Taken  |
-| ⬜ | ⬜ | ⬜ | ⬜ | Narratales            | Taken  |
-| ⬜ | ⬜ | ⬜ | ⬜ | WhisperingPages       | Taken  |
-| ⬜ | ✅ | ⬜ | ⬜ | Audivine              | Taken  |
-| ⬜ | ⬜ | ⬜ | ⬜ | AudioNation           | Taken  |
-| ⬜ | ⬜ | ⬜ | ⬜ | Audiopen              | Taken  |
-| ⬜ | ⬜ | ✅ | ⬜ | Audiovel              | Taken  |
-| ⬜ | ⬜ | ⬜ | ⬜ | Boodio                | Taken  |
-| ⬜ | ⬜ | ⬜ | ⬜ | Librio                | Taken  |
-|    |    |    |    |                       |        |
-| ✅ | ⬜ | ⬜ | ⬜ | Blablabook            | Free   |
-| ⬜ | ⬜ | ✅ | ⬜ | Babelbook             | +/-    |
-| ⬜ | ⬜ | ✅ | ⬜ | Babelbul              | Free   |
-| ⬜ | ⬜ | ⬜ | ⬜ | Blabelbul             | Free   |
-| ⬜ | ⬜ | ⬜ | ⬜ | ...                   | ...    |
+|  A  |  D |  H | Name                    | Status |
+|-----|----|----|-------------------------|--------|
+| ⬜ | ⬜ | ⬜ | ChronicleSounds       | Free   |
+| ⬜ | ⬜ | ⬜ | EchoTales             | Free   |
+| ⬜ | ⬜ | ⬜ | Echo                  | +/-    |
+| ⬜ | ✅ | ⬜ | Audiolore             | Free   |
+| ⬜ | ⬜ | ⬜ | HarmonicTales         | Free   |
+| ⬜ | ✅ | ⬜ | DACH ? -> Dash ? (—)  | Free   |
+| ✅ | ✅ | ⬜ | CHAD ?                | Free   |
+| ✅ | ✅ | ⬜ | Voxtales              | Free   |
+| ✅ | ⬜ | ⬜ | Audiotales            | Free   |
+| ⬜ | ✅ | ⬜ | TaleWave              | Taken  |
+| ⬜ | ⬜ | ⬜ | TuneTale              | Taken  |
+| ✅ | ✅ | ✅ | **Narratica** 🥇      | ???    |
+| ⬜ | ⬜ | ✅ | Narravox              | Taken  |
+| ⬜ | ✅ | ✅ | Narra(tion)Nation     | Taken  |
+| ⬜ | ⬜ | ⬜ | Narratales            | Taken  |
+| ⬜ | ⬜ | ⬜ | WhisperingPages       | Taken  |
+| ⬜ | ⬜ | ⬜ | Audivine              | Taken  |
+| ⬜ | ⬜ | ⬜ | AudioNation           | Taken  |
+| ⬜ | ⬜ | ⬜ | Audiopen              | Taken  |
+| ⬜ | ✅ | ⬜ | Audiovel              | Taken  |
+| ⬜ | ⬜ | ⬜ | Boodio                | Taken  |
+| ⬜ | ⬜ | ⬜ | Librio                | Taken  |
+|    |     |    |                       |        |
+| ✅ | ⬜ | ⬜ | Blablabook            | Free   |
+| ⬜ | ✅ | ⬜ | Babelbook             | +/-    |
+| ⬜ | ✅ | ⬜ | Babelbul              | Free   |
+| ⬜ | ⬜ | ⬜ | Blabelbul             | Free   |
+| ⬜ | ⬜ | ⬜ | ...                   | ...    |
