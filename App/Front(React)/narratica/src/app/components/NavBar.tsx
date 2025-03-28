@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+
 
 export default function NavBar() {
     return (
@@ -8,6 +10,11 @@ export default function NavBar() {
                 <li><Link href="/profil">Profil</Link></li>
                 <li><Link href="/login">Connexion</Link></li>
                 <li><Link href="/signup">Inscription</Link></li>
+
+                <Avatar>
+                    <AvatarImage src="https://github.com/shadcn.png" />
+                    <AvatarFallback>CN</AvatarFallback>
+                </Avatar>
             </ul>
         </nav>
     )
