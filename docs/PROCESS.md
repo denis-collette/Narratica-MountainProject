@@ -30,6 +30,8 @@ Before starting, ensure you have the following:
 2. Activate the virtual environment:
    - On Windows (Git Bash):
      source env/Scripts/activate
+   - On Windows (PowerShell):
+      .\env\Scripts\Activate
    - On Linux/macOS:
      source env/bin/activate
 
@@ -38,10 +40,12 @@ Before starting, ensure you have the following:
 
 ---
 
-### 3. Connect to the Bastion Host
+### 3. Connect to the Bastion Host (OPTIONAL)
 1. Use the provided `.pem` key file to establish an SSH connection to the bastion host:
    ssh -i "narratica-bastion-host-key-pair.pem" ec2-user@<Bastion-Host-Public-IP>
    Replace `<Bastion-Host-Public-IP>` with the actual IP of the bastion host.
+
+This provides you with access to the bastion host for administrative purposes (e.g., troubleshooting or checking logs). However, it doesn’t directly tunnel traffic to the RDS database => OPTIONAL
 
 ---
 
@@ -50,20 +54,14 @@ Set up a secure SSH tunnel to forward your local machine’s port to the RDS dat
 ssh -i "narratica-bastion-host-key-pair.pem" -L 5432:narratica-db.c5ay4iuoirdg.eu-north-1.rds.amazonaws.com:5432 ec2-user@<Bastion-Host-Public-IP>
 Leave this terminal session open to maintain the tunnel.
 
+This step sets up the port forwarding to securely route database traffic from your local machine through the bastion host to the RDS database. Without this, Django or  on your local machine can’t connect to the database.
+
 ---
 
 ### 5. Configure Django
-Update the database settings in `settings.py`:
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'narratica-db',
-        'USER': 'postgres',
-        'PASSWORD': '<your-password>',
-        'HOST': '127.0.0.1',  # Localhost for tunnel
-        'PORT': '5432',
-    }
-}
+
+1. Ensure you have received the `.env` file from the project administrator.
+2. Place the `.env` file in the root of the project directory.
 
 ---
 
@@ -125,10 +123,3 @@ To import data into the `Publisher` table:
 For any issues, reach out to the project administrator or check the AWS logs for the Bastion Host and RDS instance.
 
 ---
-
-
-### Configure Environment Variables
-1. Ensure you have received the `.env` file from the project administrator.
-2. Place the `.env` file in the root of the project directory.
-3. Install dependencies:
-   pip install -r requirements.txt
