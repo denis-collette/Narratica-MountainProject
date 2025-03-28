@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -99,17 +100,16 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'narratica-db',
-        'USER': 'postgres',
-        'PASSWORD': '', #THIS IS A SECRET!
-        'HOST': 'narratica-db.c5ay4iuoirdg.eu-north-1.rds.amazonaws.com',
-        'PORT': '5432',
-        'OPTIONS': {
-            'connect_timeout': 20,  # Increase timeout
-        },
-
+        'NAME': config('DB_NAME'),
+        'USER': config('DB_USER'),
+        'PASSWORD': config('DB_PASSWORD'),
+        'HOST': config('DB_HOST'),
+        'PORT': config('DB_PORT'),
     }
 }
+
+# For other sensitive values
+BASTION_HOST_IP = config('BASTION_HOST_IP')
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
