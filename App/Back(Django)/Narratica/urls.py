@@ -23,9 +23,9 @@ urlpatterns = [
     path('api/favorites/addNarrator',views.postFavoritesNarrator),
     path('api/favorites/addPublisher',views.postFavoritesPublisher),
     path('api/playlists/user/<int:user_id>',views.getUserPlaylist),
-    path('api/favorite/audioBook/<int:user_id>',views.getUserFavoriteAudioBook),
-    path('api/favorite/author/<int:user_id>',views.getUserFavoriteAuthor),
-    path('api/favorite/narrator/<int:user_id>',views.getUserFavoriteNarrator),
-    path('api/favorite/publisher/<int:user_id>',views.getUserFavoritePublisher),
+    path('api/favorites/audioBook/<int:user_id>',views.getUserFavoriteAudioBook),
+    path('api/favorites/author/<int:user_id>',views.getUserFavoriteAuthor),
+    path('api/favorites/narrator/<int:user_id>',views.getUserFavoriteNarrator),
+    path('api/favorites/publisher/<int:user_id>',views.getUserFavoritePublisher),
 
     ]
