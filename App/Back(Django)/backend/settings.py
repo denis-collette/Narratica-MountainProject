@@ -99,28 +99,16 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # }
 
 # # #TESTME Currently trying to host and connect to DB
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': config('DB_NAME'),
-#         'USER': config('DB_USER'),
-#         'PASSWORD': config('DB_PASSWORD'),
-#         'HOST': config('DB_HOST'),
-#         'PORT': config('DB_PORT'),
-#     }
-# }
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'narratica-db',
-        'USER': 'postgres',
-        'PASSWORD': '%',
-        'HOST': 'narratica-db.c5ay4iuoirdg.eu-north-1.rds.amazonaws.com',
-        'PORT': '5432',
+        'NAME': config('DB_NAME'),
+        'USER': config('DB_USER'),
+        'PASSWORD': config('DB_PASSWORD'),
+        'HOST': config('DB_HOST'),
+        'PORT': config('DB_PORT'),
     }
 }
-
 
 # For other sensitive values
 BASTION_HOST_IP = config('BASTION_HOST_IP')
