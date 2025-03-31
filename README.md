@@ -437,7 +437,7 @@ FONT
 GABARITO: https://fonts.google.com/specimen/Gabarito
 
 CABIN: https://fonts.google.com/specimen/Cabin
-
+```js
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&family=Gabarito:wght@400..900&display=swap" rel="stylesheet">
@@ -461,3 +461,4 @@ CABIN: https://fonts.google.com/specimen/Cabin
   font-variation-settings:
     "wdth" 100;
 }
+```
