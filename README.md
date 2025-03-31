@@ -421,3 +421,43 @@ And here is what Copilot suggest for the logo (it took some time but I think we 
 | ⬜ | ✅ | ⬜ | Babelbul              | Free   |
 | ⬜ | ⬜ | ⬜ | Blabelbul             | Free   |
 | ⬜ | ⬜ | ⬜ | ...                   | ...    |
+
+
+
+
+
+### RESSOURCES
+
+LOGO 
+
+![narratica-logo](docs/narratica-logo.png "Logo")
+
+FONT
+
+GABARITO: https://fonts.google.com/specimen/Gabarito
+
+CABIN: https://fonts.google.com/specimen/Cabin
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&family=Gabarito:wght@400..900&display=swap" rel="stylesheet">
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&family=Gabarito:wght@400..900&display=swap');
+</style>
+
+.gabarito-<uniquifier> {
+  font-family: "Gabarito", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: <weight>;
+  font-style: normal;
+}
+
+.cabin-<uniquifier> {
+  font-family: "Cabin", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: <weight>;
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 100;
+}
