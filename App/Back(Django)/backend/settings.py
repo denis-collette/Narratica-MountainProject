@@ -92,7 +92,7 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 #         'ENGINE': 'django.db.backends.postgresql',
 #         'NAME': 'Narratica_db',
 #         'USER': 'postgres',
-#         'PASSWORD': 'hamburger', #THIS IS A SECRET!
+#         'PASSWORD': '', #THIS IS A SECRET!
 #         'HOST': 'localhost',
 #         'PORT': '5432',
 #     }
