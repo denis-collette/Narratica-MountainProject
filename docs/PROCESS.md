@@ -38,6 +38,8 @@ Before starting, ensure you have the following:
 3. Install the required dependencies:
    pip install -r requirements.txt
 
+4. run server:
+python manage.py runserver
 ---
 
 ### 3. Connect to the Bastion Host (OPTIONAL)

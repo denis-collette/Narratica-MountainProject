@@ -279,7 +279,7 @@ This project is an **audiobook streaming platform** where users can listen to au
 | Key                        | Type   | Description                                                                 | Required |
 |----------------------------|--------|-----------------------------------------------------------------------------|----------|
 | `user`                     | int    | The ID of the user                                                          | Yes      |
-| `bpublisher`               | int    | The ID of the audiobook.                                                    | Yes      |
+| `publisher`               | int    | The ID of the audiobook.                                                    | Yes      |
 
 ---
 

@@ -51,7 +51,7 @@ class AudioBook(models.Model):
     cover_art_thumbnail = models.TextField(blank=True, null=True)  # Cloud storage link
     language = models.CharField(max_length=50)
     tags = models.ManyToManyField(Tag, blank=True)
-    total_time = models.DurationField(blank=True, null=True)
+    total_time = models.CharField(blank=True, null=True) #change to time 
     total_number_of_listening = models.PositiveIntegerField(default=0)
 
     def __str__(self):
