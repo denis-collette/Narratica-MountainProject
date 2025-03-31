@@ -98,7 +98,7 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 #     }
 # }
 
-# # #TESTME Currently trying to host and connect to DB
+#TESTME Currently trying to host and connect to DB
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
