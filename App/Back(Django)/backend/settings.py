@@ -115,7 +115,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'narratica-db',
         'USER': 'postgres',
-        'PASSWORD': '',
+        'PASSWORD': '%',
         'HOST': 'narratica-db.c5ay4iuoirdg.eu-north-1.rds.amazonaws.com',
         'PORT': '5432',
     }
