@@ -155,12 +155,12 @@ This project is an **audiobook streaming platform** where users can listen to au
 
 
 
-- ### `GET /api/playlists/{id}/`
+- ### `GET /api/playlist/{id}/`
 **Description**: Retrieve the details of a specific playlist.
 
 
 
-- ### `GET /api/playlists/user/{user id}`
+- ### `GET /api/playlist/user/{user id}`
 **Description**: Retrieve all playlist of a user.
 
 
@@ -223,7 +223,7 @@ This project is an **audiobook streaming platform** where users can listen to au
 
 
 
-- ### `POST /api/playlists/create/`
+- ### `POST /api/playlist/create/`
 **Description**: Create a new playlist.
 
 #### Request Body Parameters:
@@ -236,7 +236,7 @@ This project is an **audiobook streaming platform** where users can listen to au
 
 
 
-- ### `POST /api/favorites/addAudiobook`
+- ### `POST /api/favorite/addAudiobook`
 **Description**: Add an audiobook to the user's favorites list.
 
 #### Request Body Parameters:
@@ -248,7 +248,7 @@ This project is an **audiobook streaming platform** where users can listen to au
 
 
 
-- ### `POST /api/favorites/addAuthor`
+- ### `POST /api/favorite/addAuthor`
 **Description**: Add an Author to the user's favorites list.
 
 #### Request Body Parameters:
@@ -259,7 +259,7 @@ This project is an **audiobook streaming platform** where users can listen to au
 | `author`                   | int    | The ID of the audiobook.                                                    | Yes      |
 
 
-- ### `POST /api/favorites/addNarrator`
+- ### `POST /api/favorite/addNarrator`
 **Description**: Add a Narrator to the user's favorites list.
 
 #### Request Body Parameters:
@@ -271,7 +271,7 @@ This project is an **audiobook streaming platform** where users can listen to au
 
 
 
-- ### `POST /api/favorites/addPublisher`
+- ### `POST /api/favorite/addPublisher`
 **Description**: Add a Publisher to the user's favorites list.
 
 #### Request Body Parameters:
@@ -421,3 +421,44 @@ And here is what Copilot suggest for the logo (it took some time but I think we 
 | ⬜ | ✅ | ⬜ | Babelbul              | Free   |
 | ⬜ | ⬜ | ⬜ | Blabelbul             | Free   |
 | ⬜ | ⬜ | ⬜ | ...                   | ...    |
+
+
+
+
+
+### RESSOURCES
+
+LOGO 
+
+![narratica-logo](docs/narratica-logo.png "Logo")
+
+FONT
+
+GABARITO: https://fonts.google.com/specimen/Gabarito
+
+CABIN: https://fonts.google.com/specimen/Cabin
+```js
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&family=Gabarito:wght@400..900&display=swap" rel="stylesheet">
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&family=Gabarito:wght@400..900&display=swap');
+</style>
+
+.gabarito-<uniquifier> {
+  font-family: "Gabarito", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: <weight>;
+  font-style: normal;
+}
+
+.cabin-<uniquifier> {
+  font-family: "Cabin", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: <weight>;
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 100;
+}
+```

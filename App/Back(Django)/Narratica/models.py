@@ -62,7 +62,7 @@ class BookChapter(models.Model):
     book = models.ForeignKey(AudioBook, on_delete=models.CASCADE, related_name="chapters")
     chapter_number = models.PositiveIntegerField(default=1)  # Stores the chapter order
     number_of_listening = models.PositiveIntegerField(default=0)
-    total_time = models.DurationField()
+    total_time = models.CharField()
     upload_date = models.DateField(default=timezone.now)
     audio_data = models.TextField()  # Cloud storage link
 
