@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { fetchAllAudioBooks, Audiobook } from '../app/api/audio/getAllAudioBooks';
-import { fetchAudioBooksByNew } from '../app/api/audio/getNew';
+
 
 export default function HomePage() {
     const [audiobooks, setAudiobooks] = useState<Audiobook[]>([]);

@@ -45,7 +45,7 @@
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
+  --background:rgb(18, 14, 12);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
@@ -111,6 +111,60 @@
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
 }
+.containerFull{
+  height : 100vh;
+  width: 70%;
+  margin-left: 1%;
+  background:rgb(18, 14, 12);
+  background: linear-gradient(rgba(0, 244, 8, 0.6) 15%, rgb(18, 14, 12) 45%);
+  border-radius: 0.5%;
+}
+
+
+
+.ChapterCard{
+  margin: auto;
+  width: 80%;
+  border: 1px solid hsl(0, 0%, 2%);
+  background-color : hsl(0, 0%, 2%);
+  color: hsl(0, 0%, 70%);
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-around;
+  font-family: Arial, sans-serif;
+}
+
+.ChapterCard h1{
+  color:white;
+}
+
+.ChapterCard h3{
+  font-size: smaller
+}
+
+.imageAndTitle{
+  padding-top: 3%;
+  display: flex;
+  align-items: center;
+  margin: auto;
+  width: 80%;
+  padding-bottom: 3%;
+}
+
+.imageAndTitle .image{
+  background-color: aqua;
+  width: 20%;
+  height: 0;
+  padding-bottom: 20%;
+  margin-right: 5%;
+}
+
+.imageAndTitle  .titleText{
+  text-align: left;
+  align-self: flex-end;
+}
+
 
 @layer base {
   * {
