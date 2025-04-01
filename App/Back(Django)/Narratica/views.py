@@ -1,4 +1,4 @@
-from  rest_framework.response import Response 
+from rest_framework.response import Response 
 from rest_framework import status
 from rest_framework.decorators import api_view
 from Narratica.models import *
@@ -34,7 +34,6 @@ def getAudio(request, *args, **kwargs):
             response = serializer.data
             return Response(response)
             #response = {'audio_book_id' : kwargs['book_id']}
-            
     except:
         response = AudioBook.objects.all()[:50]
         serializer = AudioBookSerializer(response, many=True)
@@ -42,7 +41,7 @@ def getAudio(request, *args, **kwargs):
         return Response(response)
 
     return Response(errorMsg)
-    
+
 
 
 @api_view(['GET'])
@@ -88,7 +87,8 @@ def getNew(request, *args, **kwargs):
             return Response(responseObj)
     except:
         return Response(errorMsg)
-  
+
+
 
 @api_view(['GET'])
 def getTag(request, *args, **kwargs):
@@ -112,6 +112,8 @@ def getTag(request, *args, **kwargs):
     except:
         response = {"no tag id entered"}
         return Response(response)
+
+
 
 @api_view(['GET'])
 def getAuthor(request, *args, **kwargs):
@@ -180,6 +182,8 @@ def getPlaylist(request, *args, **kwargs):
     except Exception as e:
         return Response(errorMsg ,  repr(e))
 
+
+
 @api_view(['GET'])
 def getUserPlaylist(request, *args, **kwargs):
     try:
@@ -191,7 +195,9 @@ def getUserPlaylist(request, *args, **kwargs):
         
     except Exception as e:
         return Response(errorMsg ,  repr(e))
-    
+
+
+
 @api_view(['GET'])
 def getUserFavoriteAudioBook(request, *args, **kwargs):
     try:
@@ -203,7 +209,9 @@ def getUserFavoriteAudioBook(request, *args, **kwargs):
         
     except Exception as e:
         return Response(errorMsg ,  repr(e))
-    
+
+
+
 @api_view(['GET'])
 def getUserFavoriteAuthor(request, *args, **kwargs):
     try:
@@ -215,8 +223,9 @@ def getUserFavoriteAuthor(request, *args, **kwargs):
         
     except Exception as e:
         return Response(errorMsg ,  repr(e))
-    
-    
+
+
+
 @api_view(['GET'])
 def getUserFavoriteNarrator(request, *args, **kwargs):
     try:
@@ -228,7 +237,9 @@ def getUserFavoriteNarrator(request, *args, **kwargs):
         
     except Exception as e:
         return Response(errorMsg ,  repr(e))
-    
+
+
+
 @api_view(['GET'])
 def getUserFavoritePublisher(request, *args, **kwargs):
     try:
@@ -242,6 +253,7 @@ def getUserFavoritePublisher(request, *args, **kwargs):
         return Response(errorMsg ,  repr(e))
 
 
+
 @api_view(['POST'])
 def postPlaylist(request):
     # check recived data
@@ -251,6 +263,8 @@ def postPlaylist(request):
         serializer.save()
         return Response(serializer.data , status = status.HTTP_201_CREATED)
     return Response(serializer.errors, status= status.HTTP_400_BAD_REQUEST)
+
+
 
 @api_view(['POST'])
 def postFavoritesAudioBook(request):
@@ -262,6 +276,8 @@ def postFavoritesAudioBook(request):
         return Response(serializer.data , status = status.HTTP_201_CREATED)
     return Response(serializer.errors, status= status.HTTP_400_BAD_REQUEST)
 
+
+
 @api_view(['POST'])
 def postFavoritesAuthor(request):
     serializer = FavoriteAuthorSerializer(data=request.data)
@@ -269,6 +285,8 @@ def postFavoritesAuthor(request):
         serializer.save()
         return Response(serializer.data , status = status.HTTP_201_CREATED)
     return Response(serializer.errors, status= status.HTTP_400_BAD_REQUEST)
+
+
 
 @api_view(['POST'])
 def postFavoritesNarrator(request):
@@ -278,6 +296,8 @@ def postFavoritesNarrator(request):
         return Response(serializer.data , status = status.HTTP_201_CREATED)
     return Response(serializer.errors, status= status.HTTP_400_BAD_REQUEST)
 
+
+
 @api_view(['POST'])
 def postFavoritesPublisher(request):
     serializer = FavoritePublisherSerializer(data=request.data)
@@ -285,6 +305,7 @@ def postFavoritesPublisher(request):
         serializer.save()
         return Response(serializer.data , status = status.HTTP_201_CREATED)
     return Response(serializer.errors, status= status.HTTP_400_BAD_REQUEST)
+
 
 
 def sortBook(listObj):

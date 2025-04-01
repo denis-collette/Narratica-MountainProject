@@ -99,7 +99,7 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 #     }
 # }
 
-#TESTME Currently trying to host and connect to DB
+# ONLINE DB
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -155,4 +155,4 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CORS_ALLOW_ALL_ORIGINS = True  # change befor deployment !
+CORS_ALLOW_ALL_ORIGINS = True  # change before deployment !
