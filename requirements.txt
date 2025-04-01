@@ -101,7 +101,6 @@ jaraco.collections==5.1.0
 jsonpointer==3.0.0
 pip-chill==1.0.3
 pipenv==2024.4.1
-pipreqs==0.5.0
 psycopg-binary==3.2.6
 psycopg2==2.9.10
 python-decouple==3.8

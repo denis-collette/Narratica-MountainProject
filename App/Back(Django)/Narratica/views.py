@@ -94,24 +94,21 @@ def getNew(request, *args, **kwargs):
 def getTag(request, *args, **kwargs):
     
     try:
-        if(kwargs['tag_id'] != None and kwargs['quantity'] != None):
-            quantity = kwargs['quantity']
-            response = AudioBook.objects.filter( tags = kwargs['tag_id']).order_by('number_of_listening')[:quantity]
-            serializer = AudioBookSerializer(response, many=True)
-            response = serializer.data
-            return Response(response)
-    except:
-        pass
-
-    try:
         if(kwargs['tag_id'] != None):
-            response = AudioBook.objects.filter( tags = kwargs['tag_id'])
+            response = AudioBook.objects.filter( author = kwargs['tag_id']).order_by('total_number_of_listening')
             serializer = AudioBookSerializer(response, many=True)
             response = serializer.data
+
+            try:
+                if (kwargs['quantity'] != None):
+                    quantity = kwargs['quantity']
+                    response = response[:quantity] #trim the list
+            except:
+                pass
             return Response(response)
-    except:
-        response = {"no tag id entered"}
-        return Response(response)
+    except Exception as e:
+        return Response(errorMsg ,  repr(e))
+
 
 
 
