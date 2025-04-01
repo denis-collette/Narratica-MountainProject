@@ -52,10 +52,18 @@ Before starting, ensure you have the following:
    ```
 
 
-4. run server:
+4. run server (Django):
    ```
-   cd Narratica-MountainProject/App/Back(Django)
+   cd App/Back(Django)
    python manage.py runserver
+   ```
+
+5. run server (Next):
+   Open a new bash terminal in root and launch:
+   ```
+   cd App/Front(React)/narratica
+   npm install
+   npm run dev
    ```
 
 ---
