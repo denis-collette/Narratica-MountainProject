@@ -3,7 +3,7 @@ import  { url, Audiobook }  from './getAllAudioBooks';
 
 
 // *TODO to test in local
-export const fetchAudioBooksByNew = async ( audioBook : Audiobook) => {
+export const postAudioBook = async ( audioBook : Audiobook) => {
     let routeUrl = url + `/api/audio/upload/`
         axios.post(routeUrl, audioBook)
         .then(response => {
