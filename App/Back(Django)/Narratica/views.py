@@ -77,7 +77,7 @@ def getNew(request, *args, **kwargs):
                 serializer = AudioBookSerializer(bookInfo, many=True)
                 responseObj.append(serializer.data)
             
-            # get desired awnser size
+            # get desired answer size
             try:
                 if(kwargs['quantity'] != None):
                     responseObj = responseObj[:kwargs['quantity']]
