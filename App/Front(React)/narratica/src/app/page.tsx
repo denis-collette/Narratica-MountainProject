@@ -4,4 +4,4 @@ export default function HomePage() {
             <p>Ceci est la page d'accueil</p>
         </section>
     )
-}  
+}

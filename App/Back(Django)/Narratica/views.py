@@ -157,9 +157,9 @@ def getPublisher(request, *args, **kwargs):
 @api_view(['POST'])
 def postAudioBook(request):
 
-    # check recived data
+    # check received data
 
-    # The id beggin to 1 for the first Post 
+    # The id begin to 1 for the first Post 
     serializer = AudioBookSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()

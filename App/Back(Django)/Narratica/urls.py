@@ -27,5 +27,4 @@ urlpatterns = [
     path('api/favorite/author/<int:user_id>',views.getUserFavoriteAuthor),
     path('api/favorite/narrator/<int:user_id>',views.getUserFavoriteNarrator),
     path('api/favorite/publisher/<int:user_id>',views.getUserFavoritePublisher),
-
     ]
