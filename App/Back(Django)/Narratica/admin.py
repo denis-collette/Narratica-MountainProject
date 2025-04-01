@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import AudioBook, BookChapter, Author, Narrator, Publisher, Tag, Playlist, FavoriteAuthor, FavoriteBook, FavoriteNarrator, FavoritePublisher
+from .models import *
 
 # Register your models here.
 
