@@ -42,7 +42,24 @@ def getAudio(request, *args, **kwargs):
 
     return Response(errorMsg)
 
+@api_view(['GET'])
+def getAllChapters(request, *args, **kwargs):
+    
+    try:
+        if(kwargs['book_id'] != None):
+            response = BookChapter.objects.filter( book = kwargs['book_id'])
+            serializer = BookChapterSerializer(response, many=True)
+            response = serializer.data
 
+            try:
+                if (kwargs['quantity'] != None):
+                    quantity = kwargs['quantity']
+                    response = response[:quantity] #trim the list
+            except:
+                pass
+            return Response(response)
+    except Exception as e:
+        return Response(errorMsg ,  repr(e))
 
 @api_view(['GET'])
 # return json 

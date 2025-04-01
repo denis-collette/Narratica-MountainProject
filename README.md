@@ -105,6 +105,8 @@ This project is an **audiobook streaming platform** where users can listen to au
 - ### `GET /api/audio/{book_id}/{chapter_number}`
 **Description**: Get detailed information about a specific chapter of an audiobook, including the chapter's audio file or extract (if the user is a guest).
 
+- ### `GET /api/audio/chapters/{book_id}/`
+**Description**: Get all chapters of a specific audiobook.
 
 
 - ### `GET /api/audio/new/{(optional)quantity}`

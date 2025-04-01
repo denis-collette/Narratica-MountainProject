@@ -1,18 +1,21 @@
 
-function ChapterCard(){
+import  { Chapter}  from '../app/api/audio/getChapterById'
+
+function ChapterCard(props : Chapter){
 
     return(
+    
         <div className="ChapterCard">
+            
             <div>
-                {/*  numéro du chapitre */}
-                <h2>1</h2>
+                <h2>{props.chapter_number}</h2>
             </div>
             <div>
-                <h1>nom du chapitre</h1>
-                <h3>nom du narrateur</h3>
+                <h1>Chapter : {props.chapter_number}</h1>
             </div>
-            <h2>nombre de vue</h2>
-            <h2>durée du chapitre</h2>
+            <h2>{props.number_of_listening}</h2>
+            <h2>{props.total_time}</h2>
+            
         </div>
     )
 
