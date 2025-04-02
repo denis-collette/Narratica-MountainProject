@@ -253,6 +253,14 @@ This project is an **audiobook streaming platform** where users can listen to au
 | `user`                     | int    | The ID of the user                                                          | Yes      |
 | `publisher`               | int    | The ID of the audiobook.                                                    | Yes      |
 
+## Author, narrator, publisher management.
+
+- #### `GET api/narrator/<int:narrator_id>`
+**Description**: Get a specific narrator's info
+
+- #### `GET api/publisher/<int:publisher_id>`
+**Description**: Get a specific publisher's info
+
 ---
 
 ## 7. Roadmap
