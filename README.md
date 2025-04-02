@@ -92,47 +92,36 @@ This project is an **audiobook streaming platform** where users can listen to au
 - `POST /api/admin/review-reports/` → Handle user-reported content (Admin only)
 
 ### **Audiobook File Management**
-- ### `GET /api/audio/`
+
+- #### `GET /api/audio/`
 **Description**: Retrieve all publicly available audiobooks.  /
 
-
-
-- ### `GET /api/audio/{book_id}/`
+- #### `GET /api/audio/{book_id}/`
 **Description**: Get detailed information about a specific audiobook, including author, narrator, release date, cover art, and other metadata.
 
-
-
-- ### `GET /api/audio/{book_id}/{chapter_number}`
+- #### `GET /api/audio/{book_id}/{chapter_number}`
 **Description**: Get detailed information about a specific chapter of an audiobook, including the chapter's audio file or extract (if the user is a guest).
 
-- ### `GET /api/audio/chapters/{book_id}/`
+- #### `GET /api/audio/chapters/{book_id}/`
 **Description**: Get all chapters of a specific audiobook.
 
-
-- ### `GET /api/audio/new/{(optional)quantity}`
+- #### `GET /api/audio/new/{(optional)quantity}`
 **Description**: Retrieve the latest X uploaded audiobooks.  
 **Note**: The quantity parameter is optional.
 
-
-
-- ### `GET /api/audio/tag/{tag_id}/{(optional)quantity}`
+- #### `GET /api/audio/tag/{tag_id}/{(optional)quantity}`
 **Description**: Retrieve the most-viewed audiobooks associated with a specific tag.  
 **Note**: The quantity parameter is optional.
 
-
-
-- ### `GET /api/audio/author/{author_id}/{(optional)quantity}`
+- #### `GET /api/audio/author/{author_id}/{(optional)quantity}`
 **Description**: Retrieve the most-viewed audiobooks by a specific author.  
 **Note**: The quantity parameter is optional.
 
-
-
-- ### `GET /api/audio/publisher/{publisher_id}/{(optional)quantity}`
+- #### `GET /api/audio/publisher/{publisher_id}/{(optional)quantity}`
 **Description**: Retrieve the most-viewed audiobooks from a specific publisher.  
 **Note**: The quantity parameter is optional.
 
-
-- ### `POST /api/audio/upload/`
+- #### `POST /api/audio/upload/`
 **Description**: Upload an audiobook file.  
 *Author-only access. Author verification is not enforced at the moment.*  
 
@@ -152,22 +141,15 @@ This project is an **audiobook streaming platform** where users can listen to au
 | `total_time`               | string | Total duration of the audiobook in the format `hh:mm:ss`                    | No       |
 | `total_number_of_listening`| int    | The total number of times the audiobook has been listened to (default = 0). | No       |
 
-
 ## **Playlist & Favorites Management**
 
-
-
-- ### `GET /api/playlist/{id}/`
+- #### `GET /api/playlist/{id}/`
 **Description**: Retrieve the details of a specific playlist.
 
-
-
-- ### `GET /api/playlist/user/{user id}`
+- #### `GET /api/playlist/user/{user id}`
 **Description**: Retrieve all playlist of a user.
 
-
-
-- ### `GET /api/favorite/audioBook/{user_id}`
+- #### `GET /api/favorite/audioBook/{user_id}`
 **Description**: Retrieve all favorite audiobooks of a specific user.  
 
 #### Response Object:
@@ -181,8 +163,7 @@ This project is an **audiobook streaming platform** where users can listen to au
 ]
 ```
 
-
-- ### `GET /api/favorite/author/{user id}`
+- #### `GET /api/favorite/author/{user id}`
 **Description**: Retrieve all favorite author of a user.
 
 ```json
@@ -195,8 +176,7 @@ This project is an **audiobook streaming platform** where users can listen to au
 ]
 ```
 
-
-- ### `GET /api/favorite/narrator/{user id}`
+- #### `GET /api/favorite/narrator/{user id}`
 **Description**: Retrieve all favorite narrator of a user.
 
 ```json
@@ -209,8 +189,7 @@ This project is an **audiobook streaming platform** where users can listen to au
 ]
 ```
 
-
-- ### `GET /api/favorite/publisher/{user id}`
+- #### `GET /api/favorite/publisher/{user id}`
 **Description**: Retrieve all favorite publisher of a user.
 
 ```json
@@ -223,9 +202,7 @@ This project is an **audiobook streaming platform** where users can listen to au
 ]
 ```
 
-
-
-- ### `POST /api/playlist/create/`
+- #### `POST /api/playlist/create/`
 **Description**: Create a new playlist.
 
 #### Request Body Parameters:
@@ -236,9 +213,7 @@ This project is an **audiobook streaming platform** where users can listen to au
 | `book`                     | int    | The ID of the audiobook.                                                    | Yes      |
 | `user`                     | int    | The ID of the user                                                          | Yes      |
 
-
-
-- ### `POST /api/favorite/addAudiobook`
+- #### `POST /api/favorite/addAudiobook`
 **Description**: Add an audiobook to the user's favorites list.
 
 #### Request Body Parameters:
@@ -248,9 +223,7 @@ This project is an **audiobook streaming platform** where users can listen to au
 | `user`                     | int    | The ID of the user                                                          | Yes      |
 | `book`                     | int    | The ID of the audiobook.                                                    | Yes      |
 
-
-
-- ### `POST /api/favorite/addAuthor`
+- #### `POST /api/favorite/addAuthor`
 **Description**: Add an Author to the user's favorites list.
 
 #### Request Body Parameters:
@@ -260,8 +233,7 @@ This project is an **audiobook streaming platform** where users can listen to au
 | `user`                     | int    | The ID of the user                                                          | Yes      |
 | `author`                   | int    | The ID of the audiobook.                                                    | Yes      |
 
-
-- ### `POST /api/favorite/addNarrator`
+- #### `POST /api/favorite/addNarrator`
 **Description**: Add a Narrator to the user's favorites list.
 
 #### Request Body Parameters:
@@ -271,9 +243,7 @@ This project is an **audiobook streaming platform** where users can listen to au
 | `user`                     | int    | The ID of the user                                                          | Yes      |
 | `narrator`                 | int    | The ID of the audiobook.                                                    | Yes      |
 
-
-
-- ### `POST /api/favorite/addPublisher`
+- #### `POST /api/favorite/addPublisher`
 **Description**: Add a Publisher to the user's favorites list.
 
 #### Request Body Parameters:
