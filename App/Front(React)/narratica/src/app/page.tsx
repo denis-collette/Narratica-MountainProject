@@ -1,7 +1,9 @@
 "use client"
 import { useEffect, useState } from 'react';
-import { fetchBooks, Audiobook } from '../app/api/audio/getAllAudioBooks';
+import axios from 'axios';
+import { fetchAllAudioBooks, Audiobook } from '../app/api/audio/getAllAudioBooks';
 import Card from '@/components/audio/custom/Card';
+
 
 export default function HomePage() {
     const [audiobooks, setAudiobooks] = useState<Audiobook[]>([]);
@@ -9,7 +11,7 @@ export default function HomePage() {
 
     useEffect(() => {
         const loadBooks = async () => {
-            const data = await fetchBooks();
+            const data = await fetchAllAudioBooks();
             setAudiobooks(data);
             setLoading(false);
         };
