@@ -6,6 +6,7 @@ urlpatterns = [
     path('api/audio',views.getAudio  ),
     path('api/audio/<int:book_id>/',views.getAudio ),
     path('api/audio/<int:book_id>/<int:chapter_Number>',views.getAudio ),
+    path('api/audio/chapters/<int:book_id>',views.getAllChapters ),
     path('api/turtle/',views.getTest),
     path('api/audio/new',views.getNew),
     path('api/audio/new/<int:quantity>',views.getNew), 
@@ -27,4 +28,5 @@ urlpatterns = [
     path('api/favorite/author/<int:user_id>',views.getUserFavoriteAuthor),
     path('api/favorite/narrator/<int:user_id>',views.getUserFavoriteNarrator),
     path('api/favorite/publisher/<int:user_id>',views.getUserFavoritePublisher),
+    path('api/author/<int:author_id>',views.getAuthorByID),
     ]

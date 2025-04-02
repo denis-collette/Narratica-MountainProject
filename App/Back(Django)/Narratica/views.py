@@ -42,7 +42,24 @@ def getAudio(request, *args, **kwargs):
 
     return Response(errorMsg)
 
+@api_view(['GET'])
+def getAllChapters(request, *args, **kwargs):
+    
+    try:
+        if(kwargs['book_id'] != None):
+            response = BookChapter.objects.filter( book = kwargs['book_id'])
+            serializer = BookChapterSerializer(response, many=True)
+            response = serializer.data
 
+            try:
+                if (kwargs['quantity'] != None):
+                    quantity = kwargs['quantity']
+                    response = response[:quantity] #trim the list
+            except:
+                pass
+            return Response(response)
+    except Exception as e:
+        return Response(errorMsg ,  repr(e))
 
 @api_view(['GET'])
 # return json 
@@ -94,24 +111,21 @@ def getNew(request, *args, **kwargs):
 def getTag(request, *args, **kwargs):
     
     try:
-        if(kwargs['tag_id'] != None and kwargs['quantity'] != None):
-            quantity = kwargs['quantity']
-            response = AudioBook.objects.filter( tags = kwargs['tag_id']).order_by('number_of_listening')[:quantity]
-            serializer = AudioBookSerializer(response, many=True)
-            response = serializer.data
-            return Response(response)
-    except:
-        pass
-
-    try:
         if(kwargs['tag_id'] != None):
-            response = AudioBook.objects.filter( tags = kwargs['tag_id'])
+            response = AudioBook.objects.filter( author = kwargs['tag_id']).order_by('total_number_of_listening')
             serializer = AudioBookSerializer(response, many=True)
             response = serializer.data
+
+            try:
+                if (kwargs['quantity'] != None):
+                    quantity = kwargs['quantity']
+                    response = response[:quantity] #trim the list
+            except:
+                pass
             return Response(response)
-    except:
-        response = {"no tag id entered"}
-        return Response(response)
+    except Exception as e:
+        return Response(errorMsg ,  repr(e))
+
 
 
 
@@ -306,6 +320,19 @@ def postFavoritesPublisher(request):
         return Response(serializer.data , status = status.HTTP_201_CREATED)
     return Response(serializer.errors, status= status.HTTP_400_BAD_REQUEST)
 
+
+
+@api_view(['GET'])
+def getAuthorByID(request, *args, **kwargs):
+    try:
+        if(kwargs['user_id'] != None):
+            response = Narrator.objects.filter( user = kwargs['user_id'])
+            serializer = FavoritePublisherSerializer(response, many=True)
+            response = serializer.data
+            return Response(response)
+        
+    except Exception as e:
+        return Response(errorMsg ,  repr(e))
 
 
 def sortBook(listObj):
