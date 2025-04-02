@@ -19,7 +19,7 @@ export let url = "http://127.0.0.1:8000/"; // url to change when deployed
 
 export const fetchAllAudioBooks = async (): Promise<Audiobook[]> => {
 
-    let routeUrl = url + "api/audio"
+    let routeUrl = url + "api/audio/"
 
     try {
         const response = await axios.get<Audiobook[]>(routeUrl);

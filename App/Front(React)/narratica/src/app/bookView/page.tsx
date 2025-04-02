@@ -5,9 +5,21 @@ import ChapterCard from "@/components/chapterCard";
 import { fetchAudioBooksChapterById , Chapter} from '../api/audio/getAllChaptersFromAudioBookId';
 import { fetchAudioBooksById } from '../api/audio/getAudioBooksById';
 import { Audiobook } from '../api/audio/getAllAudioBooks';
-import { Author, fetchauthor } from "../api/audio/getAuthor";
+import { Author, fetchAuthorById } from "../api/audio/getAuthorById";
 import { useColor } from 'color-thief-react';
 
+
+function sortChapter(bookChapterObj :Chapter[] ){
+
+    bookChapterObj.sort((a, b) => a.chapter_number - b.chapter_number);
+    return bookChapterObj
+}
+
+interface Informations {
+    chapter: Chapter[]
+    audiobook: Audiobook[]
+    author :Author[]
+}
 
 function bookView(){
 
@@ -25,18 +37,18 @@ function bookView(){
                 let allChapterObject  = await fetchAudioBooksChapterById(id)
                 setChapters(allChapterObject);
                 setLoadingChapter(false);
+                allChapterObject = sortChapter(allChapterObject)
             };
             loadChapters();
 
             const loadBook = async () => {
                 let audiobook  = await fetchAudioBooksById(id)
                 setAudioBook(audiobook);
-                setLoadingAudioBook(false);
             };
             loadBook();
 
             const loadAuthor =  async () => {
-                let author  = await fetchauthor(id)
+                let author  = await fetchAuthorById(id)
                 setAuthor(author);
                 setLoadingAudioBook(false);
             };
@@ -47,7 +59,9 @@ function bookView(){
 
         
     return(
+        
         <section>
+
             {loadingChapter  && loadingAudioBook ? (
                 <p>Chargement...</p>
             ) : (
@@ -70,7 +84,6 @@ function bookView(){
                     <h2>{audiobook[0]?.description}</h2>
                 </div>
                 <div className="cardContainer">
-                    
                         <ul>
                             {chapters.map((chapter) => (
                                 <li key={chapter.chapter_number}>

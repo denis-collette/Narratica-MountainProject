@@ -326,7 +326,7 @@ def postFavoritesPublisher(request):
 def getAuthorByID(request, *args, **kwargs):
     try:
         if(kwargs['author_id'] != None):
-            response = Narrator.objects.filter( id = kwargs['author_id'])
+            response = Author.objects.filter( id = kwargs['author_id'])
             serializer = AuthorSerializer(response, many=True)
             response = serializer.data
             return Response(response)
