@@ -19,8 +19,8 @@ type Props = {
 const Card = ({ book, children }: Props) => {
     return (
         <section className='rounded-lg bg-transparent w-3xs shadow-lg hover:bg-gray-400/20'>
-            <section className='relative h-50'>
-                <Image className='object-fill rounded-lg p-2' src={shrek} alt={`Image pour ${book.title}`} layout='fill' />
+            <section className='relative w-full aspect-square'>
+                <img className='object-cover rounded-lg p-2 w-full h-full' src={book.cover_art_jpg} alt={`Image pour ${book.title}`} />
             </section>
             <section className='p-2'>
                 <h2 className='text-lg font-bold'>
