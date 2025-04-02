@@ -1,0 +1,21 @@
+import axios from "axios";
+import { url } from './getAllAudioBooks';
+
+export interface Narrator {
+    id: number;
+    name: string;
+}
+
+export const fetchNarratorById = async (narratorId: number): Promise<Narrator[]> => {
+
+    let routeUrl = url + `api/narrator/${narratorId}`
+
+    try {
+        const response = await axios.get<Narrator[]>(routeUrl);
+        console.log(response.data)
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        return [];
+    }
+};

@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { fetchAllAudioBooks, Audiobook } from '../app/api/audio/getAllAudioBooks';
 import Card from '@/components/audio/custom/Card';
 
+// Interface pour tout regrouper
 
 export default function HomePage() {
     const [audiobooks, setAudiobooks] = useState<Audiobook[]>([]);

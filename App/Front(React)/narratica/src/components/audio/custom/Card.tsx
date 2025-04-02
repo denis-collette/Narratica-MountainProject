@@ -2,10 +2,17 @@ import React from 'react'
 import Image from 'next/image';
 import shrek from "@/../public/asset/shrek.jpg"
 import { Audiobook } from '@/app/api/audio/getAllAudioBooks';
+import { Narrator, fetchNarratorById } from '@/app/api/audio/getNarratorById';
+import { Author, fetchAuthorById } from '@/app/api/audio/getAuthorById';
 
 type Props = {
     book: Audiobook
     children?: React.ReactNode;
+}
+
+type NarratorAndAuthor = {
+    narrator: Narrator;
+    author: Author;
 }
 
 // const Card = ({ children }: Props) => {
