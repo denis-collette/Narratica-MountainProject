@@ -14,6 +14,7 @@ function bookView(){
     const [loadingChapter, setLoadingChapter] = useState(true);
     const [chapters, setChapters] = useState<Chapter[]>([]);
     const [audiobook, setAudioBook] = useState<Audiobook[]>([])
+    // const [author , setAuthor] = useState<>([])
 
       useEffect(() => {
             const loadChapters= async () => {

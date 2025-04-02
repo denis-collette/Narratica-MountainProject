@@ -40,6 +40,12 @@ class FavoriteAuthorSerializer(serializers.ModelSerializer):
         model = FavoriteAuthor
         fields = '__all__'
 
+class AuthorSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Author
+        fields = '__all__'
+
 class FavoriteNarratorSerializer(serializers.ModelSerializer):
 
     class Meta:

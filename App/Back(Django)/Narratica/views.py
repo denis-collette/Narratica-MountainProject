@@ -322,6 +322,19 @@ def postFavoritesPublisher(request):
 
 
 
+@api_view(['GET'])
+def getAuthorByID(request, *args, **kwargs):
+    try:
+        if(kwargs['user_id'] != None):
+            response = Narrator.objects.filter( user = kwargs['user_id'])
+            serializer = FavoritePublisherSerializer(response, many=True)
+            response = serializer.data
+            return Response(response)
+        
+    except Exception as e:
+        return Response(errorMsg ,  repr(e))
+
+
 def sortBook(listObj):
     bookIdList = []
 
