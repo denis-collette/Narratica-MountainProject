@@ -1,7 +1,7 @@
 "use client"
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 import { fetchBooks, Audiobook } from '../app/api/audio/getAllAudioBooks';
+import Card from '@/components/audio/custom/Card';
 
 export default function HomePage() {
     const [audiobooks, setAudiobooks] = useState<Audiobook[]>([]);
@@ -24,14 +24,14 @@ export default function HomePage() {
                 {loading ? (
                     <p>Chargement...</p>
                 ) : (
-                    <ul>
+                    <section className='flex flex-wrap gap-5 justify-center'>
                         {audiobooks.map((book) => (
-                            <li key={book.id}>
-                                <h3>{book.title}</h3>
-                                <p>{book.description}</p>
-                            </li>
+                            <Card key={book.id}>
+                                <h3 className='font-bold'>{book.title}</h3>
+                                <p className='text-gray-950'>{book.description}</p>
+                            </Card>
                         ))}
-                    </ul>
+                    </section>
                 )}
             </section>
         </>
