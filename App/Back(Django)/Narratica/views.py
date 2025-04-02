@@ -152,7 +152,7 @@ def getPublisher(request, *args, **kwargs):
                 pass
             return Response(response)
     except Exception as e:
-        return Response(errorMsg ,  repr(e))
+        return Response(errorMsg ,  repr(e))    
 
 
 
