@@ -325,9 +325,9 @@ def postFavoritesPublisher(request):
 @api_view(['GET'])
 def getAuthorByID(request, *args, **kwargs):
     try:
-        if(kwargs['user_id'] != None):
-            response = Narrator.objects.filter( user = kwargs['user_id'])
-            serializer = FavoritePublisherSerializer(response, many=True)
+        if(kwargs['author_id'] != None):
+            response = Narrator.objects.filter( id = kwargs['author_id'])
+            serializer = AuthorSerializer(response, many=True)
             response = serializer.data
             return Response(response)
         

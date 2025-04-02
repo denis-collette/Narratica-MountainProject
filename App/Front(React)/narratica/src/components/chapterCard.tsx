@@ -13,9 +13,12 @@ function ChapterCard(props : Chapter){
             <div>
                 <h1>Chapter : {props.chapter_number}</h1>
             </div>
+            <div>
             <h2>{props.number_of_listening}</h2>
+            </div>
+            <div>
             <h2>{props.total_time}</h2>
-            
+            </div>
         </div>
     )
 

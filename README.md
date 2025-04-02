@@ -132,9 +132,14 @@ This project is an **audiobook streaming platform** where users can listen to au
 **Note**: The quantity parameter is optional.
 
 
+- ### `POST /api/author/{author_id}`
+**Description**: Get author name.  
+
+
 - ### `POST /api/audio/upload/`
 **Description**: Upload an audiobook file.  
 *Author-only access. Author verification is not enforced at the moment.*  
+
 
 #### Request Body Parameters:
 

@@ -1,10 +1,12 @@
 "use client"
 import { useEffect, useState } from 'react';
 import NavBar from "@/components/NavBar"
-import ChapterCard from "@/components/chapterCard"
-import { fetchAudioBooksChapterById , Chapter} from '../api/audio/getAllChaptersFromAudioBookId'
-import { fetchAudioBooksById } from '../api/audio/getAudioBooksById'
-import { Audiobook } from '../api/audio/getAllAudioBooks'
+import ChapterCard from "@/components/chapterCard";
+import { fetchAudioBooksChapterById , Chapter} from '../api/audio/getAllChaptersFromAudioBookId';
+import { fetchAudioBooksById } from '../api/audio/getAudioBooksById';
+import { Audiobook } from '../api/audio/getAllAudioBooks';
+import { Author, fetchauthor } from "../api/audio/getAuthor";
+import { useColor } from 'color-thief-react';
 
 
 function bookView(){
@@ -13,8 +15,10 @@ function bookView(){
     const [loadingAudioBook, setLoadingAudioBook] = useState(true);
     const [loadingChapter, setLoadingChapter] = useState(true);
     const [chapters, setChapters] = useState<Chapter[]>([]);
-    const [audiobook, setAudioBook] = useState<Audiobook[]>([])
-    // const [author , setAuthor] = useState<>([])
+    const [audiobook, setAudioBook] = useState<Audiobook[]>([]);
+    const [author , setAuthor] = useState<Author[]>([]);
+    const { data, loading, error } = useColor(audiobook[0]?.cover_art_jpg, 'hslString')
+
 
       useEffect(() => {
             const loadChapters= async () => {
@@ -23,16 +27,22 @@ function bookView(){
                 setLoadingChapter(false);
             };
             loadChapters();
-        }, []);
 
-        useEffect(() => {
             const loadBook = async () => {
                 let audiobook  = await fetchAudioBooksById(id)
                 setAudioBook(audiobook);
                 setLoadingAudioBook(false);
             };
             loadBook();
+
+            const loadAuthor =  async () => {
+                let author  = await fetchauthor(id)
+                setAuthor(author);
+                setLoadingAudioBook(false);
+            };
+            loadAuthor();
         }, []);
+
 
 
         
@@ -41,7 +51,7 @@ function bookView(){
             {loadingChapter  && loadingAudioBook ? (
                 <p>Chargement...</p>
             ) : (
-            <div className="containerFull" >
+            <div className="containerFull" style={{backgroundColor: `linear-gradient(${data} 15%, hsl(20, 20%, 6%) 45%)` }} >
                 <div className="imageAndTitle">
                     <div className="image">
                     <img src={audiobook[0]?.cover_art_jpg} ></img>
@@ -49,7 +59,7 @@ function bookView(){
                     <div className="titleText">
                         <h1>{audiobook[0]?.title}</h1>
                         <div>
-                            <h2>{audiobook[0]?.author} author </h2>
+                            <h2>{author[0]?.name} author </h2>
                             <h2>{audiobook[0]?.narrator} narrator</h2>
                             <h2>{audiobook[0]?.total_time}</h2>
                         </div>

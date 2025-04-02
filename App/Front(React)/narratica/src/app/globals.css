@@ -124,6 +124,7 @@
 
 
 .ChapterCard{
+  display: grid;
   margin: auto;
   width: 80%;
   color: hsl(0, 0%, 70%);
