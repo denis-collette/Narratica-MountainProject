@@ -46,6 +46,18 @@ class AuthorSerializer(serializers.ModelSerializer):
         model = Author
         fields = '__all__'
 
+class NarratorSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Narrator
+        fields = '__all__'
+        
+class PublisherSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Publisher
+        fields = '__all__'
+
 class FavoriteNarratorSerializer(serializers.ModelSerializer):
 
     class Meta:
