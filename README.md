@@ -273,6 +273,9 @@ This project is an **audiobook streaming platform** where users can listen to au
 - #### `GET api/tag/{tag_id}`
 **Description**: Get tag name
 
+- #### `GET api/tags`
+**Description**: Get all tags
+
 ---
 
 ## 7. Roadmap
