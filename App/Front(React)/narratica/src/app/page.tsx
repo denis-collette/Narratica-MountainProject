@@ -5,6 +5,7 @@ import Card from '@/components/audio/custom/Card';
 import { fetchAuthorById } from './api/audio/getAuthorById';
 import { fetchNarratorById } from './api/audio/getNarratorById';
 import { BookWithAuthorAndNarrator } from '../app/api/audio/getAllAudioBooks';
+import { fetchTagById, Tag } from './api/audio/getTagById';
 
 // Interface pour tout regrouper
 
@@ -19,11 +20,13 @@ import { BookWithAuthorAndNarrator } from '../app/api/audio/getAllAudioBooks';
 
 export default function HomePage() {
     const [audiobooks, setAudiobooks] = useState<BookWithAuthorAndNarrator[]>([]);
+    const [tag, setTag] = useState<Tag>();
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const loadBooks = async () => {
             const data = await fetchAllAudioBooks();
+            const tagTest = await fetchTagById(1);
 
             const booksInfos = await Promise.all(data.map(async (book) => {
                 const author = await fetchAuthorById(book.author).catch(() => []);
@@ -38,6 +41,7 @@ export default function HomePage() {
 
             setAudiobooks(booksInfos);
             setLoading(false);
+            setTag(tagTest[0]);
         };
 
         loadBooks();
@@ -55,6 +59,7 @@ export default function HomePage() {
                             {audiobooks.map((book) => (
                                 <Card key={book.id} book={book} />
                             ))}
+                            <div className='text-amber-50'>{tag?.name}</div>
                         </section>
                     </>
                 )}
