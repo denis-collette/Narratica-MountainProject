@@ -346,12 +346,25 @@ def getPublisherByID(request, *args, **kwargs):
 
 @api_view(['GET'])
 def getTagByID(request, *args, **kwargs):
+
     try:
         if(kwargs['tag_id'] != None):
             response = Tag.objects.filter(id = kwargs['tag_id'])
             serializer = TagsSerializer(response, many=True)
             response = serializer.data
             return Response(response)
+        
+    except Exception as e:
+        return Response(errorMsg ,  repr(e))
+
+        
+@api_view(['GET'])
+def getTags(request, *args, **kwargs):
+    try:
+        response = Tag.objects.all()
+        serializer = TagsSerializer(response, many=True)
+        response = serializer.data
+        return Response(response)
         
     except Exception as e:
         return Response(errorMsg ,  repr(e))
