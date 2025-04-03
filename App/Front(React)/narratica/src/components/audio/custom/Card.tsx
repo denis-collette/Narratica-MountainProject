@@ -1,18 +1,10 @@
 import React from 'react'
-import Image from 'next/image';
-import shrek from "@/../public/asset/shrek.jpg"
-import { Audiobook } from '@/app/api/audio/getAllAudioBooks';
+import { Audiobook, BookWithAuthorAndNarrator } from '@/app/api/audio/getAllAudioBooks';
 import { Narrator, fetchNarratorById } from '@/app/api/audio/getNarratorById';
 import { Author, fetchAuthorById } from '@/app/api/audio/getAuthorById';
 
-type Props = {
-    book: Audiobook
-    children?: React.ReactNode;
-}
-
-type NarratorAndAuthor = {
-    narrator: Narrator;
-    author: Author;
+interface Props {
+    book: BookWithAuthorAndNarrator;
 }
 
 // const Card = ({ children }: Props) => {
@@ -23,7 +15,7 @@ type NarratorAndAuthor = {
 //     )
 // }
 
-const Card = ({ book, children }: Props) => {
+const Card = ({ book }: Props) => {
     return (
         <section className='rounded-lg bg-transparent w-3xs shadow-lg hover:bg-gray-400/20'>
             <section className='relative w-full aspect-square'>
@@ -34,10 +26,10 @@ const Card = ({ book, children }: Props) => {
                     {book.title}
                 </h2>
                 <h3 className='text-gray-500'>
-                    {book.author}
+                    {book.authorName}
                 </h3>
                 <h3 className=''>
-                    {book.narrator}
+                    {book.narratorName}
                 </h3>
             </section>
         </section>
