@@ -42,5 +42,5 @@ urlpatterns = [
     path('api/author/<int:author_id>',views.getAuthorByID),
     path('api/narrator/<int:narrator_id>', views.getNarratorByID),
     path('api/publisher/<int:publisher_id>', views.getPublisherByID),
-    
+    path('api/tag/<int:tag_id>', views.getTagByID),
     ]
