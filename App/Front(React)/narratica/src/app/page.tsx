@@ -6,6 +6,7 @@ import { fetchAuthorById } from './api/audio/getAuthorById';
 import { fetchNarratorById } from './api/audio/getNarratorById';
 import { BookWithAuthorAndNarrator } from '../app/api/audio/getAllAudioBooks';
 import { fetchTagById, Tag } from './api/audio/getTagById';
+import { fetchAudioBooksByTag } from './api/audio/getByTag';
 
 // Interface pour tout regrouper
 
@@ -21,12 +22,15 @@ import { fetchTagById, Tag } from './api/audio/getTagById';
 export default function HomePage() {
     const [audiobooks, setAudiobooks] = useState<BookWithAuthorAndNarrator[]>([]);
     const [tag, setTag] = useState<Tag>();
+    const [tagForBooks, setTagForBooks] = useState<Audiobook[]>([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const loadBooks = async () => {
             const data = await fetchAllAudioBooks();
-            const tagTest = await fetchTagById(1);
+            const tagTest = await fetchTagById(3);
+
+            const booksForTag = await fetchAudioBooksByTag(3, 3);
 
             const booksInfos = await Promise.all(data.map(async (book) => {
                 const author = await fetchAuthorById(book.author).catch(() => []);
@@ -41,7 +45,7 @@ export default function HomePage() {
 
             setAudiobooks(booksInfos);
             setLoading(false);
-            setTag(tagTest[0]);
+            setTag(tagTest[0])
         };
 
         loadBooks();
@@ -55,11 +59,11 @@ export default function HomePage() {
                     <p>Chargement...</p>
                 ) : (
                     <>
+                        <h2 className='text-amber-50'>Tag: {tag?.name}</h2>
                         <section className='flex flex-wrap gap-5 justify-center'>
                             {audiobooks.map((book) => (
                                 <Card key={book.id} book={book} />
                             ))}
-                            <div className='text-amber-50'>{tag?.name}</div>
                         </section>
                     </>
                 )}
