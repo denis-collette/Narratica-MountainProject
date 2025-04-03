@@ -5,8 +5,8 @@ import Card from '@/components/audio/custom/Card';
 import { fetchAuthorById } from './api/audio/getAuthorById';
 import { fetchNarratorById } from './api/audio/getNarratorById';
 import { BookWithAuthorAndNarrator } from '../app/api/audio/getAllAudioBooks';
-import { fetchTagById, Tag } from './api/audio/getTagById';
-import { fetchAudioBooksByTag } from './api/audio/getByTag';
+import { Tag } from './api/audio/getTagById';
+import { fetchAllTags, } from './api/audio/getAllTags';
 
 // Interface pour tout regrouper
 
@@ -21,16 +21,15 @@ import { fetchAudioBooksByTag } from './api/audio/getByTag';
 
 export default function HomePage() {
     const [audiobooks, setAudiobooks] = useState<BookWithAuthorAndNarrator[]>([]);
-    const [tag, setTag] = useState<Tag>();
-    const [tagForBooks, setTagForBooks] = useState<Audiobook[]>([]);
+    const [tags, setTags] = useState<Tag[]>([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const loadBooks = async () => {
             const data = await fetchAllAudioBooks();
-            const tagTest = await fetchTagById(3);
+            const allTags = await fetchAllTags();
 
-            const booksForTag = await fetchAudioBooksByTag(3, 3);
+            setTags(allTags);
 
             const booksInfos = await Promise.all(data.map(async (book) => {
                 const author = await fetchAuthorById(book.author).catch(() => []);
@@ -45,7 +44,6 @@ export default function HomePage() {
 
             setAudiobooks(booksInfos);
             setLoading(false);
-            setTag(tagTest[0])
         };
 
         loadBooks();
@@ -59,8 +57,14 @@ export default function HomePage() {
                     <p>Chargement...</p>
                 ) : (
                     <>
-                        <h2 className='text-amber-50'>Tag: {tag?.name}</h2>
-                        <section className='flex flex-wrap gap-5 justify-center'>
+                        <section className="flex flex-wrap gap-5 justify-start">
+                            {tags.map((tag) => (
+                                <section key={tag.id}>
+                                    <h2 className='text-2xl font-bold hover:underline'>{tag.name}</h2>
+                                </section>
+                            ))}
+                        </section>
+                        <section className='flex flex-wrap gap-5 justify-start'>
                             {audiobooks.map((book) => (
                                 <Card key={book.id} book={book} />
                             ))}

@@ -1,7 +1,5 @@
 import React from 'react'
 import { Audiobook, BookWithAuthorAndNarrator } from '@/app/api/audio/getAllAudioBooks';
-import { Narrator, fetchNarratorById } from '@/app/api/audio/getNarratorById';
-import { Author, fetchAuthorById } from '@/app/api/audio/getAuthorById';
 
 interface Props {
     book: BookWithAuthorAndNarrator;
