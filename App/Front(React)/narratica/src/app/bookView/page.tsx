@@ -65,23 +65,23 @@ function bookView(){
             {loadingChapter  && loadingAudioBook ? (
                 <p>Chargement...</p>
             ) : (
-            <div className="containerFull" style={{backgroundColor: `linear-gradient(${data} 15%, hsl(20, 20%, 6%) 45%)` }} >
-                <div className="imageAndTitle">
-                    <div className="image">
-                    <img src={audiobook[0]?.cover_art_jpg} ></img>
+            <div className="h-screen w-[70%] ml-[1%] bg-gradient-to-b from-[#006f38] from-15%  to-[#120e0c] to-45% rounded-[0.5%] mt-[1%]" >
+                <div className="pt-[3%] flex items-center m-auto w-[80%] pb-[3%]">
+                    <div className="w-[20%] h-0 pb-[20%] mr-[5%]">
+                    <img className="rounded-[5%] shadow-[0px_0px_25px]" src={audiobook[0]?.cover_art_jpg} ></img>
                     </div>
-                    <div className="titleText">
-                        <h1>{audiobook[0]?.title}</h1>
+                    <div className="text-left self-end">
+                        <h1 className='text-white text-[1.5em]'>{audiobook[0]?.title}</h1>
                         <div>
-                            <h2>{author[0]?.name} author </h2>
-                            <h2>{audiobook[0]?.narrator} narrator</h2>
-                            <h2>{audiobook[0]?.total_time}</h2>
+                            <h2 className='text-white text-[0.7em]'>{author[0]?.name}  </h2>
+                            <h2 className='text-white text-[0.5em]'>{audiobook[0]?.narrator} narrator</h2>
+                            <h2 className='text-white text-[0.5em]'>{audiobook[0]?.total_time}</h2>
                         </div>
                     </div>
                 </div>
-                <div className='description'>
-                    <h2>Narrated by : {audiobook[0]?.narrator}</h2>
-                    <h2>{audiobook[0]?.description}</h2>
+                <div className='text-white pt-[3%] flex-col items-center m-auto w-[80%] pb-[3%]'>
+                    <h2 className='text-[0.5em]'>Narrated by : {audiobook[0]?.narrator}</h2>
+                    <h2 className='text-[0.7em]'>{audiobook[0]?.description}</h2>
                 </div>
                 <div className="cardContainer">
                         <ul>

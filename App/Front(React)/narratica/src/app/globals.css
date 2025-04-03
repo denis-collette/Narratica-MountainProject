@@ -110,52 +110,22 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
-}
 
-.containerFull{
-  height : 100vh;
-  width: 70%;
-  margin-left: 1%;
-  background:rgb(18, 14, 12);
-  background: linear-gradient(hsl(150, 79%, 23%) 15%, hsl(20, 20%, 6%) 45%);
-  border-radius: 0.5%;
-  margin-top: 1%;
 }
 
 
 
-.ChapterCard{
-  display: grid;
-  grid-template-columns: 0.05fr 1fr 0.2fr 0.5fr; 
-  grid-template-rows: 1fr; 
-  margin: auto;
-  width: 80%;
-  color: hsl(0, 0%, 70%);
-  /* display: flex; */
-  align-items: center;
-  flex-direction: row;
-  justify-content: space-between;
-  font-family: Arial, sans-serif;
-}
 
 
-.ChapterCardFull :hover{
-  background-color: rgba(189, 189, 189, 0.116);
-}
 
 
-.ChapterCard h1{
-  color:white;
-}
 
 .ChapterCard h2{
   color: hsl(0, 0%, 70%) ;
   font-size: smaller
 }
 
-.ChapterCardEndContent{
-  text-align: right;
-}
+
 
 .imageAndTitle, .description{
   padding-top: 3%;
