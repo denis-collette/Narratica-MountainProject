@@ -7,8 +7,6 @@ export interface Author {
 };
 
 
-
-
 export const fetchAuthorById  = async (authorId : number): Promise<Author[]> => {
 
     let routeUrl = url + `api/author/${authorId}`
