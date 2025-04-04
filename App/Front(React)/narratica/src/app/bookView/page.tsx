@@ -6,10 +6,15 @@ import { fetchAudioBooksChapterById , Chapter} from '../api/audio/getAllChapters
 import { fetchAudioBooksById } from '../api/audio/getAudioBooksById';
 import { Audiobook } from '../api/audio/getAllAudioBooks';
 import { Author, fetchAuthorById } from "../api/audio/getAuthorById";
-import  { fetchAllTags} from '../api/audio/getAllTags'
-import ColorThief  from 'color-thief-react';
+import  { Narrator,fetchNarratorById} from '../api/audio/getNarratorById'
+import { useColor } from 'color-thief-react'
 
 
+/*
+href={/pathname:"bookView" query:{id:x}}
+
+
+*/
 
 function sortChapter(bookChapterObj :Chapter[] ){
 
@@ -20,53 +25,90 @@ interface Informations {
     chapters: Chapter[];
     audiobook: Audiobook[];
     author: Author[];
+    narrator: Narrator[];
     loadingAudioBook: boolean;
     loadingChapter: boolean;
 }
 
-function bookView() {
-    const id = 1;
+
+
+function bookView({searchParams} : {searchParams : {id : string;}}) {
+
+    let id = 1
+    // try{
+    //     id = parseInt(searchParams.id)
+    // }catch{
+        
+    // }
+
+     
 
     const [informations, setState] = useState<Informations>({
         chapters: [],
         audiobook: [],
         author: [],
+        narrator:[],
         loadingAudioBook: true,
         loadingChapter: true,
     });
 
-
+    const { data, loading, error } = useColor(informations.audiobook[0]?.cover_art_jpg, 'hslString',{crossOrigin : "anonymous"})
     useEffect(() => {
-        const loadChapters = async () => {
-            let allChapterObject = await fetchAudioBooksChapterById(id);
-            allChapterObject = sortChapter(allChapterObject);
-            setState((prevState) => ({
-                ...prevState,
-                chapters: allChapterObject,
-                loadingChapter: false,
-            }));
-        };
-        loadChapters();
+        const loadData = async () => {
+            try {
+              
+                let allChapterObject = await fetchAudioBooksChapterById(id);
+                allChapterObject = sortChapter(allChapterObject);
+    
+                
+                let audiobook = await fetchAudioBooksById(id);
+    
+                
+                
+                if (audiobook && audiobook.length > 0) {
+                    let author = await fetchAuthorById(audiobook[0]?.author);
+                    let narrator = await fetchNarratorById(audiobook[0]?.narrator);
 
-        const loadBook = async () => {
-            let audiobook = await fetchAudioBooksById(id);
-            setState((prevState) => ({
-                ...prevState,
-                audiobook,
-            }));
+                    setState((prevState) => ({
+                        ...prevState,
+                            author,
+                            narrator,
+                    }));
+                    
+                }
+    
+                
+                setState((prevState) => ({
+                    ...prevState,
+                    allChapterObject,
+                    loadingChapter: false,
+                    audiobook,
+                }));
+            } catch (error) {
+                console.error("Error loading data:", error);
+            }
         };
-        loadBook();
-
-        const loadAuthor = async () => {
-            let author = await fetchAuthorById(id);
-            setState((prevState) => ({
-                ...prevState,
-                author,
-                loadingAudioBook: false,
-            }));
-        };
-        loadAuthor();
+    
+        loadData();
     }, [id]);
+
+    
+
+    /** 
+     * TODO: This use state curently return an error in google console
+     * 
+     * from origin 'http://localhost:3000' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+     * 
+     * Is supposed to retrive the most dominent color of an image, problem probably from AWS options
+    */
+    
+    // useEffect(() => {
+    //     console.log('Color Data:', data);
+    //     console.log('Loading:', loading);
+    //     console.log('Error:', error);
+    //   }, [data, loading, error]);
+  
+
 
 
     return(
@@ -91,7 +133,7 @@ function bookView() {
                     </div>
                 </div>
                 <div className='text-white pt-[3%] flex-col items-center m-auto w-[80%] pb-[3%]'>
-                    <h2 className='text-[0.5em]'>Narrated by : {informations.audiobook[0]?.narrator}</h2>
+                    <h2 className='text-[0.5em]'>Narrated by : {informations.narrator[0]?.name}</h2>
                     <h2 className='text-[0.7em]'>{informations.audiobook[0]?.description}</h2>
                 </div>
                 <div className="cardContainer">

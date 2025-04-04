@@ -55,7 +55,7 @@ export default function HomePage() {
                     <p>Chargement...</p>
                 ) : (
                     <>
-                        <section className='flex flex-wrap gap-5 justify-center'>
+                        <section className='flex flex-wrap gap-5 justify-center overflow-y-auto '>
                             {audiobooks.map((book) => (
                                 <Card key={book.id} book={book} />
                             ))}
