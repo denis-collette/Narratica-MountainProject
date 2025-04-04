@@ -12,7 +12,6 @@ export const fetchNarratorById = async (narratorId: number): Promise<Narrator[]>
 
     try {
         const response = await axios.get<Narrator[]>(routeUrl);
-        console.log(response.data)
         return response.data;
     } catch (error) {
         console.error('Error fetching data:', error);

@@ -60,7 +60,7 @@ export default function HomePage() {
                         <section className="flex flex-wrap gap-5 justify-start">
                             {tags.map((tag) => (
                                 <section key={tag.id}>
-                                    <h2 className='text-2xl font-bold hover:underline'>{tag.name}</h2>
+                                    <h2 className='text-xl text-white font-bold hover:underline'>{tag.name}</h2>
                                 </section>
                             ))}
                         </section>

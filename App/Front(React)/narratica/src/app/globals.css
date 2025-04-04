@@ -117,7 +117,7 @@
 
 
 
-
+/* 
 
 
 .ChapterCard h2{
@@ -168,7 +168,7 @@
 .description{
   display: block;
   font-size: 0.7em
-}
+} */
 
 @layer base {
   * {
