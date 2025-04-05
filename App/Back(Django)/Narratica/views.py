@@ -158,7 +158,26 @@ def getPublisher(request, *args, **kwargs):
             return Response(response)
     
     except Exception as e:
-        return Response(errorMsg ,  repr(e))    
+        return Response(errorMsg, repr(e))
+
+@api_view(['GET'])
+def getNarrator(request, *args, **kwargs):
+    try:
+        if(kwargs['narrator_id'] != None):
+            response = AudioBook.objects.filter(narrator = kwargs['narrator_id']).order_by('total_number_of_listening')
+            serializer = AudioBookSerializer(response, many=True)
+            response = serializer.data
+
+            try:
+                if (kwargs['quantity'] != None):
+                    quantity = kwargs['quantity']
+                    response = response[:quantity] #trim the list
+            except:
+                pass
+            return Response(response)
+    
+    except Exception as e:
+        return Response(errorMsg, repr(e))
 
 @api_view(['POST'])
 def postAudioBook(request):

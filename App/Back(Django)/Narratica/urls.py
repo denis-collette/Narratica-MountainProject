@@ -18,14 +18,23 @@ urlpatterns = [
     path('api/audio/author/<int:author_id>/<int:quantity>',views.getAuthor),
     path('api/audio/publisher/<int:publisher_id>',views.getPublisher),
     path('api/audio/publisher/<int:publisher_id>/<int:quantity>',views.getPublisher),
-    #TODO get by narrator (full + quantity)
-    path('api/audio/upload/',views.postAudioBook), #TODO update to'api/upload/....'
-    #TODO delete and patch book + chapter
+    
+    #TESTME get by narrator (full + quantity)
+    path('api/audio/narrator/<int:publisher_id>',views.getNarrator),
+    path('api/audio/narrator/<int:publisher_id>/<int:quantity>',views.getNarrator),
+    
+    path('api/audio/upload/',views.postAudioBook), #? update to'api/upload/....'
+    
+    #TODO post chapter
+    
+    
+    #TODO patch and delete book + chapter
     
     path('api/playlist/<int:playlist_id>',views.getPlaylist),
     path('api/playlist/create',views.postPlaylist, name='create_audioBook'),
     path('api/playlist/user/<int:user_id>',views.getUserPlaylist),
-    #TODO update and delete playlist
+    
+    #TODO patch and delete playlist
     
     #TESTME ????? How does it work ??????
     path('api/favorite/addAudiobook',views.postFavoritesAudioBook),
@@ -34,6 +43,7 @@ urlpatterns = [
     path('api/favorite/addPublisher',views.postFavoritesPublisher),
     
     #TODO CRUD User
+    
     path('api/favorite/audioBook/<int:user_id>',views.getUserFavoriteAudioBook),
     path('api/favorite/author/<int:user_id>',views.getUserFavoriteAuthor),
     path('api/favorite/narrator/<int:user_id>',views.getUserFavoriteNarrator),
