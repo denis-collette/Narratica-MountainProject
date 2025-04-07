@@ -20,7 +20,7 @@ def getAudio(request, *args, **kwargs):
 
     try:
         if(kwargs['book_id'] != None and kwargs['chapter_Number'] != None):
-            response = BookChapter.objects.filter( book_id = kwargs['book_id'], chapter_number = kwargs['chapter_Number']  )
+            response = BookChapter.objects.filter( book = kwargs['book_id'], id = kwargs['chapter_Number']  )
             serializer = BookChapterSerializer(response, many=True)
             response = serializer.data
             return Response(response)
