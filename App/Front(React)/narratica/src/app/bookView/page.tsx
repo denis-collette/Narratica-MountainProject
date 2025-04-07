@@ -1,5 +1,6 @@
 "use client"
 import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import NavBar from "@/components/NavBar"
 import ChapterCard from "@/components/chapterCard";
 import { fetchAudioBooksChaptersById , Chapter} from '../api/audio/getAllChaptersFromAudioBookId';
@@ -50,8 +51,8 @@ function bookView({searchParams} : {searchParams : {id : string;}}) {
         loadingChapter: true,
     });
 
-    const { data, loading, error } = useColor(informations.audiobook[0]?.cover_art_jpg, 'hslString',{crossOrigin : "anonymous"})
-    
+    const { data, loading, error } = useColor(informations.audiobook[0]?.cover_art_thumbnail , 'hslString',{crossOrigin : "anonymous"})
+    console.log(informations.audiobook[0]?.cover_art_jpg)
     useEffect(() => {
         const loadData = async () => {
             try {

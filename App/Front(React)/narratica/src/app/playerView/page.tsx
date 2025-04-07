@@ -48,7 +48,7 @@ function PlayerView({searchParams} : {searchParams : {bookId : string, chapterId
             loadingChapter: true,
         });
     
-        const { data, loading, error } = useColor(informations.audiobook[0]?.cover_art_jpg, 'hslString',{crossOrigin : "anonymous"})
+        const { data, loading, error } = useColor(informations.audiobook[0]?.cover_art_jpg ?? null, 'hslString',{crossOrigin : "anonymous"})
         
         useEffect(() => {
             const loadData = async () => {
@@ -86,9 +86,8 @@ function PlayerView({searchParams} : {searchParams : {bookId : string, chapterId
             loadData();
         }, [chapterId]);
         
-        const covertArt = informations.audiobook[0]?.cover_art_jpg || "img did not load"
-
-        console.log(informations.chapter)
+        const covertArt = informations.audiobook[0]?.cover_art_jpg  ?? null
+        console.log(JSON.stringify(informations.chapter[0]))
 
 
 return(
@@ -96,7 +95,7 @@ return(
     <div className="flex h-screen w-screen">
         <div className="flex items-center justify-center bg-red-500 w-1/2 h-full ">
             <div className="bg-blue-500 w-[70%] h-0 pb-[70%] mr-[5%]">
-                <img src={covertArt} alt="cover art"></img>
+                <img src={covertArt ?? null} alt="cover art"></img>
             </div>
         </div>
         <div className="flex items-center justify-center bg-green-500 w-1/2 h-full ">
