@@ -1,6 +1,5 @@
 "use client"
 import { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
 import NavBar from "@/components/NavBar"
 import ChapterCard from "@/components/chapterCard";
 import { fetchAudioBooksChaptersById , Chapter} from '../api/audio/getAllChaptersFromAudioBookId';
@@ -9,6 +8,7 @@ import { Audiobook } from '../api/audio/getAllAudioBooks';
 import { Author, fetchAuthorById } from "../api/audio/getAuthorById";
 import  { Narrator,fetchNarratorById} from '../api/audio/getNarratorById'
 import { useColor } from 'color-thief-react'
+import { useSearchParams } from 'next/navigation';
 /*
 href={/pathname:"bookView" query:{id:x}}
 */
@@ -32,9 +32,13 @@ interface Informations {
 
 function bookView({searchParams} : {searchParams : {id : string;}}) {
     let id = 1
-    if(parseInt(searchParams.id)> 0){
-        id = parseInt(searchParams.id)
+
+    const params = useSearchParams()
+    const strId = params.get('id')
+    if(strId !== null){
+        id = parseInt(strId)
     }
+    
     const [informations, setState] = useState<Informations>({
         chapters: [],
         audiobook: [],

@@ -120,7 +120,7 @@ DATABASES = {
 # }
 
 # For other sensitive values
-BASTION_HOST_IP = config('BASTION_HOST_IP')
+# BASTION_HOST_IP = config('BASTION_HOST_IP')
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators

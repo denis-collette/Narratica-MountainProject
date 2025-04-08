@@ -8,6 +8,7 @@ import { Audiobook } from '../api/audio/getAllAudioBooks';
 import { Author, fetchAuthorById } from "../api/audio/getAuthorById";
 import  { Narrator,fetchNarratorById} from '../api/audio/getNarratorById'
 import { useColor } from 'color-thief-react'
+import { useSearchParams } from "next/navigation";
 import * as React from 'react'
 
 
@@ -25,20 +26,20 @@ function PlayerView({searchParams} : {searchParams : {bookId : string, chapterId
 
     let bookId = 1
     let chapterId = 1
+    let id = 1
+    
+        const params = useSearchParams()
+        const strBookIdId = params.get('bookId')
+        const strChapterId = params.get('chapterId')
 
-    //Check if their is parameters
-    try{
-        if(parseInt(searchParams.bookId)> 0 && parseInt(searchParams.chapterId)> 0){
-            bookId = parseInt(searchParams.bookId)
-            chapterId = parseInt(searchParams.chapterId)
+        if(strBookIdId !== null){
+            bookId = parseInt(strBookIdId)
         }
-    
-    }catch(e){
-        console.log(e)
-    }
-    
-    console.log(searchParams.bookId + " " + searchParams.chapterId )
-    
+        
+        if(strChapterId !== null){
+            chapterId = parseInt(strChapterId)
+        }
+console.log(strBookIdId)
         const [informations, setState] = useState<Informations>({
             chapter: [],
             audiobook: [],
