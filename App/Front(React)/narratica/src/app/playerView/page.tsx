@@ -93,13 +93,13 @@ function PlayerView({searchParams} : {searchParams : {bookId : string, chapterId
 return(
 
     <div className="flex h-screen w-screen">
-        <div className="flex items-center justify-center bg-red-500 w-1/2 h-full ">
+        <div className="flex items-center justify-center w-1/2 h-full ">
             <div className="bg-blue-500 w-[70%] h-0 pb-[70%] mr-[5%]">
                 <img src={covertArt ?? null} alt="cover art"></img>
             </div>
         </div>
-        <div className="flex items-center justify-center bg-green-500 w-1/2 h-full ">
-            <div className="flex-col text-center bg-blue-500 w-[70%] h-0 pb-[70%] mr-[5%]">
+        <div className="flex items-center justify-center  w-1/2 h-full ">
+            <div className="flex-col text-center  w-[70%] h-0 pb-[70%] mr-[5%]">
 
                 <div>
                 <div className='text-white text-[1.5em] font-bold'>{informations.audiobook[0]?.title}</div>
@@ -109,7 +109,7 @@ return(
                 </div>
                 
                 <div>
-                <div className="bg-fuchsia-600">PLAYER</div>
+                <div className="text-white"> ADD PLAYER HERE</div>
                 </div>
 
             </div>
