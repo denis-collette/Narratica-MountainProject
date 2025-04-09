@@ -9,7 +9,8 @@ import { Author, fetchAuthorById } from "../api/audio/getAuthorById";
 import { Narrator, fetchNarratorById } from '../api/audio/getNarratorById'
 import { useColor } from 'color-thief-react'
 import * as React from 'react'
-import Player from "@/components/audio/custom/Player";
+import Player from "@/components/audio/Player";
+import AudioPlayerContainer from "@/components/audio/AudioPlayerContainer";
 
 
 function PlayerView({ searchParams }: { searchParams: { bookId: string, chapterId: string } }) {
@@ -113,9 +114,17 @@ function PlayerView({ searchParams }: { searchParams: { bookId: string, chapterI
                 <div className="bg-fuchsia-600">PLAYER</div>
                 </div> */}
 
+
                     {informations.chapter[0]?.audio_data && (
                         <Player audioSource={informations.chapter[0].audio_data} />
                     )}
+
+                    {/* ici en dev */}
+
+
+                    {/* {informations.chapter[0]?.audio_data && (
+                        <AudioPlayerContainer audioSource={informations.chapter[0].audio_data} />
+                    )} */}
 
                 </div>
             </div>

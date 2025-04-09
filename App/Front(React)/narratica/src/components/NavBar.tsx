@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import Search from "./audio/custom/Search";
+import Search from "./Search";
 
 
 export default function NavBar() {

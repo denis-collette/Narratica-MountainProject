@@ -1,13 +1,13 @@
 "use client"
 import { useEffect, useState } from 'react';
 import { fetchAllAudioBooks, Audiobook } from '../app/api/audio/getAllAudioBooks';
-import Card from '@/components/audio/custom/Card';
+import Card from '@/components/Card';
 import { fetchAuthorById } from './api/audio/getAuthorById';
 import { fetchNarratorById } from './api/audio/getNarratorById';
 import { BookWithAuthorAndNarrator } from '../app/api/audio/getAllAudioBooks';
 import { Tag } from './api/audio/getTagById';
 import { fetchAllTags, } from './api/audio/getAllTags';
-import Filter from '@/components/audio/custom/TagFilter';
+import Filter from '@/components/TagFilter';
 
 // Interface pour tout regrouper
 
