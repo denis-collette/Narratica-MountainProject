@@ -1,12 +1,13 @@
 "use client"
 import { useEffect, useState } from 'react';
 import { fetchAllAudioBooks, Audiobook } from '../app/api/audio/getAllAudioBooks';
-import Card from '@/components/audio/custom/Card';
+import Card from '@/components/Card';
 import { fetchAuthorById } from './api/audio/getAuthorById';
 import { fetchNarratorById } from './api/audio/getNarratorById';
 import { BookWithAuthorAndNarrator } from '../app/api/audio/getAllAudioBooks';
 import { Tag } from './api/audio/getTagById';
 import { fetchAllTags, } from './api/audio/getAllTags';
+import Filter from '@/components/TagFilter';
 
 // Interface pour tout regrouper
 
@@ -23,6 +24,7 @@ export default function HomePage() {
     const [audiobooks, setAudiobooks] = useState<BookWithAuthorAndNarrator[]>([]);
     const [tags, setTags] = useState<Tag[]>([]);
     const [loading, setLoading] = useState(true);
+    const [tag, setTag] = useState<number | null>(null);
 
     useEffect(() => {
         const loadBooks = async () => {
@@ -49,6 +51,10 @@ export default function HomePage() {
         loadBooks();
     }, []);
 
+
+    const filteredBooks = tag
+        ? audiobooks.filter((book) => book.tags?.includes(tag))
+        : audiobooks;
     return (
         <>
             <section>
@@ -57,15 +63,19 @@ export default function HomePage() {
                     <p>Chargement...</p>
                 ) : (
                     <>
-                        <section className="flex flex-wrap gap-5 justify-start ">
-                            {tags.map((tag) => (
+                        <section className="flex flex-wrap gap-5 justify-start">
+                            <Filter
+                                tags={tags}
+                                selectedTag={tag}
+                                setSelectedTag={setTag} />
+                            {/* {tags.map((tag) => (
                                 <section key={tag.id}>
                                     <h2 className='text-xl text-white font-bold hover:underline'>{tag.name}</h2>
                                 </section>
-                            ))}
+                            ))} */}
                         </section>
                         <section className='flex flex-wrap gap-5 justify-start'>
-                            {audiobooks.map((book) => (
+                            {filteredBooks.map((book) => (
                                 <Card key={book.id} book={book} />
                             ))}
                         </section>
