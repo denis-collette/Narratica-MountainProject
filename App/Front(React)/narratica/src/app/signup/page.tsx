@@ -2,6 +2,12 @@
 
 function SignUpView(){
 
+
+    function printInfo(){
+        var info = document.forms
+        console.log(JSON.stringify(info))
+    }
+
     return(
         
         <main>
