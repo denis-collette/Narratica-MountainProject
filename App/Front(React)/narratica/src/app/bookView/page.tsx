@@ -1,6 +1,5 @@
 "use client"
 import { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
 import NavBar from "@/components/NavBar"
 import ChapterCard from "@/components/chapterCard";
 import { fetchAudioBooksChaptersById , Chapter} from '../api/audio/getAllChaptersFromAudioBookId';
@@ -9,16 +8,14 @@ import { Audiobook } from '../api/audio/getAllAudioBooks';
 import { Author, fetchAuthorById } from "../api/audio/getAuthorById";
 import  { Narrator,fetchNarratorById} from '../api/audio/getNarratorById'
 import { useColor } from 'color-thief-react'
-
-
+import { useSearchParams } from 'next/navigation';
 /*
 href={/pathname:"bookView" query:{id:x}}
-
-
 */
 
-function sortChapter(bookChapterObj :Chapter[] ){
 
+
+function sortChapter(bookChapterObj :Chapter[] ){
     bookChapterObj.sort((a, b) => a.chapter_number - b.chapter_number);
     return bookChapterObj
 }
@@ -33,15 +30,15 @@ interface Informations {
 
 
 
-function bookView({searchParams} : {searchParams : {id : string;}}) {
-
+function BookView({searchParams} : {searchParams : {id : string;}}) {
     let id = 1
-    
-    if(parseInt(searchParams.id)> 0){
-        id = parseInt(searchParams.id)
+
+    const params = useSearchParams()
+    const strId = params.get('id')
+    if(strId !== null){
+        id = parseInt(strId)
     }
-
-
+    
     const [informations, setState] = useState<Informations>({
         chapters: [],
         audiobook: [],
@@ -51,30 +48,25 @@ function bookView({searchParams} : {searchParams : {id : string;}}) {
         loadingChapter: true,
     });
 
-    const { data, loading, error } = useColor(informations.audiobook[0]?.cover_art_thumbnail , 'hslString',{crossOrigin : "anonymous"})
-    console.log(informations.audiobook[0]?.cover_art_jpg)
+    const { data, loading, error } = useColor(informations.audiobook[0]?.cover_art_thumbnail , 'hslString',{crossOrigin : "Anonymous"}) // still not working
+
+
     useEffect(() => {
         const loadData = async () => {
             try {
-
                 let chapters = await fetchAudioBooksChaptersById(id);
                 chapters = sortChapter(chapters);
-
                 let audiobook = await fetchAudioBooksById(id);
-                
+
                 if (audiobook && audiobook.length > 0) {
                     let author = await fetchAuthorById(audiobook[0]?.author);
                     let narrator = await fetchNarratorById(audiobook[0]?.narrator);
-
                     setState((prevState) => ({
                         ...prevState,
                             author,
                             narrator,
                     }));
-                    
                 }
-
-                
                 setState((prevState) => ({
                     ...prevState,
                     chapters: chapters,
@@ -85,11 +77,9 @@ function bookView({searchParams} : {searchParams : {id : string;}}) {
                 console.error("Error loading data:", error);
             }
         };
-    
         loadData();
     }, [id]);
 
-    
 
     /** 
      * TODO: This use state curently return an error in google console
@@ -98,19 +88,16 @@ function bookView({searchParams} : {searchParams : {id : string;}}) {
      * 
      * Is supposed to retrive the most dominent color of an image, problem probably from AWS options
     */
-    
     // useEffect(() => {
     //     console.log('Color Data:', data);
     //     console.log('Loading:', loading);
     //     console.log('Error:', error);
     //   }, [data, loading, error]);
-  
+
 
 
     return(
-        
         <section>
-
             {informations.loadingChapter  && informations.loadingAudioBook ? (
                 <p>Chargement...</p>
             ) : (
@@ -149,7 +136,5 @@ function bookView({searchParams} : {searchParams : {id : string;}}) {
                 </div>
             </div>)}
         </section>)
-    
 }
-
-export default bookView
+export default BookView

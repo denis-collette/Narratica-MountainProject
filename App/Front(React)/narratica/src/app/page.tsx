@@ -57,7 +57,7 @@ export default function HomePage() {
                     <p>Chargement...</p>
                 ) : (
                     <>
-                        <section className="flex flex-wrap gap-5 justify-start">
+                        <section className="flex flex-wrap gap-5 justify-start ">
                             {tags.map((tag) => (
                                 <section key={tag.id}>
                                     <h2 className='text-xl text-white font-bold hover:underline'>{tag.name}</h2>

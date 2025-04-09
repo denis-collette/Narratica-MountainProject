@@ -8,6 +8,7 @@ import { Audiobook } from '../api/audio/getAllAudioBooks';
 import { Author, fetchAuthorById } from "../api/audio/getAuthorById";
 import  { Narrator,fetchNarratorById} from '../api/audio/getNarratorById'
 import { useColor } from 'color-thief-react'
+import { useSearchParams } from "next/navigation";
 import * as React from 'react'
 
 
@@ -25,20 +26,20 @@ function PlayerView({searchParams} : {searchParams : {bookId : string, chapterId
 
     let bookId = 1
     let chapterId = 1
+    let id = 1
+    
+        const params = useSearchParams()
+        const strBookIdId = params.get('bookId')
+        const strChapterId = params.get('chapterId')
 
-    //Check if their is parameters
-    try{
-        if(parseInt(searchParams.bookId)> 0 && parseInt(searchParams.chapterId)> 0){
-            bookId = parseInt(searchParams.bookId)
-            chapterId = parseInt(searchParams.chapterId)
+        if(strBookIdId !== null){
+            bookId = parseInt(strBookIdId)
         }
-    
-    }catch(e){
-        console.log(e)
-    }
-    
-    console.log(searchParams.bookId + " " + searchParams.chapterId )
-    
+        
+        if(strChapterId !== null){
+            chapterId = parseInt(strChapterId)
+        }
+console.log(strBookIdId)
         const [informations, setState] = useState<Informations>({
             chapter: [],
             audiobook: [],
@@ -93,13 +94,13 @@ function PlayerView({searchParams} : {searchParams : {bookId : string, chapterId
 return(
 
     <div className="flex h-screen w-screen">
-        <div className="flex items-center justify-center bg-red-500 w-1/2 h-full ">
+        <div className="flex items-center justify-center w-1/2 h-full ">
             <div className="bg-blue-500 w-[70%] h-0 pb-[70%] mr-[5%]">
                 <img src={covertArt ?? null} alt="cover art"></img>
             </div>
         </div>
-        <div className="flex items-center justify-center bg-green-500 w-1/2 h-full ">
-            <div className="flex-col text-center bg-blue-500 w-[70%] h-0 pb-[70%] mr-[5%]">
+        <div className="flex items-center justify-center  w-1/2 h-full ">
+            <div className="flex-col text-center  w-[70%] h-0 pb-[70%] mr-[5%]">
 
                 <div>
                 <div className='text-white text-[1.5em] font-bold'>{informations.audiobook[0]?.title}</div>
@@ -109,7 +110,7 @@ return(
                 </div>
                 
                 <div>
-                <div className="bg-fuchsia-600">PLAYER</div>
+                <div className="text-white"> ADD PLAYER HERE</div>
                 </div>
 
             </div>
