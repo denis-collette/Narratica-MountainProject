@@ -30,7 +30,7 @@ interface Informations {
 
 
 
-function bookView({searchParams} : {searchParams : {id : string;}}) {
+function BookView({searchParams} : {searchParams : {id : string;}}) {
     let id = 1
 
     const params = useSearchParams()
@@ -137,4 +137,4 @@ function bookView({searchParams} : {searchParams : {id : string;}}) {
             </div>)}
         </section>)
 }
-export default bookView
+export default BookView
