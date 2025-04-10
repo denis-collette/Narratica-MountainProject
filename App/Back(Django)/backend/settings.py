@@ -96,28 +96,28 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # }
 
 # LOCAL SETTINGS:
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'Narratica_db',
-        'USER': 'postgres',
-        'PASSWORD': '', #THIS IS A SECRET!
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
-}
-
-# ONLINE DB
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': config('DB_NAME'),
-#         'USER': config('DB_USER'),
-#         'PASSWORD': config('DB_PASSWORD'),
-#         'HOST': config('DB_HOST'),
-#         'PORT': config('DB_PORT'),
+#         'NAME': 'Narratica_db',
+#         'USER': 'postgres',
+#         'PASSWORD': '', #THIS IS A SECRET!
+#         'HOST': 'localhost',
+#         'PORT': '5432',
 #     }
 # }
+
+# ONLINE DB
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': config('DB_NAME'),
+        'USER': config('DB_USER'),
+        'PASSWORD': config('DB_PASSWORD'),
+        'HOST': config('DB_HOST'),
+        'PORT': config('DB_PORT'),
+    }
+}
 
 # For other sensitive values
 # BASTION_HOST_IP = config('BASTION_HOST_IP')
@@ -164,3 +164,10 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOW_ALL_ORIGINS = True  # change before deployment !
+
+# Django REST Framework Auth Settings
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+}

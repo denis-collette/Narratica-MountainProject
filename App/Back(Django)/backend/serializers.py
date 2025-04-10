@@ -1,6 +1,6 @@
 # convet db awne"r to understundable object for api
 
-
+from django.contrib.auth.models import User
 from rest_framework import serializers
 from Narratica.models import *
 
@@ -33,13 +33,6 @@ class FavoriteBookSerializer(serializers.ModelSerializer):
         model = FavoriteBook
         fields = '__all__'
 
-
-class FavoriteAuthorSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = FavoriteAuthor
-        fields = '__all__'
-
 class AuthorSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -58,6 +51,12 @@ class PublisherSerializer(serializers.ModelSerializer):
         model = Publisher
         fields = '__all__'
 
+class FavoriteAuthorSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = FavoriteAuthor
+        fields = '__all__'
+
 class FavoriteNarratorSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -69,3 +68,19 @@ class FavoritePublisherSerializer(serializers.ModelSerializer):
     class Meta:
         model = FavoritePublisher
         fields = '__all__'
+
+
+class UserRegistrationSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True)
+
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'password']
+
+    def create(self, validated_data):
+        user = User.objects.create_user(
+            username=validated_data['username'],
+            email=validated_data.get('email', ''),
+            password=validated_data['password']
+        )
+        return user

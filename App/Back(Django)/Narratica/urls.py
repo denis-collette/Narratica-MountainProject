@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from .views import RegisterView
 
 urlpatterns = [
     path('',views.getMenu, name='main-menu'),
@@ -43,6 +44,8 @@ urlpatterns = [
     path('api/favorite/addPublisher',views.postFavoritesPublisher),
     
     #TODO CRUD User
+    #TESTME Registration
+    path('api/register/', RegisterView.as_view(), name='register'),
     
     path('api/favorite/audioBook/<int:user_id>',views.getUserFavoriteAudioBook),
     path('api/favorite/author/<int:user_id>',views.getUserFavoriteAuthor),
