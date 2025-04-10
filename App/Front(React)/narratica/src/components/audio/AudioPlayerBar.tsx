@@ -3,25 +3,32 @@ import { FaPlay, FaPause } from "react-icons/fa";
 import { FaAngleDoubleLeft, FaAngleDoubleRight } from "react-icons/fa";
 import { AiOutlineFastBackward, AiOutlineFastForward } from "react-icons/ai";
 import { HiSpeakerWave, HiSpeakerXMark } from "react-icons/hi2";
+import { useAudio } from "./AudioContext";
 
-interface AudioPlayerBarProps {
-    isPlaying: boolean;
-    togglePlayPause: () => void;
-}
+// interface AudioPlayerBarProps {
+//     isPlaying: boolean;
+//     togglePlayPause: () => void;
+//     currentChapterTitle?: string;
+//     coverImage?: string;
+// }
 
-const AudioPlayerBar: React.FC<AudioPlayerBarProps> = ({ isPlaying, togglePlayPause }) => {
+const AudioPlayerBar: React.FC = () => {
+    const { isPlaying, togglePlayPause, currentChapterTitle, coverImage, bookTitle } = useAudio();
+    console.log("AudioPlayerBar :", currentChapterTitle);
+    console.log("AudioPlayerBar :", coverImage);
+    console.log('titre - ', bookTitle);
     return (
         <section className="w-full bg-black text-white px-4 py-2 flex items-center justify-between">
             {/* Partie gauche : Cover + titre */}
             <section className="flex items-center gap-4">
                 <img
-                    src="/"
-                    alt=""
+                    src={coverImage}
+                    alt={currentChapterTitle}
                     className="w-12 h-12 object-cover rounded"
                 />
                 <section>
-                    <h3 className="text-sm font-semibold">Test</h3>
-                    <p className="text-xs text-gray-400">Titre</p>
+                    <h3 className="text-sm font-semibold">{bookTitle}</h3>
+                    <p className="text-xs text-gray-400">{currentChapterTitle}</p>
                 </section>
             </section>
 
