@@ -1,7 +1,8 @@
 # convet db awne"r to understundable object for api
 
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model, authenticate
 from rest_framework import serializers
+from rest_framework.exceptions import AuthenticationFailed
 from Narratica.models import *
 
 
@@ -85,3 +86,19 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
             password=password
         )
         return user
+
+class LoginSerializer(serializers.Serializer):
+    username = serializers.CharField()
+    password = serializers.CharField()
+
+    def validate(self, attrs):
+        username = attrs.get('username')
+        password = attrs.get('password')
+
+        user = authenticate(username=username, password=password)
+
+        if user is None:
+            raise AuthenticationFailed('Invalid credentials')
+
+        attrs['user'] = user
+        return attrs
