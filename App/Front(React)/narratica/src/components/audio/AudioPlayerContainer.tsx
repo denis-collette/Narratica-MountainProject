@@ -1,10 +1,11 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 interface PlayerProps {
     audioSource: string;
+    togglePlayPauseState: (isPlaying: boolean) => void;
 }
 
-const AudioPlayerContainer: React.FC<PlayerProps> = ({ audioSource }) => {
+const AudioPlayerContainer: React.FC<PlayerProps> = ({ audioSource, togglePlayPauseState }) => {
 
     const audioReference = useRef<HTMLAudioElement>(null);
     const [isPlaying, setIsPlaying] = useState(false);
@@ -21,7 +22,20 @@ const AudioPlayerContainer: React.FC<PlayerProps> = ({ audioSource }) => {
         }
 
         setIsPlaying(!isPlaying);
+        togglePlayPauseState(!isPlaying);
     }
+
+    useEffect(() => {
+        if (audioReference.current) {
+            audioReference.current.addEventListener('play', () => setIsPlaying(true))
+            audioReference.current.addEventListener('pause', () => setIsPlaying(false))
+
+            return () => {
+                audioReference.current?.removeEventListener('play', () => setIsPlaying(true))
+                audioReference.current?.removeEventListener('pause', () => setIsPlaying(false))
+            }
+        }
+    }, [audioReference])
 
 
     return (
