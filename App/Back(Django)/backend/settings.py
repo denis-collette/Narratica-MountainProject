@@ -38,7 +38,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 'Narratica',
     'Narratica.apps.NarraticaConfig',
     'rest_framework',
     'corsheaders',
@@ -171,3 +170,5 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
 }
+
+#? AUTH_USER_MODEL = 'Narratica.User'
