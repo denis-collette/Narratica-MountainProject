@@ -50,7 +50,6 @@ def getAllChapters(request, *args, **kwargs):
             response = BookChapter.objects.filter( book = kwargs['book_id'])
             serializer = BookChapterSerializer(response, many=True)
             response = serializer.data
-
             try:
                 if (kwargs['quantity'] != None):
                     quantity = kwargs['quantity']
