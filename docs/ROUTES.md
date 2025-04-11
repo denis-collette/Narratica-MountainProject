@@ -3,6 +3,8 @@
 ### **Authentication & User Management**
 - `POST /api/register/` → Register a new user
 - `POST /api/login/` → Authenticate user (JWT token)
+- `/api/token/` → get token (to test)
+- `/api/token/refresh` → refresh token (to test)
 - `POST /api/admin/approve-author/` → Approve author pages (Admin only)
 - `POST /api/admin/review-reports/` → Handle user-reported content (Admin only)
 
