@@ -11,7 +11,7 @@ const Footer = () => {
     // }
 
     return (
-        <section>
+        <section >
             {/* <AudioPlayerBar isPlaying={isPlaying} togglePlayPause={togglePlayPause} /> */}
             {/* <AudioPlayerBar
                 isPlaying={isPlaying}

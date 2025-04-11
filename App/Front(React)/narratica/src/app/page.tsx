@@ -63,7 +63,7 @@ export default function HomePage() {
                     <p>Chargement...</p>
                 ) : (
                     <>
-                        <section className="flex flex-wrap gap-5 justify-start">
+                        <section className="flex flex-wrap justify-start gap-5 w-screen">
                             <Filter
                                 tags={tags}
                                 selectedTag={tag}
@@ -74,7 +74,7 @@ export default function HomePage() {
                                 </section>
                             ))} */}
                         </section>
-                        <section className='flex flex-wrap gap-5 justify-start'>
+                        <section className='flex flex-wrap justify-center gap-5 mb-16 content-center w-screen'>
                             {filteredBooks.map((book) => (
                                 <Card key={book.id} book={book} />
                             ))}

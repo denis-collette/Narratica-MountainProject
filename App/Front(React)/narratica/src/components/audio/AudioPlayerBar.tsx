@@ -18,7 +18,7 @@ const AudioPlayerBar: React.FC = () => {
     console.log("AudioPlayerBar :", coverImage);
     console.log('titre - ', bookTitle);
     return (
-        <section className="w-full bg-black text-white px-4 py-2 flex items-center justify-between">
+        <section className="fixed bottom-0 w-full bg-black text-white px-4 py-2 flex items-center justify-between h--[80px] ">
             {/* Partie gauche : Cover + titre */}
             <section className="flex items-center gap-4">
                 <img
