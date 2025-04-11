@@ -38,7 +38,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 'Narratica',
     'Narratica.apps.NarraticaConfig',
     'rest_framework',
     'corsheaders',
@@ -111,6 +110,18 @@ DATABASES = {
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'Narratica_db',
+#         'USER': 'postgres',
+#         'PASSWORD': '', #THIS IS A SECRET!
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#     }
+# }
+
+# ONLINE DB
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
 #         'NAME': config('DB_NAME'),
 #         'USER': config('DB_USER'),
 #         'PASSWORD': config('DB_PASSWORD'),
@@ -164,3 +175,12 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOW_ALL_ORIGINS = True  # change before deployment !
+
+# Django REST Framework Auth Settings
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+}
+
+#? AUTH_USER_MODEL = 'Narratica.User'
