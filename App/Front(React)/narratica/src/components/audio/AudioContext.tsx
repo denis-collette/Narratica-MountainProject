@@ -13,16 +13,23 @@ interface AudioContextType {
     bookTitle: string | undefined;
     setBookTitle: React.Dispatch<React.SetStateAction<string | undefined>>;
     audioReference: React.RefObject<HTMLAudioElement | null>;
+    setVolume: React.Dispatch<React.SetStateAction<number | undefined>>;
+    handleVolume: (newVolume: number) => void;
+    // handleTime: (newTime: number) => void;
 }
 
 const AudioContext = createContext<AudioContextType | undefined>(undefined);
 
 export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [audioSource, setAudioSource] = useState<string | null>(null);
-    const [isPlaying, setIsPlaying] = useState(false);
+    const [isPlaying, setIsPlaying] = useState<boolean>(false);
     const [currentChapterTitle, setCurrentChapterTitle] = useState<string | undefined>(undefined);
     const [coverImage, setCoverImage] = useState<string | undefined>(undefined);
     const [bookTitle, setBookTitle] = useState<string | undefined>(undefined);
+    const [volume, setVolume] = useState<number | undefined>();
+    const [progress, setProgress] = useState<number>();
+    const [currentTime, setCurrentTime] = useState<number>();
+    const [duration, setDuration] = useState<number>();
     const audioReference = useRef<HTMLAudioElement>(null);
 
     const togglePlayPause = () => {
@@ -36,14 +43,43 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         }
     };
 
-    useEffect(() => {
+    const handleVolume = (newVolume: number) => {
         if (audioReference.current) {
-            audioReference.current.addEventListener('play', () => setIsPlaying(true));
-            audioReference.current.addEventListener('pause', () => setIsPlaying(false));
+            audioReference.current.volume = newVolume
+            setVolume(newVolume)
+        }
+    }
+    useEffect(() => {
+        const audio = audioReference.current
+
+        if (audio) {
+            const handleTimeChange = () => {
+                setCurrentTime(audio.currentTime)
+                setProgress((audio.currentTime / audio.duration) * 100)
+                setDuration(audio.duration)
+            }
+
+            audio?.addEventListener('timeChange', handleTimeChange);
 
             return () => {
-                audioReference.current?.removeEventListener('play', () => setIsPlaying(true));
-                audioReference.current?.removeEventListener('pause', () => setIsPlaying(false));
+                audio?.removeEventListener('timeChange', handleTimeChange);
+            };
+        }
+    }, [])
+
+    useEffect(() => {
+        const play = () => setIsPlaying(true)
+        const pause = () => setIsPlaying(false)
+
+        const audio = audioReference.current;
+
+        if (audio) {
+            audio.addEventListener('play', play);
+            audio.addEventListener('pause', pause);
+
+            return () => {
+                audio?.removeEventListener('play', play);
+                audio?.removeEventListener('pause', pause);
             };
         }
     }, [audioReference]);
@@ -55,8 +91,31 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         }
     }, [audioSource]);
 
+    const value = {
+        audioSource,
+        setAudioSource,
+        isPlaying,
+        togglePlayPause,
+        currentChapterTitle,
+        setCurrentChapterTitle,
+        coverImage,
+        setCoverImage,
+        bookTitle,
+        setBookTitle,
+        audioReference,
+        volume,
+        setVolume,
+        handleVolume,
+        currentTime,
+        duration,
+        setCurrentTime,
+        setDuration,
+        progress,
+        setProgress
+    }
+
     return (
-        <AudioContext.Provider value={{ audioSource, setAudioSource, isPlaying, togglePlayPause, currentChapterTitle, setCurrentChapterTitle, coverImage, setCoverImage, bookTitle, setBookTitle, audioReference }}>
+        <AudioContext.Provider value={value}>
             <audio ref={audioReference} />
             {children}
         </AudioContext.Provider>
