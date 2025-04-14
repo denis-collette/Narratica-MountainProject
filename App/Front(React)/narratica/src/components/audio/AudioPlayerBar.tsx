@@ -13,7 +13,7 @@ import { useAudio } from "./AudioContext";
 // }
 
 const AudioPlayerBar: React.FC = () => {
-    const { isPlaying, togglePlayPause, currentChapterTitle, coverImage, bookTitle } = useAudio();
+    const { isPlaying, togglePlayPause, currentChapterTitle, coverImage, bookTitle, handleVolume } = useAudio();
     console.log("AudioPlayerBar :", currentChapterTitle);
     console.log("AudioPlayerBar :", coverImage);
     console.log('titre - ', bookTitle);
@@ -63,7 +63,8 @@ const AudioPlayerBar: React.FC = () => {
             {/* Partie droite : volume */}
             <section className="flex items-center gap-2 w-32">
                 <HiSpeakerWave className="w-5 h-5" />
-                <input type="range" min="0" max="100" className="w-full accent-green-400" />
+                <input type="range" min="0" max="100" className="w-full accent-green-400"
+                    onChange={(e) => handleVolume(Number(e.target.value) / 100)} />
             </section>
         </section>
     );
