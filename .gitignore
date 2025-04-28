@@ -3,7 +3,12 @@ __pycache__/
 *.pyc
 *.pyo
 env/
+venv/
 settings.py
+.python-version
+db.sqlite3
 # Node.js
 node_modules/
 .env
+build/
+dist/

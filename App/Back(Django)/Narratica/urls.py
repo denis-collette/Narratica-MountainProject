@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import RegisterView, LoginView
+from .views import RegisterView, LoginView, BookchapterUploadView
 
 urlpatterns = [
     path('',views.getMenu, name='main-menu'),
@@ -24,10 +24,14 @@ urlpatterns = [
     path('api/audio/narrator/<int:publisher_id>',views.getNarrator),
     path('api/audio/narrator/<int:publisher_id>/<int:quantity>',views.getNarrator),
     
-    path('api/audio/upload/',views.postAudioBook), #? update to'api/upload/....'
+    #? Useless ?
+    path('api/audio/upload/',views.postAudioBook), 
+    #? update to'api/upload/.... =>'
+    #TESTME New route to upload audiobook
+    path('api/upload/audiobook/', views.postAudioBook),
     
-    #TODO post chapter
-    
+    #TESTME post chapter
+    path('api/upload/bookchapter/', BookchapterUploadView.as_view(), name='upload-bookchapter'),
     
     #TODO patch and delete book + chapter
     

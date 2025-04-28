@@ -28,7 +28,7 @@ Before starting, ensure you have the following:
 ---
 
 ### 2. Set Up the Virtual Environment
-1. Create a virtual environment inside the project folder:
+1. Create a virtual environment inside the Back(Django) folder:
    ```
    python -m venv env
    ```
@@ -46,19 +46,14 @@ Before starting, ensure you have the following:
       source env/bin/activate
       ```
 
-3. Install the required dependencies:
-   ```
-   pip install -r requirements.txt
-   ```
-
-
-4. run server (Django):
+3. Install the required dependencies and run server (Django):
    ```
    cd App/Back(Django)
+   pip install -r requirements.txt
    python manage.py runserver
    ```
 
-5. run server (Next):
+4. Install the required dependencies and run server (Next):
    Open a new bash terminal in root and launch:
    ```
    cd App/Front(React)/narratica
@@ -94,7 +89,7 @@ This step sets up the port forwarding to securely route database traffic from yo
 ### 5. Configure Django
 
 1. Ensure you have received the `.env` file from the project administrator.
-2. Place the `.env` file in the root of the project directory.
+2. Place the `.env` file in App/Back(Django)/backend.
 
 ---
 
