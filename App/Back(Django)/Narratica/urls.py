@@ -51,6 +51,7 @@ urlpatterns = [
     path('api/register/', RegisterView.as_view(), name='register'),
     path('api/login/', LoginView.as_view(), name='login'),
     path('api/users/', UserListView.as_view(), name='user-list'),
+    path('api/user/<int:pk>/', UserDetailView.as_view(), name='user-detail'),
     
     path('api/favorite/audioBook/<int:user_id>',views.getUserFavoriteAudioBook),
     path('api/favorite/author/<int:user_id>',views.getUserFavoriteAuthor),
