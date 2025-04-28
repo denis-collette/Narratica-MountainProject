@@ -20,16 +20,23 @@ Before starting, ensure you have the following:
 1. Open a terminal and navigate to your workspace directory.
 2. Clone the Git repository:
    ```
-   git clone git@github.com:denis-collette/
-   Narratica-MountainProject.git
+   git clone git@github.com:denis-collette/Narratica-MountainProject.git
    cd Narratica-MountainProject
    ```
 
 ---
 
-### 2. Set Up the Virtual Environment
+### 2. Configure Django
+
+1. Ensure you have received the `.env` file from the project administrator.
+2. Place the `.env` file in App/Back(Django)/backend.
+
+---
+
+### 3. Set Up the Virtual Environment
 1. Create a virtual environment inside the Back(Django) folder:
    ```
+   cd App/Back(Django)
    python -m venv env
    ```
 2. Activate the virtual environment:
@@ -48,7 +55,6 @@ Before starting, ensure you have the following:
 
 3. Install the required dependencies and run server (Django):
    ```
-   cd App/Back(Django)
    pip install -r requirements.txt
    python manage.py runserver
    ```
@@ -63,7 +69,7 @@ Before starting, ensure you have the following:
 
 ---
 
-### 3. Connect to the Bastion Host (OPTIONAL)
+### 4. Connect to the Bastion Host (OPTIONAL)
 1. Use the provided `.pem` key file to establish an SSH connection to the bastion host:
    ```
    ssh -i "narratica-bastion-host-key-pair.pem" ec2-user@<Bastion-Host-Public-IP>
@@ -74,7 +80,7 @@ This provides you with access to the bastion host for administrative purposes (e
 
 ---
 
-### 4. Create an SSH Tunnel
+### 5. Create an SSH Tunnel
 Set up a secure SSH tunnel to forward your local machine’s port to the RDS database:
 ```
 ssh -i "narratica-bastion-host-key-pair.pem" -L 5432:narratica-db.c5ay4iuoirdg.eu-north-1.rds.amazonaws.com:5432 ec2-user@<Bastion-Host-Public-IP>
@@ -83,13 +89,6 @@ Replace `<Bastion-Host-Public-IP>` with the actual IP of the bastion host.
 Leave this terminal session open to maintain the tunnel.
 
 This step sets up the port forwarding to securely route database traffic from your local machine through the bastion host to the RDS database. Without this, Django or  on your local machine can’t connect to the database.
-
----
-
-### 5. Configure Django
-
-1. Ensure you have received the `.env` file from the project administrator.
-2. Place the `.env` file in App/Back(Django)/backend.
 
 ---
 
