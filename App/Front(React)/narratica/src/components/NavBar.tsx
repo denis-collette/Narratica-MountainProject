@@ -5,7 +5,7 @@ import Search from "./Search";
 
 export default function NavBar() {
     return (
-        <nav className="p-2 bg-[#120e0c] text-white">
+        <nav className="relative p-2 bg-[#120e0c] text-white z-10">
             <ul className="flex gap-5">
                 <Search />
                 <li><Link href="/">Accueil</Link></li>
@@ -14,7 +14,6 @@ export default function NavBar() {
                 <li><Link href="/signup">Inscription</Link></li> 
                 <li><Link href="/bookView">Book View</Link></li>
                 <li><Link href="/playerView">Player View</Link></li>
-
                 <Avatar>
                     <Link href="/profil"> 
                     <AvatarImage src="https://github.com/shadcn.png" />
