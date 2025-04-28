@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import RegisterView, LoginView, BookchapterUploadView
+from .views import *
 
 urlpatterns = [
     path('',views.getMenu, name='main-menu'),
@@ -24,7 +24,7 @@ urlpatterns = [
     path('api/audio/narrator/<int:publisher_id>',views.getNarrator),
     path('api/audio/narrator/<int:publisher_id>/<int:quantity>',views.getNarrator),
     
-    #? Useless ?
+    #? Useless
     path('api/audio/upload/',views.postAudioBook), 
     #? update to'api/upload/.... =>'
     #TESTME New route to upload audiobook
@@ -50,6 +50,7 @@ urlpatterns = [
     #TODO CRUD User
     path('api/register/', RegisterView.as_view(), name='register'),
     path('api/login/', LoginView.as_view(), name='login'),
+    path('api/users/', UserListView.as_view(), name='user-list'),
     
     path('api/favorite/audioBook/<int:user_id>',views.getUserFavoriteAudioBook),
     path('api/favorite/author/<int:user_id>',views.getUserFavoriteAuthor),

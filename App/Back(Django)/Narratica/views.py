@@ -1,14 +1,14 @@
-from rest_framework.response import Response 
-from rest_framework import status
+from django.conf import settings
+from django.contrib.auth import get_user_model
+from rest_framework import status, generics
 from rest_framework.decorators import api_view
-from Narratica.models import *
-from backend.serializers import *
+from rest_framework.response import Response 
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
-
-import boto3
-from django.conf import settings
+from Narratica.models import *
+from backend.serializers import *
 from rest_framework.parsers import MultiPartParser, FormParser
+import boto3
 
 #TESTME !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # from django.http import JsonResponse
@@ -18,6 +18,7 @@ from rest_framework.parsers import MultiPartParser, FormParser
 #TESTME !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 errorMsg ="An error have occurred"
+User = get_user_model
 
 @api_view(['GET'])
 # return json 
@@ -104,8 +105,6 @@ def getNew(request, *args, **kwargs):
         return Response(responseObj)
     except:
         return Response(errorMsg)
-
-
 
 @api_view(['GET'])
 def getTag(request, *args, **kwargs):
@@ -312,8 +311,6 @@ def postFavoritesPublisher(request):
         return Response(serializer.data , status = status.HTTP_201_CREATED)
     return Response(serializer.errors, status= status.HTTP_400_BAD_REQUEST)
 
-
-
 @api_view(['GET'])
 def getAuthorByID(request, *args, **kwargs):
     try:
@@ -377,7 +374,6 @@ def getTagByID(request, *args, **kwargs):
     except Exception as e:
         return Response(errorMsg ,  repr(e))
 
-        
 @api_view(['GET'])
 def getTags(request, *args, **kwargs):
     try:
@@ -388,7 +384,7 @@ def getTags(request, *args, **kwargs):
         
     except Exception as e:
         return Response(errorMsg ,  repr(e))
-    
+
 class RegisterView(APIView):
     def post(self, request):
         serializer = UserRegistrationSerializer(data=request.data)
@@ -446,3 +442,7 @@ class BookchapterUploadView(APIView):
         
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+class UserListView(generics.ListAPIView):
+    queryset = get_user_model().objects.all()
+    serializer_class = UserSerializer
