@@ -5,13 +5,6 @@ import { AiOutlineFastBackward, AiOutlineFastForward } from "react-icons/ai";
 import { HiSpeakerWave, HiSpeakerXMark } from "react-icons/hi2";
 import { useAudio } from "./AudioContext";
 
-// interface AudioPlayerBarProps {
-//     isPlaying: boolean;
-//     togglePlayPause: () => void;
-//     currentChapterTitle?: string;
-//     coverImage?: string;
-// }
-
 const AudioPlayerBar: React.FC = () => {
     const {
         audioState,
@@ -81,9 +74,9 @@ const AudioPlayerBar: React.FC = () => {
                     <input
                         type="range"
                         min="0"
-                        max={duration ?? 0}
-                        value={currentTime ?? 0}
-                        onChange={(e) => seekTo(Number(e.target.value) / (duration ?? 1))}
+                        max={!isNaN(duration) && duration ? duration : 0}
+                        value={!isNaN(currentTime) && currentTime ? currentTime : 0}
+                        onChange={(e) => seekTo(Number(e.target.value) / (!isNaN(duration) && duration ? duration : 1))}
                         className="flex-1 h-1 accent-green-500 cursor-pointer"
                     />
 

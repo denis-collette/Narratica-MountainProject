@@ -10,9 +10,6 @@ import { Author, fetchAuthorById } from "../api/audio/getAuthorById";
 import { Narrator, fetchNarratorById } from '../api/audio/getNarratorById'
 import { useAudio } from '@/components/audio/AudioContext';
 import { useSearchParams } from 'next/navigation';
-/*
-href={/pathname:"bookView" query:{id:x}}
-*/
 
 function sortChapter(bookChapterObj: Chapter[]) {
     bookChapterObj.sort((a, b) => a.chapter_number - b.chapter_number);
@@ -26,10 +23,6 @@ interface Informations {
     loadingAudioBook: boolean;
     loadingChapter: boolean;
 }
-
-
-
-
 
 function BookView({ searchParams }: { searchParams: { id: string; } }) {
     let id = 1
@@ -47,14 +40,6 @@ function BookView({ searchParams }: { searchParams: { id: string; } }) {
         loadingAudioBook: true,
         loadingChapter: true,
     });
-
-  
-    // const { setAudioSource, isPlaying, togglePlayPause } = useAudio();
-
-    // const { setAudioSource, isPlaying, togglePlayPause, setCurrentChapterTitle, setCoverImage, setBookTitle } = useAudio();
-
-    // const [currentChapter, setCurrentChapter] = useState<{ title?: string, coverImage?: string }>();
-
 
     const { setAudioState, loadChapter } = useAudio();
 
@@ -79,7 +64,6 @@ function BookView({ searchParams }: { searchParams: { id: string; } }) {
                     }));
                     console.log('Titre :', audiobook[0]?.title);
                     console.log('Image :', audiobook[0]?.cover_art_jpg);
-                    // setBookTitle(audiobook[0]?.title);
                     setAudioState((prevState) => ({
                         ...prevState,
                         bookTitle: audiobook[0]?.title,
@@ -90,9 +74,7 @@ function BookView({ searchParams }: { searchParams: { id: string; } }) {
                     setState((prevState) => ({
                         ...prevState,
                         audiobook: [],
-                        // loadingAudioBook: false,
                     }));
-                    // setBookTitle("titre test");
                     setAudioState((prevState) => ({
                         ...prevState,
                         bookTitle: "titre test",
@@ -101,7 +83,6 @@ function BookView({ searchParams }: { searchParams: { id: string; } }) {
                 setState((prevState) => ({
                     ...prevState,
                     chapters: chapters,
-                    // loadingChapter: false,
                 }));
             } catch (error) {
                 console.error("Error loading data:", error);
@@ -114,40 +95,8 @@ function BookView({ searchParams }: { searchParams: { id: string; } }) {
         console.log("test prout", audioSource, chapter)
         if (audioSource && informations.audiobook && informations.audiobook.length > 0) {
             loadChapter(chapter, informations.audiobook[0]?.title, informations.audiobook[0]?.cover_art_jpg);
-            // setAudioState((prevState) => ({
-            //     ...prevState,
-            //     audioSource: audioSource,
-            //     isPlaying: true,
-            //     currentChapterTitle: `Chapter ${chapter.chapter_number}`,
-            //     coverImage: informations.audiobook[0]?.cover_art_jpg,
-            //     bookTitle: informations.audiobook[0]?.title,
-            //     currentChapterIndex: prevState.allChapters.findIndex(
-            //         (ch) => ch.chapter_number === chapter.chapter_number),
         };
-        // setAudioSource(audioSource);
-        // setCurrentChapterTitle(`Chapter ${chapter.chapter_number}`);
-        // setCoverImage(informations.audiobook[0]?.cover_art_jpg);
-        // setCurrentChapter({ title: `Chapter ${chapter.chapter_number}`, coverImage: informations.audiobook[0]?.cover_art_jpg })
     }
-
-
-
-    /** 
-     * TODO: This use state curently return an error in google console
-     * 
-     * from origin 'http://localhost:3000' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
-     * 
-     * Is supposed to retrive the most dominent color of an image, problem probably from AWS options
-    */
-
-    // useEffect(() => {
-    //     console.log('Color Data:', data);
-    //     console.log('Loading:', loading);
-    //     console.log('Error:', error);
-    //   }, [data, loading, error]);
-
-
-
     return (
 
         <section>
@@ -199,7 +148,7 @@ function BookView({ searchParams }: { searchParams: { id: string; } }) {
                                 </div>
                             </div>
                         </div>
-                </div>
+                    </div>
                 </div>)}
         </section>);
 }
