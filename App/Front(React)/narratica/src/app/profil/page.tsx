@@ -12,13 +12,13 @@ function ProfileView({searchParams} : {searchParams : {id : string;}}) {
 
     return(
         <main >
-            <div className="flex ml-7 text-white text-center flex-col h-[60vh]">
-                <section>
+            <div className=" ml-7 text-white text-center  h-[30vh]">
+                <section className= "m-52 flex flex-row">
                     <div>
                         <img src="https://github.com/shadcn.png" className="rounded-full h-52"></img>
                     </div>
-                    <div>
-                        <h1> Pseudo </h1>
+                    <div className="ml-1 text-left">
+                        <h1 className='text-white text-[4em] font-bold'> Pseudo </h1>
                         <button>Edit Profile</button>
                     </div>
                 </section>

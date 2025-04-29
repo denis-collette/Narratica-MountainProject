@@ -136,15 +136,16 @@ function BookView({searchParams} : {searchParams : {id : string;}}) {
             ) : (
                 <div className="relative min-h-screen">
                 <div 
-                    className="absolute inset-0 scale-150 blur-3xl z-0"
+                    className="absolute inset-0 z-0"
                     style={{
+                    filter: 'blur(150px)',
                     backgroundImage: `url(${informations.audiobook[0]?.cover_art_jpg})`,
                     backgroundSize: 'cover',
-                    backgroundPosition: 'center'
+                    backgroundPosition: 'center',
                     }}
                 />
-                <div className="relative z-0  ">
-                    <div className=" bg-gradient-to-b from-[#00000000] from-15%  to-[#120e0c] to-45% rounded-[0.5%] h-2/4" >
+                <div className="relative z-0   ">
+                    <div className=" h-screen flex flex-col bg-gradient-to-b from-[#00000000] from-15%  to-[#120e0c] to-45% rounded-[0.5%] " >
                         <div className="pt-[3%] flex items-center m-auto w-[80%] pb-[3%]">
                             <div className="w-[20%] h-0 pb-[20%] mr-[5%]">
                                 <img className="rounded-[5%] shadow-[0px_0px_25px]" src={informations.audiobook[0]?.cover_art_jpg} ></img>
@@ -156,7 +157,7 @@ function BookView({searchParams} : {searchParams : {id : string;}}) {
                                 </div>
                             </div>
                         </div>
-                        <div className='bg-gray-800/25 min-h-screen'>
+                        <div className='bg-gray-800/25 flex-1'>
                             <div className='text-white pt-[3%] flex-col items-center m-auto w-[80%] pb-[3%]'>
                                 <h2 className='text-[0.5em]'>Narrated by : {informations.narrator[0]?.name}</h2>
                                 <h2 className='text-[0.7em]'>{informations.audiobook[0]?.description}</h2>
