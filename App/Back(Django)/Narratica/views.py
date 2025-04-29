@@ -1,10 +1,14 @@
-from rest_framework.response import Response 
-from rest_framework import status
+from django.conf import settings
+from django.contrib.auth import get_user_model
+from rest_framework import status, generics
 from rest_framework.decorators import api_view
-from Narratica.models import *
-from backend.serializers import *
+from rest_framework.response import Response 
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
+from Narratica.models import *
+from backend.serializers import *
+from rest_framework.parsers import MultiPartParser, FormParser
+import boto3
 
 #TESTME !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # from django.http import JsonResponse
@@ -13,8 +17,8 @@ from rest_framework_simplejwt.tokens import RefreshToken
 #     return JsonResponse({"message": "List of audiobooks"})
 #TESTME !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-
 errorMsg ="An error have occurred"
+User = get_user_model
 
 @api_view(['GET'])
 # return json 
@@ -102,8 +106,6 @@ def getNew(request, *args, **kwargs):
     except:
         return Response(errorMsg)
 
-
-
 @api_view(['GET'])
 def getTag(request, *args, **kwargs):
     try:
@@ -182,7 +184,6 @@ def getNarrator(request, *args, **kwargs):
 
 @api_view(['POST'])
 def postAudioBook(request):
-
     # check received data
 
     # The id begin to 1 for the first Post 
@@ -267,6 +268,7 @@ def getUserFavoritePublisher(request, *args, **kwargs):
 @api_view(['POST'])
 def postPlaylist(request):
     # check recived data
+    
     # The id beggin to 1 for the first Post 
     serializer = PlaylistSerializer(data=request.data)
     if serializer.is_valid():
@@ -276,7 +278,8 @@ def postPlaylist(request):
 
 @api_view(['POST'])
 def postFavoritesAudioBook(request):
-    # check recived data
+    # check received data
+    
     # The id beggin to 1 for the first Post 
     serializer = FavoriteBookSerializer(data=request.data)
     if serializer.is_valid():
@@ -300,8 +303,6 @@ def postFavoritesNarrator(request):
         return Response(serializer.data , status = status.HTTP_201_CREATED)
     return Response(serializer.errors, status= status.HTTP_400_BAD_REQUEST)
 
-
-
 @api_view(['POST'])
 def postFavoritesPublisher(request):
     serializer = FavoritePublisherSerializer(data=request.data)
@@ -309,8 +310,6 @@ def postFavoritesPublisher(request):
         serializer.save()
         return Response(serializer.data , status = status.HTTP_201_CREATED)
     return Response(serializer.errors, status= status.HTTP_400_BAD_REQUEST)
-
-
 
 @api_view(['GET'])
 def getAuthorByID(request, *args, **kwargs):
@@ -326,7 +325,6 @@ def getAuthorByID(request, *args, **kwargs):
         
     except Exception as e:
         return Response(errorMsg ,  repr(e))
-
 
 def sortBook(listObj):
     bookIdList = []
@@ -348,7 +346,7 @@ def getNarratorByID(request, *args, **kwargs):
         
     except Exception as e:
         return Response(errorMsg ,  repr(e))
-    
+
 @api_view(['GET'])
 def getPublisherByID(request, *args, **kwargs):
     try:
@@ -360,7 +358,6 @@ def getPublisherByID(request, *args, **kwargs):
         
     except Exception as e:
         return Response(errorMsg ,  repr(e))
-
 
 # path('api/tag/<int:tag_id>', views.getTagByID),
 
@@ -377,7 +374,6 @@ def getTagByID(request, *args, **kwargs):
     except Exception as e:
         return Response(errorMsg ,  repr(e))
 
-        
 @api_view(['GET'])
 def getTags(request, *args, **kwargs):
     try:
@@ -388,7 +384,7 @@ def getTags(request, *args, **kwargs):
         
     except Exception as e:
         return Response(errorMsg ,  repr(e))
-    
+
 class RegisterView(APIView):
     def post(self, request):
         serializer = UserRegistrationSerializer(data=request.data)
@@ -416,3 +412,41 @@ class LoginView(APIView):
             }, status=status.HTTP_200_OK)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class BookchapterUploadView(APIView):
+    parser_classes = (MultiPartParser, FormParser)
+
+    def post(self, request, format=None):
+        file_obj = request.FILES.get('file')
+
+        if not file_obj:
+            return Response({'error': 'No file provided.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        s3 = boto3.client(
+            's3',
+            aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
+            aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY
+        )
+
+        try:
+            s3.upload_fileobj(
+                file_obj,
+                settings.AWS_STORAGE_BUCKET_NAME,
+                f'audiobooks/{file_obj.name}',
+                ExtraArgs={'ContentType': file_obj.content_type}
+            )
+
+            file_url = f"https://{settings.AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/audiobooks/{file_obj.name}"
+
+            return Response({'message': 'File uploaded successfully!', 'file_url': file_url}, status=status.HTTP_201_CREATED)
+        
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+class UserListView(generics.ListAPIView):
+    queryset = get_user_model().objects.all()
+    serializer_class = UserSerializer
+
+class UserDetailView(generics.RetrieveAPIView):
+    queryset = get_user_model().objects.all()
+    serializer_class = UserSerializer

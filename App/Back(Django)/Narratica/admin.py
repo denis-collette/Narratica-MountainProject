@@ -14,5 +14,3 @@ admin.site.register(FavoriteBook)
 admin.site.register(FavoriteAuthor)
 admin.site.register(FavoriteNarrator)
 admin.site.register(FavoritePublisher)
-
-admin.site.register(User) #!!!!!!!!!!!!!!!!!!!!!!!!!
