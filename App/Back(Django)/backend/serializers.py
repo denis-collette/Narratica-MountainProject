@@ -7,6 +7,7 @@ class AudioBookSerializer(serializers.ModelSerializer):
     class Meta:
         model = AudioBook
         fields = '__all__'
+        read_only_fields = ['id']
 
 class BookChapterSerializer(serializers.ModelSerializer):
     class Meta:
