@@ -53,9 +53,10 @@ Before starting, ensure you have the following:
       source env/bin/activate
       ```
 
-3. Install the required dependencies and run server (Django):
+3. Install the required dependencies, reset sequence (to upload in db) and run server (Django):
    ```
    pip install -r requirements.txt
+   python manage.py fix_sequence
    python manage.py runserver
    ```
 
