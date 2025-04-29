@@ -7,6 +7,8 @@
 - `/api/token/refresh` → refresh token (to test)
 - `POST /api/admin/approve-author/` → Approve author pages (Admin only)
 - `POST /api/admin/review-reports/` → Handle user-reported content (Admin only)
+- `GET api/users/` → Get all users
+- `GET api/user/{user_id}` → Get a specific user
 
 ### **Audiobook File Management**
 
