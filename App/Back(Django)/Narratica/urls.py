@@ -63,4 +63,12 @@ urlpatterns = [
     path('api/publisher/<int:publisher_id>', views.getPublisherByID),
     path('api/tags', views.getTags),
     path('api/tag/<int:tag_id>', views.getTagByID),
+    
+    # SEARCH BY NAME
+    path('api/search/audio/<str:audiobook_name>',views.getAudiobookByName),
+    path('api/search/author/<str:author_name>',views.getAuthorByName),
+    path('api/search/narrator/<str:narrator_name>',views.getNarratorByName),
+    path('api/search/publisher/<str:publisher_name>',views.getPublisherByName),
+    # SEARCH AUDIOBOOKS, AUTHOR, NARRATOR, PUBLISHER AT ONCE
+    path('api/search/<str:search_query>',views.fullSearch),
     ]

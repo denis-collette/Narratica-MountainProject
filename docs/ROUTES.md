@@ -195,4 +195,20 @@
 - #### `GET api/tags`
 **Description**: Get all tags
 
+## Search
+- #### `GET api/search/audio/<str:audiobook_name>`
+**Description**: Search audiobooks by name
+
+- #### `GET api/search/author/<str:author_name>`
+**Description**: Search author by name
+
+- #### `GET api/search/narrator/<str:narrator_name>`
+**Description**: Search narrator by name
+
+- #### `GET api/search/publisher/<str:publisher_name>`
+**Description**: Search publisher by name
+
+- #### `GET api/search/<str:search_query>`
+**Description**: Search globally (audiobooks, author, narrator, publisher) by name
+
 ---
