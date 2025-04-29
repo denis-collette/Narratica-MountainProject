@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.contrib.auth import get_user_model
+from django.db.models import Q
 from rest_framework import status, generics
 from rest_framework.decorators import api_view
 from rest_framework.response import Response 
@@ -9,13 +10,6 @@ from Narratica.models import *
 from backend.serializers import *
 from rest_framework.parsers import MultiPartParser, FormParser
 import boto3
-
-#TESTME !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-# from django.http import JsonResponse
-
-# def audiobooks_list(request):
-#     return JsonResponse({"message": "List of audiobooks"})
-#TESTME !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 errorMsg ="An error have occurred"
 User = get_user_model
@@ -450,3 +444,73 @@ class UserListView(generics.ListAPIView):
 class UserDetailView(generics.RetrieveAPIView):
     queryset = get_user_model().objects.all()
     serializer_class = UserSerializer
+    
+@api_view(['GET'])
+def getAudiobookByName(request, audiobook_name):
+    matching_audiobooks = AudioBook.objects.filter(title__icontains=audiobook_name)
+    
+    if matching_audiobooks.exists():
+        serializer = AudioBookSerializer(matching_audiobooks, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    else:
+        return Response({'error': 'No matching audiobooks found.'}, status=status.HTTP_404_NOT_FOUND)
+    
+@api_view(['GET'])
+def getAuthorByName(request, author_name):
+    matching_author = Author.objects.filter(name__icontains=author_name)
+    
+    if matching_author.exists():
+        serializer = AuthorSerializer(matching_author, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    else:
+        return Response({'error': 'No matching author found.'}, status=status.HTTP_404_NOT_FOUND)
+    
+@api_view(['GET'])
+def getNarratorByName(request, narrator_name):
+    matching_narrator = Narrator.objects.filter(name__icontains=narrator_name)
+    
+    if matching_narrator.exists():
+        serializer = NarratorSerializer(matching_narrator, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    else:
+        return Response({'error': 'No matching narrator found.'}, status=status.HTTP_404_NOT_FOUND)
+    
+@api_view(['GET'])
+def getPublisherByName(request, publisher_name):
+    matching_publisher = Publisher.objects.filter(name__icontains=publisher_name)
+    
+    if matching_publisher.exists():
+        serializer = PublisherSerializer(matching_publisher, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    else:
+        return Response({'error': 'No matching publisher found.'}, status=status.HTTP_404_NOT_FOUND)
+    
+@api_view(['GET'])
+def fullSearch(request, search_query):
+    query = search_query
+
+    if not query:
+        return Response({'error': 'Please provide a search query with ?q=your_search_term'}, status=status.HTTP_400_BAD_REQUEST)
+
+    # Search audiobooks by title
+    audiobooks = AudioBook.objects.filter(title__icontains=query)
+    audiobooks_serialized = AudioBookSerializer(audiobooks, many=True).data
+
+    # Search authors by name
+    authors = Author.objects.filter(name__icontains=query)
+    authors_serialized = AuthorSerializer(authors, many=True).data
+
+    # Search narrators by name
+    narrators = Narrator.objects.filter(name__icontains=query)
+    narrators_serialized = NarratorSerializer(narrators, many=True).data
+
+    # Search publishers by name
+    publishers = Publisher.objects.filter(name__icontains=query)
+    publishers_serialized = PublisherSerializer(publishers, many=True).data
+
+    return Response({
+        'audiobooks': audiobooks_serialized,
+        'authors': authors_serialized,
+        'narrators': narrators_serialized,
+        'publishers': publishers_serialized
+    }, status=status.HTTP_200_OK)
