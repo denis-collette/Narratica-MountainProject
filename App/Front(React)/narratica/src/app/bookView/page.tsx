@@ -8,7 +8,7 @@ import { fetchAudioBooksById } from '../api/audio/getAudioBooksById';
 import { Audiobook } from '../api/audio/getAllAudioBooks';
 import { Author, fetchAuthorById } from "../api/audio/getAuthorById";
 import { Narrator, fetchNarratorById } from '../api/audio/getNarratorById'
-import { useColor } from 'color-thief-react'
+
 import { useAudio } from '@/components/audio/AudioContext';
 import { useSearchParams } from 'next/navigation';
 /*
@@ -53,7 +53,7 @@ function BookView({searchParams} : {searchParams : {id : string;}}) {
         loadingChapter: true,
     });
 
-    const { data, loading, error } = useColor(informations.audiobook[0]?.cover_art_thumbnail, 'hslString', { crossOrigin: "anonymous" })
+  
     // const { setAudioSource, isPlaying, togglePlayPause } = useAudio();
     const { setAudioSource, isPlaying, togglePlayPause, setCurrentChapterTitle, setCoverImage, setBookTitle } = useAudio();
     // const [currentChapter, setCurrentChapter] = useState<{ title?: string, coverImage?: string }>();
