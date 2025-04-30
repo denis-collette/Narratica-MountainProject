@@ -34,13 +34,13 @@ export default function HomePage() {
             setTags(allTags);
 
             const booksInfos = await Promise.all(data.map(async (book) => {
-                const author = await fetchAuthorById(book.author).catch(() => []);
-                const narrator = await fetchNarratorById(book.narrator).catch(() => []);
+                const author = await fetchAuthorById(book.author).catch(() => ({ id: 0, name: "Unknown Author" }));
+                const narrator = await fetchNarratorById(book.narrator).catch(() => ({ id: 0, name: "Unknown Narrator" }));
 
                 return {
                     ...book,
-                    authorName: author[0]?.name,
-                    narratorName: narrator[0]?.name,
+                    authorName: author.name,
+                    narratorName: narrator.name,
                 };
             }))
 

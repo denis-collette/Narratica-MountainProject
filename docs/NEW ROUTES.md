@@ -1,8 +1,10 @@
-## Narratica API Endpoints
+# Narratica API Endpoints
 
-Check below [full version](#gpt-l'api).
+Check below [full version](#gpt-lapi).
 
-#### Authentication
+## Updates
+
+### Authentication
 
 | Old Path | New Endpoint | Description |
 |-----|-----|-----|
@@ -11,14 +13,14 @@ Check below [full version](#gpt-l'api).
 | `GET /api/token/` | `POST /api/token/` | Obtain JWT token |
 | `GET /api/token/refresh/` | `POST /api/token/refresh/` | Refresh JWT token |
 
-#### Users
+### Users
 
 | Old Path | New Endpoint | Description |
 |-----|-----|-----|
 | `GET /api/users/` | `GET /api/users/` | List all users |
 | `GET /api/user/<int:pk>/` | `GET /api/users/{pk}/` | Retrieve specific user |
 
-#### Audiobooks & Chapters
+### Audiobooks & Chapters
 
 | Old Path | New Endpoint | Description |
 |-----|-----|-----|
@@ -36,7 +38,7 @@ Check below [full version](#gpt-l'api).
 | `GET api/audio/tag/<int:tag_id>` | `GET /api/audiobooks/by-tag/{tag_id}/` | Search all audiobooks by tag |
 | `GET api/audio/tag/<int:tag_id>/<int:quantity>` | `GET /api/audiobooks/by-tag/{tag_id}/?quantity=N` | Search audiobooks by tag (with quantity) |
 
-#### Authors, Narrators, Publishers
+### Authors, Narrators, Publishers
 
 | Old Path | New Endpoint | Description |
 |-----|-----|-----|
@@ -50,14 +52,14 @@ Check below [full version](#gpt-l'api).
 | `GET api/audio/publisher/<int:publisher_id>/<int:quantity>` **???** | `GET /api/publishers/?quantity=N` | List all publishers (with quantity) |
 | `GET /api/publisher/<int:publisher_id>` | `GET /api/publishers/{pk}/` | Retrieve a single publisher by ID |
 
-#### Tags
+### Tags
 
 | Old Path | New Endpoint | Description |
 |-----|-----|-----|
 | `GET /api/tags/` | `GET /api/tags/` | List all tags |
 | `GET /api/tag/<int:tag_id>` | `GET /api/tags/{pk}/` | Retrieve a single tag by ID |
 
-#### Playlists
+### Playlists
 
 | Old Path | New Endpoint | Description |
 |-----|-----|-----|
@@ -66,7 +68,7 @@ Check below [full version](#gpt-l'api).
 | `POST /api/playlist/create` | `POST /api/playlists/` | Create a new playlist |
 | / | `PUT/PATCH/DELETE /api/playlists/{id}/` | Update or delete a playlist |
 
-#### Favorites
+### Favorites
 
 | Old Path | New Endpoint | Description |
 |-----|-----|-----|
@@ -79,7 +81,7 @@ Check below [full version](#gpt-l'api).
 | `POST /api/favorite/addNarrator` | `POST /api/favorites/?type=narrator&user={user_id}` | Add favorite narrator to specific user |
 | `POST /api/favorite/addPublisher` | `POST /api/favorites/?type=publisher&user={user_id}` | Add favorite publisher to specific user |
 
-#### Search
+### Search
 
 | Old Path | New Endpoint | Description |
 |-----|-----|-----|
@@ -91,9 +93,9 @@ Check below [full version](#gpt-l'api).
 
 ---
 
-### GPT L'API !
+## GPT L'API
 
-#### 🔐 Authentication
+### 🔐 Authentication
 
 | Method | URL | Description |
 |--------|-----|-------------|
@@ -102,14 +104,14 @@ Check below [full version](#gpt-l'api).
 | POST | /api/token/ | Obtain access/refresh token |
 | POST | /api/token/refresh/ | Refresh JWT access token |
 
-#### 👤 Users (Read-Only)
+### 👤 Users (Read-Only)
 
 | Method | URL | Description |
 |--------|-----|-------------|
 | GET | /api/users/ | List all users |
 | GET | /api/users/{id}/ | Retrieve a user |
 
-#### 🎧 Audiobooks
+### 🎧 Audiobooks
 
 | Method | URL | Description |
 |--------|-----|-------------|
@@ -127,7 +129,7 @@ Check below [full version](#gpt-l'api).
 | GET | /api/audiobooks/by-publisher/{publisher_id}/ | List audiobooks by a specific publisher |
 | GET | /api/audiobooks/by-tag/{tag_id}/ | List audiobooks by tag (optional ?quantity=) |
 
-#### 📚 Book Chapters
+### 📚 Book Chapters
 
 | Method | URL | Description |
 |--------|-----|-------------|
@@ -138,7 +140,7 @@ Check below [full version](#gpt-l'api).
 | PATCH | /api/bookchapters/{id}/ | Partially update a chapter |
 | DELETE | /api/bookchapters/{id}/ | Delete a chapter |
 
-#### ✍️ Authors
+### ✍️ Authors
 
 | Method | URL | Description |
 |--------|-----|-------------|
@@ -149,7 +151,7 @@ Check below [full version](#gpt-l'api).
 | PATCH | /api/authors/{id}/ | Partially update an author |
 | DELETE | /api/authors/{id}/ | Delete an author |
 
-#### 🗣️ Narrators
+### 🗣️ Narrators
 
 | Method | URL | Description |
 |--------|-----|-------------|
@@ -160,7 +162,7 @@ Check below [full version](#gpt-l'api).
 | PATCH | /api/narrators/{id}/ | Partially update a narrator |
 | DELETE | /api/narrators/{id}/ | Delete a narrator |
 
-#### 🏢 Publishers
+### 🏢 Publishers
 
 | Method | URL | Description |
 |--------|-----|-------------|
@@ -171,7 +173,7 @@ Check below [full version](#gpt-l'api).
 | PATCH | /api/publishers/{id}/ | Partially update a publisher |
 | DELETE | /api/publishers/{id}/ | Delete a publisher |
 
-#### 🏷️ Tags
+### 🏷️ Tags
 
 | Method | URL | Description |
 |--------|-----|-------------|
@@ -182,7 +184,7 @@ Check below [full version](#gpt-l'api).
 | PATCH | /api/tags/{id}/ | Partially update a tag |
 | DELETE | /api/tags/{id}/ | Delete a tag |
 
-#### 🎵 Playlists
+### 🎵 Playlists
 
 | Method | URL | Description |
 |--------|-----|-------------|
@@ -194,7 +196,7 @@ Check below [full version](#gpt-l'api).
 | DELETE | /api/playlists/{id}/ | Delete a playlist |
 | GET | /api/playlists/by-user/{user_id}/ | Get playlists created by user |
 
-#### ⭐ Favorites
+### ⭐ Favorites
 
 | Method | URL | Description |
 |--------|-----|-------------|
@@ -202,7 +204,7 @@ Check below [full version](#gpt-l'api).
 | POST | /api/favorites/ | Add a favorite (based on query params & body data) |
 | DELETE | /api/favorites/{id}/ | Remove a favorite |
 
-#### 🔍 Search
+### 🔍 Search
 
 | Method | URL | Description |
 |--------|-----|-------------|

@@ -70,17 +70,17 @@ function BookView({searchParams} : {searchParams : {id : string;}}) {
                 let audiobook = await fetchAudioBooksById(id);
                 console.log('Audiobook :', audiobook);
 
-                if (audiobook && audiobook.length > 0) {
-                    let author = await fetchAuthorById(audiobook[0]?.author);
-                    let narrator = await fetchNarratorById(audiobook[0]?.narrator);
+                if (audiobook && audiobook.id) {
+                    let author = await fetchAuthorById(audiobook.author);
+                    let narrator = await fetchNarratorById(audiobook.narrator);
                     setState((prevState) => ({
                         ...prevState,
-                        author,
-                        narrator,
-                        audiobook
+                        author: [author],
+                        narrator: [narrator],
+                        audiobook: [audiobook],
                     }));
-                    console.log('Titre :', audiobook[0]?.title);
-                    setBookTitle(audiobook[0]?.title);
+                    console.log('Titre :', audiobook.title);
+                    setBookTitle(audiobook.title);
                 } else {
                     setState((prevState) => ({
                         ...prevState,
