@@ -16,7 +16,7 @@ export interface Chapter {
 
 export const fetchAudioBooksChapterById = async (bookId : number , chapterId : number): Promise<Chapter[]> => {
     
-    let routeUrl = url + `api/audio/${bookId}/${chapterId}`
+    let routeUrl = url + `api/audiobooks/${bookId}/chapters/${chapterId}`
 
  
     

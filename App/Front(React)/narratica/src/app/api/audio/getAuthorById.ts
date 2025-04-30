@@ -9,7 +9,7 @@ export interface Author {
 
 export const fetchAuthorById  = async (authorId : number): Promise<Author[]> => {
 
-    let routeUrl = url + `api/author/${authorId}`
+    let routeUrl = url + `api/authors/${authorId}`
 
     try {
         const response = await axios.get<Author[]>(routeUrl);

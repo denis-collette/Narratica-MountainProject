@@ -3,7 +3,7 @@ import  { url, Audiobook }  from './getAllAudioBooks';
 
 export const fetchAudioBooksById = async (bookId : number): Promise<Audiobook[]> => {
     
-    let routeUrl = url + `api/audio/${bookId}/`
+    let routeUrl = url + `api/audiobooks/${bookId}`
 
  
     

@@ -3,9 +3,9 @@ from rest_framework import serializers
 from rest_framework.exceptions import AuthenticationFailed
 from Narratica.models import *
 
-class AudioBookSerializer(serializers.ModelSerializer):
+class AudiobookSerializer(serializers.ModelSerializer):
     class Meta:
-        model = AudioBook
+        model = Audiobook
         fields = '__all__'
         read_only_fields = ['id']
 

@@ -4,7 +4,7 @@ import  { url, Audiobook }  from './getAllAudioBooks';
 export const fetchAudioBooksByNew = async ( quantity? : number): Promise<Audiobook[]> => {
     
     // *TODO object encapsulated in array to change in backend 
-    let routeUrl = url + `api/audio/new`
+    let routeUrl = url + `api/audiobooks/newest`
 
     if( quantity != undefined){
         routeUrl += `/${quantity}`

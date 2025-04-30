@@ -8,7 +8,7 @@ export interface Narrator {
 
 export const fetchNarratorById = async (narratorId: number): Promise<Narrator[]> => {
 
-    let routeUrl = url + `api/narrator/${narratorId}`
+    let routeUrl = url + `api/narrators/${narratorId}`
 
     try {
         const response = await axios.get<Narrator[]>(routeUrl);
