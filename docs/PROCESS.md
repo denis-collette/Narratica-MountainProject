@@ -39,6 +39,11 @@ Before starting, ensure you have the following:
    cd App/Back(Django)
    python -m venv env
    ```
+   On Linux it might be:
+   ```
+   python3 -m venv env
+   ```
+
 2. Activate the virtual environment:
    - On Windows (Git Bash):
       ```
@@ -59,6 +64,8 @@ Before starting, ensure you have the following:
    python manage.py fix_sequence
    python manage.py runserver
    ```
+   For linux use the linuxRequirements.txt
+   If your database isn't set up yet, just intall the dependencies and go to [Run Database Migrations](#4-run-database-migrations).
 
 4. Install the required dependencies and run server (Next):
    Open a new bash terminal in root and launch:
@@ -70,30 +77,7 @@ Before starting, ensure you have the following:
 
 ---
 
-### 4. Connect to the Bastion Host (OPTIONAL)
-1. Use the provided `.pem` key file to establish an SSH connection to the bastion host:
-   ```
-   ssh -i "narratica-bastion-host-key-pair.pem" ec2-user@<Bastion-Host-Public-IP>
-   ```
-   Replace `<Bastion-Host-Public-IP>` with the actual IP of the bastion host.
-
-This provides you with access to the bastion host for administrative purposes (e.g., troubleshooting or checking logs). However, it doesn’t directly tunnel traffic to the RDS database => OPTIONAL
-
----
-
-### 5. Create an SSH Tunnel
-Set up a secure SSH tunnel to forward your local machine’s port to the RDS database:
-```
-ssh -i "narratica-bastion-host-key-pair.pem" -L 5432:narratica-db.c5ay4iuoirdg.eu-north-1.rds.amazonaws.com:5432 ec2-user@<Bastion-Host-Public-IP>
-```
-Replace `<Bastion-Host-Public-IP>` with the actual IP of the bastion host.
-Leave this terminal session open to maintain the tunnel.
-
-This step sets up the port forwarding to securely route database traffic from your local machine through the bastion host to the RDS database. Without this, Django or  on your local machine can’t connect to the database.
-
----
-
-### 6. Run Database Migrations
+### 4. Run Database Migrations
 1. Apply migrations to set up the database schema:
    ```
    python manage.py makemigrations
@@ -102,7 +86,7 @@ This step sets up the port forwarding to securely route database traffic from yo
 
 ---
 
-### 7. Import Data from CSV
+### 5. Import Data from CSV
 To import data into the `Publisher` table:
 1. Create a new file, e.g., `import_publishers.py`, and add the following script:
    ```
@@ -127,7 +111,7 @@ To import data into the `Publisher` table:
 
 ---
 
-### 8. Verify the Setup
+### 6. Verify the Setup
 1. Use Django ORM to verify the imported data:
    ```
    from your_app.models import Publisher
@@ -144,20 +128,16 @@ To import data into the `Publisher` table:
 ---
 
 ## Troubleshooting
-1. Connection Issues:
-   - Ensure the bastion host is accessible and the SSH tunnel is active.
-   - Verify the IP address is allowed in the RDS security group.
-
-2. Migrations Issues:
+1. Migrations Issues:
    - Ensure models are correctly defined in `models.py`.
    - Check if the app is included in `INSTALLED_APPS` in `settings.py`.
 
-3. CSV Import Errors:
+2. CSV Import Errors:
    - Confirm the file name and column headers match the expected structure.
 
 ---
 
 ## Need Help?
-For any issues, reach out to the project administrator or check the AWS logs for the Bastion Host and RDS instance.
+For any issues, reach out to the project administrator.
 
 ---
