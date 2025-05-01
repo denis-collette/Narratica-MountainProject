@@ -199,7 +199,7 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
     return (
         <AudioContext.Provider value={value}>
-            <audio ref={audioReference} />
+            <audio ref={audioReference} style={{ display: "none" }} />
             {children}
         </AudioContext.Provider>
     )

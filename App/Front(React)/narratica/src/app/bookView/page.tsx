@@ -93,12 +93,6 @@ function BookView({ searchParams }: { searchParams: { id: string; } }) {
     const handleChapterClick = (audioSource: string | null, chapter: Chapter) => {
         console.log("test prout", audioSource, chapter)
 
-        //! TESTING !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        console.log("Chapters:", informations.chapters);
-        console.log("Audiobook title:", informations.audiobook?.title);
-        console.log("Cover image:", informations.audiobook?.cover_art_jpg);
-        //! TESTING !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
         if (audioSource && informations.audiobook && informations.audiobook.id) {
             loadChapter(chapter, informations.audiobook?.title, informations.audiobook?.cover_art_jpg);
         };
