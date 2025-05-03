@@ -4,7 +4,6 @@ import NavBar from "../components/NavBar";
 import Footer from "@/components/Footer";
 import "./globals.css";
 import { AudioProvider } from "@/components/audio/AudioContext";
-import { VisualizerProvider } from "@/app/safeZone/Visualizer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,13 +30,11 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <VisualizerProvider>
           <AudioProvider>
             <NavBar />
               {children}
             <Footer />
           </AudioProvider>
-        </VisualizerProvider>
       </body>
     </html>
   );
