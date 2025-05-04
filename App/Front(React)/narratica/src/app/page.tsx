@@ -1,37 +1,48 @@
-"use client"
+"use client";
 import { useEffect, useState } from 'react';
-import { fetchAllAudioBooks, Audiobook } from '../app/api/audio/getAllAudioBooks';
+import { fetchAllAudioBooks } from '../app/api/audio/getAllAudioBooks';
 import Card from '@/components/Card';
 import { fetchAuthorById } from './api/audio/getAuthorById';
 import { fetchNarratorById } from './api/audio/getNarratorById';
 import { BookWithAuthorAndNarrator } from '../app/api/audio/getAllAudioBooks';
+import { fetchAllTags } from './api/audio/getAllTags';
 import { Tag } from './api/audio/getTagById';
-import { fetchAllTags, } from './api/audio/getAllTags';
 import Filter from '@/components/TagFilter';
-
-// Interface pour tout regrouper
-
-// Ici le extends hérite de Audiobook et ajoute 2 éléments authorName et narratorName 
-// mais ceci fonctionne aussi : BookWithAuthorAndNarrator en le mettant dans le usestate
-// voir getAllAudioBooks ligne 18
-
-// interface AudiobookAllInfos extends Audiobook {
-//     authorName: string;
-//     narratorName: string;
-// }
+import { useSearch } from "@/components/SearchContext";
 
 export default function HomePage() {
-    const [audiobooks, setAudiobooks] = useState<BookWithAuthorAndNarrator[]>([]);
-    const [tags, setTags] = useState<Tag[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [tag, setTag] = useState<number | null>(null);
+
+    // Interface pour tout regrouper
+
+    // Ici le extends hérite de Audiobook et ajoute 2 éléments authorName et narratorName 
+    // mais ceci fonctionne aussi : BookWithAuthorAndNarrator en le mettant dans le usestate
+    // voir getAllAudioBooks ligne 18
+
+    // interface AudiobookAllInfos extends Audiobook {
+    //     authorName: string;
+    //     narratorName: string;
+    // }
+
+    interface HomePageState {
+        audiobooks: BookWithAuthorAndNarrator[];
+        tags: Tag[];
+        loading: boolean;
+        selectedTag: number | null;
+    }
+
+    const [state, setState] = useState<HomePageState>({
+        audiobooks: [],
+        tags: [],
+        loading: true,
+        selectedTag: null,
+    });
+
+    const { search } = useSearch()
 
     useEffect(() => {
         const loadBooks = async () => {
             const data = await fetchAllAudioBooks();
             const allTags = await fetchAllTags();
-
-            setTags(allTags);
 
             const booksInfos = await Promise.all(data.map(async (book) => {
                 const author = await fetchAuthorById(book.author).catch(() => []);
@@ -42,46 +53,45 @@ export default function HomePage() {
                     authorName: author[0]?.name,
                     narratorName: narrator[0]?.name,
                 };
-            }))
+            }));
 
-            setAudiobooks(booksInfos);
-            setLoading(false);
+            setState((prev) => ({
+                ...prev,
+                audiobooks: booksInfos,
+                tags: allTags,
+                loading: false,
+            }));
         };
 
         loadBooks();
     }, []);
 
+    const filteredBooks = state.audiobooks.filter((book) => {
+        const matchesTag = state.selectedTag ? book.tags?.includes(state.selectedTag) : true;
+        const matchesSearch = book.title.toLowerCase().includes(search.toLowerCase());
+        return matchesTag && matchesSearch;
+    });
 
-    const filteredBooks = tag
-        ? audiobooks.filter((book) => book.tags?.includes(tag))
-        : audiobooks;
     return (
-        <>
-            <section>
-                <p>Yo la team</p>
-                {loading ? (
-                    <p>Chargement...</p>
-                ) : (
-                    <>
-                        <section className="flex flex-wrap justify-start gap-5 w-screen">
-                            <Filter
-                                tags={tags}
-                                selectedTag={tag}
-                                setSelectedTag={setTag} />
-                            {/* {tags.map((tag) => (
-                                <section key={tag.id}>
-                                    <h2 className='text-xl text-white font-bold hover:underline'>{tag.name}</h2>
-                                </section>
-                            ))} */}
-                        </section>
-                        <section className='flex flex-wrap justify-center gap-5 mb-16 content-center w-screen'>
-                            {filteredBooks.map((book) => (
-                                <Card key={book.id} book={book} />
-                            ))}
-                        </section>
-                    </>
-                )}
-            </section>
-        </>
+        <section>
+            {state.loading ? (
+                <p>Chargement...</p>
+            ) : (
+                <>
+                    <section className="flex flex-wrap justify-start gap-5 w-screen mb-4">
+                        <Filter
+                            tags={state.tags}
+                            selectedTag={state.selectedTag}
+                            setSelectedTag={(tag) => setState((prev) => ({ ...prev, selectedTag: tag }))}
+                        />
+                    </section>
+                    <section className="flex flex-wrap justify-center gap-5 mb-16 content-center w-screen">
+                        {filteredBooks.map((book) => (
+                            <Card key={book.id} book={book} />
+                        ))}
+                    </section>
+                </>
+            )}
+        </section>
     );
 }
