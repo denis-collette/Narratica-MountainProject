@@ -91,7 +91,7 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     currentChapterIndex: 0
     });
 
-    const audioRef = useRef<HTMLAudioElement | null>(null);
+    const audioReference = useRef<HTMLAudioElement | null>(null);
     const audioApiContext = useRef<AudioContext | null>(null);
 
     useEffect(() => {
@@ -106,7 +106,7 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
     /** Alterne entre lecture et pause de l'audio. */
     const togglePlayPause = () => {
-        const audio = audioRef.current;
+        const audio = audioReference.current;
         if (!audio) return;
 
         if (audioState.isPlaying) {
@@ -152,7 +152,7 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
      * @param progress Pourcentage (entre 0 et 1)
      */
     const seekTo = (progress: number) => {
-        const audio = audioRef.current;
+        const audio = audioReference.current;
         if (audio && audio.duration) {
             audio.currentTime = progress * audio.duration;
         }
@@ -187,7 +187,7 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
      * @param coverImage Image de couverture du livre
      */
     const loadChapter = (chapter: Chapter, bookTitle: string, coverImage: string) => {
-        const audio = audioRef.current;
+        const audio = audioReference.current;
         if (!audio) return;
         audio.src = chapter.audio_data;
         audio.load();
@@ -227,8 +227,8 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         const prev = audioState.currentChapterIndex - 1;
         if (prev >= 0) {
             loadChapter(audioState.allChapters[prev], audioState.bookTitle!, audioState.coverImage!);
-        } else if (audioRef.current) {
-            audioRef.current.currentTime = 0;
+        } else if (audioReference.current) {
+            audioReference.current.currentTime = 0;
         }
     };
 
@@ -293,6 +293,8 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     //#region Render Provider
 
     const value: AudioContextType = {
+        audioRef: audioReference,
+        audioApiContext: audioApiContext.current,
         audioState,
         setAudioState,
         togglePlayPause,
@@ -310,7 +312,7 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         <AudioContext.Provider value={value}>
             <audio
                 id="global-audio"
-                ref={audioRef}
+                ref={audioReference}
                 crossOrigin="anonymous"
                 style={{ display: 'none' }}
             />

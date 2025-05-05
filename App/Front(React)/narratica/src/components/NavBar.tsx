@@ -10,8 +10,6 @@ export default function NavBar() {
     return (
         <nav className="relative p-2 bg-[#120e0c] text-white z-10 px-3.5">
             <ul className="flex gap-5 justify-between items-center">
-                
-            <ul className="flex gap-5 justify-between">
                 <li><Link href="/">Accueil</Link></li>
                 <section>
                     <SearchBar search={search} setSearch={setSearch} />
