@@ -78,17 +78,19 @@ export default function HomePage() {
                 <p>Chargement...</p>
             ) : (
                 <>
-                    <section className="flex flex-wrap justify-start gap-5 w-screen mb-4">
-                        <Filter
-                            tags={state.tags}
-                            selectedTag={state.selectedTag}
-                            setSelectedTag={(tag) => setState((prev) => ({ ...prev, selectedTag: tag }))}
-                        />
-                    </section>
-                    <section className="flex flex-wrap justify-center gap-5 mb-16 content-center w-screen">
-                        {filteredBooks.map((book) => (
-                            <Card key={book.id} book={book} />
-                        ))}
+                    <section className='ml-4 px-4'>
+                        <section className="flex flex-wrap justify-start gap-5 w-screen mb-4 px-2">
+                            <Filter
+                                tags={state.tags}
+                                selectedTag={state.selectedTag}
+                                setSelectedTag={(tag) => setState((prev) => ({ ...prev, selectedTag: tag }))}
+                            />
+                        </section>
+                        <section className="flex flex-wrap justify-start gap-5 mb-16 content-center w-screen">
+                            {filteredBooks.map((book) => (
+                                <Card key={book.id} book={book} />
+                            ))}
+                        </section>
                     </section>
                 </>
             )}
