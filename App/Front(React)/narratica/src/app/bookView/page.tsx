@@ -20,9 +20,9 @@ function sortChapter(bookChapterObj: Chapter[]) {
 // #region Interfaces
 interface Informations {
     chapters: Chapter[];
-    audiobook: Audiobook[];
-    author: Author[];
-    narrator: Narrator[];
+    audiobook: Audiobook | null;
+    author: Author | null;
+    narrator: Narrator | null;
     loadingAudioBook: boolean;
     loadingChapter: boolean;
 }
@@ -41,16 +41,17 @@ function BookView({ searchParams }: { searchParams: { id: string; } }) {
     // #region State & AudioContext
     const [informations, setState] = useState<Informations>({
         chapters: [],
-        audiobook: [],
-        author: [],
-        narrator: [],
-        loadingAudioBook: true,
-        loadingChapter: true,
+        audiobook: null,
+        author: null,
+        narrator: null,
+        loadingAudioBook: false,
+        loadingChapter: false,
     });
 
     const { setAudioState, loadChapter } = useAudio();
     // #endregion
 
+    console.log("informations.audiobook?.cover_art_jpg :", informations.audiobook?.cover_art_jpg)
     // #region useEffect: chargement des données
     useEffect(() => {
         const loadData = async () => {
@@ -59,28 +60,27 @@ function BookView({ searchParams }: { searchParams: { id: string; } }) {
                 chapters = sortChapter(chapters);
                 let audiobook = await fetchAudioBooksById(id);
 
-                if (audiobook && audiobook.length > 0) {
-                    let author = await fetchAuthorById(audiobook[0]?.author);
-                    let narrator = await fetchNarratorById(audiobook[0]?.narrator);
-
+                if (audiobook && audiobook.id) {
+                    let author = await fetchAuthorById(audiobook.author);
+                    let narrator = await fetchNarratorById(audiobook.narrator);
                     setState((prevState) => ({
                         ...prevState,
                         author,
                         narrator,
                         audiobook,
-                        loadingAudioBook: false,
                     }));
-
+                    console.log('Titre :', audiobook.title);
+                    console.log('Image :', audiobook.cover_art_jpg);
                     setAudioState((prevState) => ({
                         ...prevState,
-                        bookTitle: audiobook[0]?.title,
-                        coverImage: audiobook[0]?.cover_art_jpg,
+                        bookTitle: audiobook.title,
+                        coverImage: audiobook.cover_art_jpg,
                         allChapters: chapters,
                     }));
                 } else {
                     setState((prevState) => ({
                         ...prevState,
-                        audiobook: [],
+                        audiobook,
                     }));
 
                     setAudioState((prevState) => ({
@@ -104,9 +104,11 @@ function BookView({ searchParams }: { searchParams: { id: string; } }) {
 
     // #region Gestion du clic sur un chapitre
     const handleChapterClick = (audioSource: string | null, chapter: Chapter) => {
-        if (audioSource && informations.audiobook && informations.audiobook.length > 0) {
-            loadChapter(chapter, informations.audiobook[0]?.title, informations.audiobook[0]?.cover_art_jpg);
-        }
+        console.log("test prout", audioSource, chapter)
+
+        if (audioSource && informations.audiobook && informations.audiobook.id) {
+            loadChapter(chapter, informations.audiobook?.title, informations.audiobook?.cover_art_jpg);
+        };
     }
     // #endregion
 
@@ -117,57 +119,49 @@ function BookView({ searchParams }: { searchParams: { id: string; } }) {
                 <p>Chargement...</p>
             ) : (
                 <div className="relative min-h-screen">
-                    {/* Background flou */}
-                    <div 
-                        className="absolute inset-0 z-0"
-                        style={{
-                            filter: 'blur(150px)',
-                            backgroundImage: `url(${informations.audiobook[0]?.cover_art_jpg})`,
-                            backgroundSize: 'cover',
-                            backgroundPosition: 'center',
-                        }}
-                    />
-                    {/* Contenu principal */}
-                    <div className="relative flex justify-between z-0 h-screen w-screen">
-                        <div className="w-full flex flex-col bg-gradient-to-b from-[#00000000] from-15% to-[#120e0c] to-45% rounded-[0.5%]">
-                            
-                            {/* Titre et informations principales */}
-                            <div className="pt-[3%] flex items-center m-auto w-[80%] pb-[3%]">
-                                <div className="w-[20%] h-0 pb-[20%] mr-[5%]">
-                                    <img className="rounded-[5%] shadow-[0px_0px_25px]" src={informations.audiobook[0]?.cover_art_jpg} />
-                                </div>
-                                <div className="text-left self-end">
-                                    <h1 className="text-white text-[1.5em] font-bold">{informations.audiobook[0]?.title}</h1>
-                                    <h2 className="text-white text-[0.7em]">
-                                        {informations.author[0]?.name} · {informations.narrator[0]?.name} narrator · {informations.audiobook[0]?.total_time}
-                                    </h2>
+                <div 
+                    className="absolute inset-0 z-0"
+                    style={{
+                    filter: 'blur(150px)',
+                    backgroundImage: `url(${informations.audiobook?.cover_art_jpg})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    }}
+                />
+                <div className="relative flex justify-between z-0 h-screen w-screen ">
+                    <div className=" w-full flex flex-col bg-gradient-to-b from-[#00000000] from-15%  to-[#120e0c] to-45% rounded-[0.5%] " >
+                        <div className="pt-[3%] flex items-center m-auto w-[80%] pb-[3%]">
+                            <div className="w-[20%] h-0 pb-[20%] mr-[5%]">
+                                <img className="rounded-[5%] shadow-[0px_0px_25px]" src={informations.audiobook?.cover_art_jpg} ></img>
+                            </div>
+                            <div className="text-left self-end">
+                                <h1 className='text-white text-[1.5em] font-bold'>{informations.audiobook?.title}</h1>
+                                <div>
+                                    <h2 className='text-white text-[0.7em]'>{informations.author?.name} . {informations.narrator?.name} narrator . {informations.audiobook?.total_time} </h2>
                                 </div>
                             </div>
-
-                            {/* Description et chapitres */}
-                            <div className="bg-gray-800/25 flex-1 h-full border-b-[65px] overflow-y-auto">
-                                <div className="text-white pt-[3%] flex-col items-center m-auto w-[80%] pb-[3%]">
-                                    <h2 className="text-[0.5em]">Narrated by : {informations.narrator[0]?.name}</h2>
-                                    <h2 className="text-[0.7em]">{informations.audiobook[0]?.description}</h2>
-                                </div>
-
-                                {/* Liste des chapitres */}
-                                <div className="max-h-[60vh]">
-                                    <div className="grid grid-cols-[0.1fr_0.8fr_0.4fr_0.5fr] grid-rows-1 mx-auto w-[80%] text-[hsl(0,0%,70%)] items-center justify-between Arial h-full">
-                                        <div className="text-xs">#</div>
-                                        <div className="text-xs">Chapters</div>
-                                        <div className="text-xs text-center">Lectures</div>
-                                        <div className="text-xs text-right">Time</div>
-                                    </div>
-                                    <ul>
-                                        {informations.chapters.map((chapter) => (
-                                            <li key={chapter.chapter_number}>
-                                                <ChapterCard {...chapter} onChapterClick={handleChapterClick} />
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
+                        </div>
+                        <div className='bg-gray-800/25 flex-1 h-full border-b-[65px]  overflow-y-auto'>
+                            <div className='text-white pt-[3%] flex-col items-center m-auto w-[80%] pb-[3%]'>
+                                <h2 className='text-[0.5em]'>Narrated by : {informations.narrator?.name}</h2>
+                                <h2 className='text-[0.7em]'>{informations.audiobook?.description}</h2>
                             </div>
+                            <div className=' max-h-[60vh]'>
+                                <div className="grid grid-cols-[0.1fr_0.8fr_0.4fr_0.5fr] grid-rows-1 mx-auto w-[80%] text-[hsl(0,0%,70%)] items-center justify-between Arial h-full">
+                                    <div className='text-[hsl(0,_0%,_70%)] text-xs' >#</div>
+                                    <div className='text-[hsl(0,_0%,_70%)] text-xs'>Chapters</div>
+                                    <div className='text-[hsl(0,_0%,_70%)] text-xs text-center'>Lectures</div>
+                                    <div className='text-[hsl(0,_0%,_70%)] text-xs text-right'>Time</div>
+                                </div>
+                                <ul>
+                                    {informations.chapters.map((chapter) => (
+                                        <li key={chapter.chapter_number}>
+                                            <ChapterCard  {...chapter} onChapterClick={handleChapterClick} />
+                                        </li> 
+                                    ))}
+                                </ul>
+                            </div>
+                        </div>
                         </div>
                     </div>
                 </div>

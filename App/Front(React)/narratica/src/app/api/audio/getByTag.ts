@@ -2,10 +2,10 @@ import axios from "axios";
 import  { url, Audiobook }  from './getAllAudioBooks';
 
 
-// the recived object is encapsulated in an array 
+// the received object is encapsulated in an array 
 export const fetchAudioBooksByTag = async (tagId : number, quantity? : number): Promise<Audiobook[]> => {
     
-    let routeUrl = url + `api/audio/tag/${tagId}`
+    let routeUrl = url + `api/audiobooks/by-tag/${tagId}`
 
     if( quantity != undefined){
         routeUrl += `/${quantity}`

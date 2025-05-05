@@ -1,4 +1,5 @@
-"use client"
+'use client';
+
 import { Chapter } from '@/app/api/audio/getAllChaptersFromAudioBookId';
 import React, { createContext, useState, useContext, useRef, useEffect } from 'react';
 
@@ -8,6 +9,8 @@ import React, { createContext, useState, useContext, useRef, useEffect } from 'r
  * Interface décrivant les propriétés accessibles via le contexte audio.
  */
 interface AudioContextType {
+    audioRef: React.RefObject<HTMLAudioElement | null>;
+    audioApiContext: AudioContext | null;
     audioState: AudioState;
     setAudioState: React.Dispatch<React.SetStateAction<AudioState>>;
 
@@ -61,7 +64,7 @@ interface AudioState {
 //#region Contexte
 
 // Création du contexte audio
-const AudioContext = createContext<AudioContextType | undefined>(undefined);
+export const AudioContext = createContext<AudioContextType | undefined>(undefined);
 
 //#endregion
 
@@ -75,20 +78,27 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     //#region État
 
     const [audioState, setAudioState] = useState<AudioState>({
-        audioSource: null,
-        isPlaying: false,
-        currentChapterTitle: undefined,
-        coverImage: undefined,
-        bookTitle: undefined,
-        volume: 1,
-        currentTime: 0,
-        duration: 0,
-        progress: 0,
-        allChapters: [],
-        currentChapterIndex: 0
+    audioSource: null,
+    isPlaying: false,
+    currentChapterTitle: undefined,
+    coverImage: undefined,
+    bookTitle: undefined,
+    volume: 1,
+    currentTime: 0,
+    duration: 0,
+    progress: 0,
+    allChapters: [],
+    currentChapterIndex: 0
     });
 
-    const audioReference = useRef<HTMLAudioElement>(null);
+    const audioReference = useRef<HTMLAudioElement | null>(null);
+    const audioApiContext = useRef<AudioContext | null>(null);
+
+    useEffect(() => {
+        if (!audioApiContext.current) {
+            audioApiContext.current = new window.AudioContext();
+        }
+    }, []);
 
     //#endregion
 
@@ -96,14 +106,25 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
     /** Alterne entre lecture et pause de l'audio. */
     const togglePlayPause = () => {
-        if (audioReference.current) {
-            if (audioState.isPlaying) {
-                audioReference.current.pause();
-            } else {
-                audioReference.current.play();
-            }
-            setAudioState((prev) => ({ ...prev, isPlaying: !prev.isPlaying }));
+        const audio = audioReference.current;
+        if (!audio) return;
+
+        if (audioState.isPlaying) {
+            audio.pause();
+        } else {
+            const resume = async () => {
+                try {
+                    if (audioApiContext.current?.state === 'suspended') {
+                        await audioApiContext.current.resume();
+                    }
+                    await audio.play();
+                } catch (error) {
+                    console.error('Playback error:', error);
+                }
+            };
+            resume();
         }
+        setAudioState(prev => ({ ...prev, isPlaying: !prev.isPlaying }));
     };
 
     /** Modifie le volume de l'audio.
@@ -131,8 +152,9 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
      * @param progress Pourcentage (entre 0 et 1)
      */
     const seekTo = (progress: number) => {
-        if (audioReference.current && audioReference.current.duration) {
-            audioReference.current.currentTime = progress * audioReference.current.duration;
+        const audio = audioReference.current;
+        if (audio && audio.duration) {
+            audio.currentTime = progress * audio.duration;
         }
     };
 
@@ -167,7 +189,6 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     const loadChapter = (chapter: Chapter, bookTitle: string, coverImage: string) => {
         const audio = audioReference.current;
         if (!audio) return;
-
         audio.src = chapter.audio_data;
         audio.load();
 
@@ -272,6 +293,8 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     //#region Render Provider
 
     const value: AudioContextType = {
+        audioRef: audioReference,
+        audioApiContext: audioApiContext.current,
         audioState,
         setAudioState,
         togglePlayPause,
@@ -287,7 +310,12 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
     return (
         <AudioContext.Provider value={value}>
-            <audio ref={audioReference} />
+            <audio
+                id="global-audio"
+                ref={audioReference}
+                crossOrigin="anonymous"
+                style={{ display: 'none' }}
+            />
             {children}
         </AudioContext.Provider>
     );
@@ -306,9 +334,7 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
  */
 export const useAudio = () => {
     const context = useContext(AudioContext);
-    if (!context) {
-        throw new Error("Erreur avec le contexte audio");
-    }
+    if (!context) throw new Error('Erreur avec le contexte audio');
     return context;
 };
 

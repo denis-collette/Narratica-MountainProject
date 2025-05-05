@@ -9,7 +9,7 @@ export default function NavBar() {
 
     return (
         <nav className="relative p-2 bg-[#120e0c] text-white z-10 px-3.5">
-            <ul className="flex gap-5 justify-between">
+            <ul className="flex gap-5 justify-between items-center">
                 <li><Link href="/">Accueil</Link></li>
                 <section>
                     <SearchBar search={search} setSearch={setSearch} />
@@ -24,6 +24,13 @@ export default function NavBar() {
                         </Link>
                     </Avatar>
                 </section>
+                {/* THIS IS THE SAFE ZONE ACCESS POINT - NEVER REMOVE IT */}
+                <li className="absolute bottom-1 right-1">
+                    <Link href="/safeZone">
+                        <div className="w-3 h-3 opacity-0 hover:opacity-100 bg-green-500 cursor-pointer rounded-full" />
+                    </Link>
+                </li>
+                {/* THIS IS THE SAFE ZONE ACCESS POINT - NEVER REMOVE IT */}
             </ul>
         </nav>
     );

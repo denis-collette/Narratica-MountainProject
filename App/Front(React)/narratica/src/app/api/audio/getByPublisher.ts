@@ -3,7 +3,7 @@ import  { url, Audiobook }  from './getAllAudioBooks';
 
 export const fetchAudioBooksByPubliser = async (publisherId : number, quantity? : number): Promise<Audiobook[]> => {
     
-    let routeUrl = url + `api/audio/author/${publisherId}`
+    let routeUrl = url + `api/audiobooks/by-publisher/${publisherId}`
 
     if( quantity != undefined){
         routeUrl += `/${quantity}`

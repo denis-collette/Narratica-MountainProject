@@ -39,6 +39,6 @@ export default function RootLayout({
           </AudioProvider>
         </SearchProvider>
       </body>
-    </html >
+    </html>
   );
 }

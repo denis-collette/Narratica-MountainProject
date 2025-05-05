@@ -8,7 +8,7 @@ export interface Tag {
 
 export const fetchTagById = async (tagId: number): Promise<Tag[]> => {
 
-    let routeUrl = url + `api/tag/${tagId}`
+    let routeUrl = url + `api/tags/${tagId}`
 
     try {
         const response = await axios.get<Tag[]>(routeUrl);
