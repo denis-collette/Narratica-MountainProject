@@ -1,11 +1,27 @@
 "use client";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import SearchBar from "@/components/SearchBar";
 import { useSearch } from "@/components/SearchContext";
+import { useRouter } from "next/navigation";
+import { isAuthenticated } from "@/app/api/userAuth/checkAuth";
+import { logoutUser } from "@/app/api/userAuth/logout";
 
 export default function NavBar() {
     const { search, setSearch } = useSearch();
+    const [loggedIn, setLoggedIn] = useState(false);
+    const router = useRouter();
+
+    useEffect(() => {
+        setLoggedIn(isAuthenticated());
+    }, []);
+
+    const handleLogout = () => {
+        logoutUser();
+        setLoggedIn(false);
+        router.push("/");
+    };
 
     return (
         <nav className="relative p-2 bg-[#120e0c] text-white z-10 px-3.5">
@@ -14,15 +30,23 @@ export default function NavBar() {
                 <section>
                     <SearchBar search={search} setSearch={setSearch} />
                 </section>
-                <section className="flex gap-5">
-                    <li><Link href="/login">Connexion</Link></li>
-                    <li><Link href="/signup">Inscription</Link></li>
-                    <Avatar>
-                        <Link href="/profil">
-                            <AvatarImage src="https://github.com/shadcn.png" />
-                            <AvatarFallback>CN</AvatarFallback>
-                        </Link>
-                    </Avatar>
+                <section className="flex gap-5 items-center">
+                    {loggedIn ? (
+                        <>
+                            <li><button onClick={handleLogout}>Logout</button></li>
+                            <Avatar>
+                                <Link href="/profile">
+                                    <AvatarImage src="https://github.com/shadcn.png" />
+                                    <AvatarFallback>PR</AvatarFallback>
+                                </Link>
+                            </Avatar>
+                        </>
+                    ) : (
+                        <>
+                            <li><Link href="/login">Connexion</Link></li>
+                            <li><Link href="/signup">Inscription</Link></li>
+                        </>
+                    )}
                 </section>
                 {/* THIS IS THE SAFE ZONE ACCESS POINT - NEVER REMOVE IT */}
                 <li className="absolute bottom-1 right-1">
