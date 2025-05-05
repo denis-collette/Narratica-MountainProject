@@ -1,6 +1,5 @@
 "use client"
 import { useEffect, useState } from 'react';
-
 import NavBar from "@/components/NavBar"
 import ChapterCard from "@/components/chapterCard";
 import { fetchAudioBooksChaptersById, Chapter } from '../api/audio/getAllChaptersFromAudioBookId';
@@ -11,10 +10,14 @@ import { Narrator, fetchNarratorById } from '../api/audio/getNarratorById'
 import { useAudio } from '@/components/audio/AudioContext';
 import { useSearchParams } from 'next/navigation';
 
+// #region Utils
 function sortChapter(bookChapterObj: Chapter[]) {
     bookChapterObj.sort((a, b) => a.chapter_number - b.chapter_number);
-    return bookChapterObj
+    return bookChapterObj;
 }
+// #endregion
+
+// #region Interfaces
 interface Informations {
     chapters: Chapter[];
     audiobook: Audiobook | null;
@@ -23,15 +26,19 @@ interface Informations {
     loadingAudioBook: boolean;
     loadingChapter: boolean;
 }
+// #endregion
 
 function BookView({ searchParams }: { searchParams: { id: string; } }) {
-    let id = 1
-    const params = useSearchParams()
-    const strId = params.get('id')
+    // #region Get ID from URL
+    let id = 1;
+    const params = useSearchParams();
+    const strId = params.get('id');
     if (strId !== null) {
-        id = parseInt(strId)
+        id = parseInt(strId);
     }
+    // #endregion
 
+    // #region State & AudioContext
     const [informations, setState] = useState<Informations>({
         chapters: [],
         audiobook: null,
@@ -42,15 +49,16 @@ function BookView({ searchParams }: { searchParams: { id: string; } }) {
     });
 
     const { setAudioState, loadChapter } = useAudio();
+    // #endregion
 
     console.log("informations.audiobook?.cover_art_jpg :", informations.audiobook?.cover_art_jpg)
+    // #region useEffect: chargement des données
     useEffect(() => {
         const loadData = async () => {
             try {
                 let chapters = await fetchAudioBooksChaptersById(id);
                 chapters = sortChapter(chapters);
                 let audiobook = await fetchAudioBooksById(id);
-                console.log('Audiobook :', audiobook);
 
                 if (audiobook && audiobook.id) {
                     let author = await fetchAuthorById(audiobook.author);
@@ -74,11 +82,13 @@ function BookView({ searchParams }: { searchParams: { id: string; } }) {
                         ...prevState,
                         audiobook,
                     }));
+
                     setAudioState((prevState) => ({
                         ...prevState,
                         bookTitle: "titre test",
                     }));
                 }
+
                 setState((prevState) => ({
                     ...prevState,
                     chapters: chapters,
@@ -87,9 +97,12 @@ function BookView({ searchParams }: { searchParams: { id: string; } }) {
                 console.error("Error loading data:", error);
             }
         };
+
         loadData();
     }, [id, setAudioState]);
+    // #endregion
 
+    // #region Gestion du clic sur un chapitre
     const handleChapterClick = (audioSource: string | null, chapter: Chapter) => {
         console.log("test prout", audioSource, chapter)
 
@@ -97,8 +110,10 @@ function BookView({ searchParams }: { searchParams: { id: string; } }) {
             loadChapter(chapter, informations.audiobook?.title, informations.audiobook?.cover_art_jpg);
         };
     }
-    return (
+    // #endregion
 
+    // #region Rendu
+    return (
         <section>
             {informations.loadingChapter && informations.loadingAudioBook ? (
                 <p>Chargement...</p>
@@ -149,7 +164,11 @@ function BookView({ searchParams }: { searchParams: { id: string; } }) {
                         </div>
                         </div>
                     </div>
-                </div>)}
-        </section>)
+                </div>
+            )}
+        </section>
+    );
+    // #endregion
 }
-export default BookView
+
+export default BookView;

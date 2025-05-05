@@ -2,10 +2,16 @@ import React from "react";
 import { FaPlay, FaPause } from "react-icons/fa";
 import { FaAngleDoubleLeft, FaAngleDoubleRight } from "react-icons/fa";
 import { AiOutlineFastBackward, AiOutlineFastForward } from "react-icons/ai";
-import { HiSpeakerWave, HiSpeakerXMark } from "react-icons/hi2";
+import { HiSpeakerWave } from "react-icons/hi2";
 import { useAudio } from "./AudioContext";
 
+/**
+ * Barre de contrôle du lecteur audio.
+ * Affiche les infos du chapitre courant, les contrôles de lecture,
+ * la barre de progression et le volume.
+ */
 const AudioPlayerBar: React.FC = () => {
+    // #region Hooks et extraction du contexte
     const {
         audioState,
         togglePlayPause,
@@ -26,14 +32,12 @@ const AudioPlayerBar: React.FC = () => {
         currentTime,
         duration
     } = audioState;
+    // #endregion
 
-    console.log("AudioPlayerBar :", currentChapterTitle);
-    console.log("AudioPlayerBar :", coverImage);
-    console.log('titre - ', bookTitle);
-    console.log("Current chapter :", currentChapterTitle);
+    // #region Rendu JSX
     return (
-        <section className="fixed bottom-0 w-full bg-black text-white px-4 py-2 flex items-center justify-between h--[80px] ">
-            {/* Partie gauche : Cover + titre */}
+        <section className="fixed bottom-0 w-full bg-black text-white px-4 py-2 flex items-center justify-between h--[80px]">
+            {/* #region Partie gauche : couverture et titre */}
             <section className="flex items-center gap-4">
                 {coverImage && (
                     <img
@@ -47,11 +51,13 @@ const AudioPlayerBar: React.FC = () => {
                     <p className="text-xs text-gray-400">{currentChapterTitle}</p>
                 </section>
             </section>
+            {/* #endregion */}
 
-            {/* Partie centrale : boutons + barre */}
+            {/* #region Partie centrale : boutons de lecture et barre de progression */}
             <section className="flex flex-col items-center justify-center gap-1 flex-1 max-w-xl">
+                {/* Contrôles de lecture */}
                 <section className="flex items-center gap-4">
-                    <button className="p-2 rounded-md hover:bg-white/10" onClick={previousChapter} >
+                    <button className="p-2 rounded-md hover:bg-white/10" onClick={previousChapter}>
                         <AiOutlineFastBackward />
                     </button>
                     <button className="p-2 rounded-md hover:bg-white/10" onClick={() => skipBackward(10)}>
@@ -66,10 +72,13 @@ const AudioPlayerBar: React.FC = () => {
                     <button className="p-2 rounded-md hover:bg-white/10" onClick={nextChapter}>
                         <AiOutlineFastForward />
                     </button>
-
                 </section>
+
+                {/* Barre de progression */}
                 <section className="flex items-center gap-2 w-full">
-                    <span className="text-xs">{!isNaN(currentTime) && currentTime ? formatTime(currentTime) : "0:00"}</span>
+                    <span className="text-xs">
+                        {!isNaN(currentTime) && currentTime ? formatTime(currentTime) : "0:00"}
+                    </span>
 
                     <input
                         type="range"
@@ -80,22 +89,28 @@ const AudioPlayerBar: React.FC = () => {
                         className="flex-1 h-1 accent-green-500 cursor-pointer"
                     />
 
-                    <span className="text-xs">{!isNaN(duration) && duration ? formatTime(duration) : "0:00"}</span>
+                    <span className="text-xs">
+                        {!isNaN(duration) && duration ? formatTime(duration) : "0:00"}
+                    </span>
                 </section>
-
             </section>
+            {/* #endregion */}
 
-
-
-            {/* Partie droite : volume */}
+            {/* #region Partie droite : contrôle du volume */}
             <section className="flex items-center gap-2 w-32">
                 <HiSpeakerWave className="w-5 h-5" />
-                <input type="range" min="0" max="100"
+                <input
+                    type="range"
+                    min="0"
+                    max="100"
                     className="w-full accent-green-400"
-                    onChange={(e) => handleVolume(Number(e.target.value) / 100)} />
+                    onChange={(e) => handleVolume(Number(e.target.value) / 100)}
+                />
             </section>
+            {/* #endregion */}
         </section>
     );
+    // #endregion
 };
 
 export default AudioPlayerBar;
