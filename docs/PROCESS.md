@@ -65,7 +65,8 @@ Before starting, ensure you have the following:
    python manage.py runserver
    ```
    For linux use the linuxRequirements.txt
-   If your database isn't set up yet, just intall the dependencies and go to [Run Database Migrations](#4-run-database-migrations).
+   If your database isn't set up yet or you're restarting it, just intall the dependencies and go to [Run Database Migrations](#4-run-database-migrations).
+   Only then you can import the .csv in the database.
 
 4. Install the required dependencies and run server (Next):
    Open a new bash terminal in root and launch:
@@ -78,7 +79,7 @@ Before starting, ensure you have the following:
 ---
 
 ### 4. Run Database Migrations
-1. Apply migrations to set up the database schema:
+1. Apply migrations to set up the database schema (inside the Back(Django) folder):
    ```
    python manage.py makemigrations
    python manage.py migrate
