@@ -1,8 +1,7 @@
 import axios from "axios";
-import { url } from './getAllAudioBooks';
+import { url } from "../baseUrl";
 
-
-export interface User {
+export  interface User{
     id: number,
     username: string,
     email: string,
