@@ -4,15 +4,18 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from . import views
 
 router = DefaultRouter()
-router.register(r'audiobooks',   views.AudiobookViewSet,   basename='audiobook')
-router.register(r'bookchapters', views.BookChapterViewSet, basename='bookchapter')
-router.register(r'authors',      views.AuthorViewSet,      basename='author')
-router.register(r'narrators',    views.NarratorViewSet,    basename='narrator')
-router.register(r'publishers',   views.PublisherViewSet,   basename='publisher')
-router.register(r'tags',         views.TagViewSet,         basename='tag')
-router.register(r'playlists',    views.PlaylistViewSet,    basename='playlist')
-router.register(r'favorites',    views.FavoriteViewSet,    basename='favorite')
-router.register(r'users',        views.UserViewSet,        basename='user')
+router.register(r'audiobooks',          views.AudiobookViewSet,         basename='audiobook')
+router.register(r'bookchapters',        views.BookChapterViewSet,       basename='bookchapter')
+router.register(r'authors',             views.AuthorViewSet,            basename='author')
+router.register(r'narrators',           views.NarratorViewSet,          basename='narrator')
+router.register(r'publishers',          views.PublisherViewSet,         basename='publisher')
+router.register(r'tags',                views.TagViewSet,               basename='tag')
+router.register(r'playlists',           views.PlaylistViewSet,          basename='playlist')
+router.register('favorites/books',      views.FavoriteBookViewSet,      basename='favorite-book')
+router.register('favorites/authors',    views.FavoriteAuthorViewSet,    basename='favorite-author')
+router.register('favorites/narrators',  views.FavoriteNarratorViewSet,  basename='favorite-narrator')
+router.register('favorites/publishers', views.FavoritePublisherViewSet, basename='favorite-publisher')
+router.register(r'users',               views.UserViewSet,              basename='user')
 
 urlpatterns = [
     # JWT:

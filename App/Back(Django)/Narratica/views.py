@@ -164,31 +164,21 @@ class PlaylistViewSet(viewsets.ModelViewSet):
 
 
 ### FAVORITES ###
-class FavoriteViewSet(viewsets.ModelViewSet):
-    """
-    Use ?type=book|author|narrator|publisher and ?user=user_id
-    """
-    lookup_field = 'id'
+class FavoriteBookViewSet(viewsets.ModelViewSet):
+    serializer_class = FavoriteBookSerializer
+    queryset = FavoriteBook.objects.all()
 
-    def get_serializer_class(self):
-        t = self.request.GET.get('type')
-        return {
-            'book': FavoriteBookSerializer,
-            'author': FavoriteAuthorSerializer,
-            'narrator': FavoriteNarratorSerializer,
-            'publisher': FavoritePublisherSerializer,
-        }[t]
+class FavoriteAuthorViewSet(viewsets.ModelViewSet):
+    serializer_class = FavoriteAuthorSerializer
+    queryset = FavoriteAuthor.objects.all()
+    
+class FavoriteNarratorViewSet(viewsets.ModelViewSet):
+    serializer_class = FavoriteNarratorSerializer
+    queryset = FavoriteBook.objects.all()
 
-    def get_queryset(self):
-        t = self.request.GET.get('type')
-        user = self.request.GET.get('user')
-        MODEL = {
-            'book': FavoriteBook,
-            'author': FavoriteAuthor,
-            'narrator': FavoriteNarrator,
-            'publisher': FavoritePublisher,
-        }[t]
-        return MODEL.objects.filter(user_id=user)
+class FavoritePublisherViewSet(viewsets.ModelViewSet):
+    serializer_class = FavoritePublisherSerializer
+    queryset = FavoriteAuthor.objects.all()
 
 
 ### SEARCH ENTITIES ###

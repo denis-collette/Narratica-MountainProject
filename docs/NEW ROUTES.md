@@ -202,7 +202,10 @@ Check below [full version](#gpt-lapi).
 |--------|-----|-------------|
 | GET | /api/favorites/?type=...&user=... | Get user’s favorites by type: book, author, narrator, publisher |
 | POST | /api/favorites/ | Add a favorite (based on query params & body data) |
-| DELETE | /api/favorites/{id}/ | Remove a favorite |
+| DELETE | /api/favorites/books/{id}/ | Remove a favorite book |
+| DELETE | /api/favorites/author/{id}/ | Remove a favorite author |
+| DELETE | /api/favorites/narrator/{id}/ | Remove a favorite narrator |
+| DELETE | /api/favorites/publisher/{id}/ | Remove a favorite publisher |
 
 ### 🔍 Search
 
