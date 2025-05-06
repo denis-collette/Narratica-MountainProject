@@ -2,7 +2,7 @@ import React from "react";
 import { FaPlay, FaPause } from "react-icons/fa";
 import { FaAngleDoubleLeft, FaAngleDoubleRight } from "react-icons/fa";
 import { AiOutlineFastBackward, AiOutlineFastForward } from "react-icons/ai";
-import { HiSpeakerWave } from "react-icons/hi2";
+import { HiSpeakerWave, HiSpeakerXMark } from "react-icons/hi2";
 import { useAudio } from "./AudioContext";
 
 /**
@@ -30,7 +30,8 @@ const AudioPlayerBar: React.FC = () => {
         coverImage,
         bookTitle,
         currentTime,
-        duration
+        duration,
+        volume
     } = audioState;
     // #endregion
 
@@ -98,7 +99,11 @@ const AudioPlayerBar: React.FC = () => {
 
             {/* #region Partie droite : contrôle du volume */}
             <section className="flex items-center gap-2 w-32">
-                <HiSpeakerWave className="w-5 h-5" />
+                {volume === 0 ? (
+                    <HiSpeakerXMark className="w-5 h-5" />
+                ) : (
+                    <HiSpeakerWave className="w-5 h-5" />
+                )}
                 <input
                     type="range"
                     min="0"
