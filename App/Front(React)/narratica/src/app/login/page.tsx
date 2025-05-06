@@ -16,8 +16,6 @@ export default function LoginPage() {
         const response = await loginUser(username, password);
 
         if (response) {
-            localStorage.setItem("access", response.access);
-            localStorage.setItem("refresh", response.refresh);
             router.push("/profile")
         } else {
             setError("Invalid username or password");
