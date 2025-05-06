@@ -1,6 +1,5 @@
 import axios from "axios";
-import  { url }  from '../audio/getAllAudioBooks';
-
+import { url } from "../baseUrl";
 
 export interface FavoriteAuthor {
     id : number;
@@ -8,8 +7,6 @@ export interface FavoriteAuthor {
     author : number;
 
 };
-
-
 
 export const fetchFavoriteAuthorId = async (user_id : number): Promise<FavoriteAuthor[]> => {
     

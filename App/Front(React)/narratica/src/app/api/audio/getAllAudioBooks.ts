@@ -1,4 +1,5 @@
 import axios from "axios";
+import { url } from "../baseUrl";
 
 export interface Audiobook {
     id: number;
@@ -16,8 +17,6 @@ export interface Audiobook {
 };
 
 export type BookWithAuthorAndNarrator = Audiobook & { authorName?: string; narratorName?: string }
-
-export let url = "http://127.0.0.1:8000/"; // url to change when deployed
 
 export const fetchAllAudioBooks = async (): Promise<Audiobook[]> => {
 
