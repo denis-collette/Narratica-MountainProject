@@ -37,6 +37,17 @@ function SignUpView() {
         const lastName = formData.get("last_name") as string;
         const profileImg = formData.get("profile_img") as File;
 
+        if (profileImg) {
+            if (!profileImg.type.startsWith("image/")) {
+                setError("Only image files are allowed");
+                return;
+            }
+            if (profileImg.size > 2 * 1024 * 1024) {
+                setError("Image must be smaller than 2MB");
+                return;
+            }
+        }
+        
         if (password !== confirmPassword) {
             setError("Passwords do not match")
             return
@@ -54,7 +65,6 @@ function SignUpView() {
         signupData.append("first_name", firstName);
         signupData.append("last_name", lastName);
         if (profileImg) signupData.append("profile_img", profileImg);
-    
 
         try {
             const registerRes = await registerUser(signupData);
