@@ -73,8 +73,8 @@ function BookView({ searchParams }: { searchParams: { id: string; } }) {
                     console.log('Image :', audiobook.cover_art_jpg);
                     setAudioState((prevState) => ({
                         ...prevState,
-                        bookTitle: audiobook.title,
-                        coverImage: audiobook.cover_art_jpg,
+                        // bookTitle: audiobook.title,
+                        // coverImage: audiobook.cover_art_jpg,
                         allChapters: chapters,
                     }));
                 } else {
