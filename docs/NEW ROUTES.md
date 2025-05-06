@@ -200,7 +200,18 @@ Check below [full version](#gpt-lapi).
 
 | Method | URL | Description |
 |--------|-----|-------------|
-| GET | /api/favorites/?type=...&user=... | Get user’s favorites by type: book, author, narrator, publisher |
+| GET | /api/favorites/books/?user={id} | Get user’s favorites book |
+| GET | /api/favorites/books/?user={id}&book={id} | Get user’s favorite specific book |
+| GET | /api/favorites/author/?user={id} | Get user’s favorites author |
+| GET | /api/favorites/author/?user={id}&author={id} | Get user’s favorite specific author |
+| GET | /api/favorites/narrator/?user={id} | Get user’s favorites narrator |
+| GET | /api/favorites/narrator/?user={id}&narrator={id} | Get user’s favorite specific narrator |
+| GET | /api/favorites/publisher/?user={id} | Get user’s favorites publisher |
+| GET | /api/favorites/publisher/?user={id}&publisher={id} | Get user’s favorite specific publisher |
+| POST | /api/favorites/books/?user={id} | Add a favorite book to user |
+| POST | /api/favorites/author/?user={id} | Add a favorite author to user |
+| POST | /api/favorites/narrator/?user={id} | Add a favorite narrator to user |
+| POST | /api/favorites/publisher/?user={id} | Add a favorite publisher to user |
 | POST | /api/favorites/ | Add a favorite (based on query params & body data) |
 | DELETE | /api/favorites/books/{id}/ | Remove a favorite book |
 | DELETE | /api/favorites/author/{id}/ | Remove a favorite author |
