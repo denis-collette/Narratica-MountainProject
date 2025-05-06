@@ -61,16 +61,20 @@ class FavoritePublisherSerializer(serializers.ModelSerializer):
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
+    profile_img = serializers.ImageField(required=False)
 
     class Meta:
         model = get_user_model()
-        fields = ['username', 'email', 'password']
+        fields = ['username', 'profile_img', 'first_name', 'last_name', 'email', 'password']
 
     def create(self, validated_data):
         password = validated_data.pop('password')
         user = get_user_model().objects.create_user(
-            username=validated_data['username'],
+            username=validated_data.get('username'),
             email=validated_data.get('email', ''),
+            first_name=validated_data.get('first_name', ''),
+            last_name=validated_data.get('last_name', ''),
+            profile_img=validated_data.get('profile_img', None),
             password=password
         )
         return user
@@ -94,4 +98,4 @@ class LoginSerializer(serializers.Serializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
-        fields = ['id', 'username', 'email', 'first_name', 'last_name', 'last_login', 'is_active', 'date_joined', 'is_staff']
+        fields = ['id', 'username', 'profile_img', 'email', 'first_name', 'last_name', 'last_login', 'is_active', 'created_at', 'date_joined', 'is_staff', 'is_superuser']

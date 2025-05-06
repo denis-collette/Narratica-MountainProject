@@ -1,5 +1,6 @@
 import axios from "axios";
-import  { url, Audiobook }  from './getAllAudioBooks';
+import { url } from "../baseUrl";
+import  { Audiobook }  from './getAllAudioBooks';
 
 export const fetchAudioBooksById = async (bookId : number): Promise<Audiobook> => {
     
