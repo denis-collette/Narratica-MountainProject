@@ -1,4 +1,6 @@
 import axios from "axios";
+import { url } from "../baseUrl";
+
 
 interface LoginResponse {
     access: string;
@@ -8,7 +10,7 @@ interface LoginResponse {
 }
 
 export const loginUser = async (username: string, password: string): Promise<LoginResponse | null> => {
-    const routeUrl = "http://127.0.0.1:8000/login/";  // Adjust the URL if needed
+    const routeUrl = url + "api/login/";
     
     try {
         const response = await axios.post<LoginResponse>(routeUrl, {

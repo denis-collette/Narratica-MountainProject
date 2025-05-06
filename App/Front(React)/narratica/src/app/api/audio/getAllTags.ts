@@ -1,5 +1,5 @@
 import axios from "axios";
-import { url, Audiobook } from './getAllAudioBooks';
+import { url } from "../baseUrl";
 
 export interface Tag {
     id: number;

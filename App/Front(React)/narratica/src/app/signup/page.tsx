@@ -2,6 +2,8 @@
 
 import { useRouter } from "next/navigation"
 import { useState } from "react"
+import { loginUser } from "../api/userAuth/login"
+import { registerUser } from "../api/userAuth/register"
 
 function SignUpView() {
     const router = useRouter()
@@ -31,6 +33,9 @@ function SignUpView() {
         const email = formData.get("email") as string
         const password = formData.get("password") as string
         const confirmPassword = formData.get("confirm_password") as string
+        const firstName = formData.get("first_name") as string;
+        const lastName = formData.get("last_name") as string;
+        const profileImg = formData.get("profile_img") as File;
 
         if (password !== confirmPassword) {
             setError("Passwords do not match")
@@ -42,42 +47,39 @@ function SignUpView() {
             return
         }
 
-        const signupData = { username, email, password }
+        const signupData = new FormData();
+        signupData.append("username", username);
+        signupData.append("email", email);
+        signupData.append("password", password);
+        signupData.append("first_name", firstName);
+        signupData.append("last_name", lastName);
+        if (profileImg) signupData.append("profile_img", profileImg);
+    
 
         try {
-            const registerRes = await fetch("http://127.0.0.1:8000/api/register/", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(signupData)
-            })
+            const registerRes = await registerUser(signupData);
 
-            if (!registerRes.ok) {
-                const text = await registerRes.text()
-                console.error("Register response text:", text)
-                setError("Signup failed: " + text)
+            if (!registerRes || registerRes.status >= 400) {
+                const errorData = registerRes?.data;
+                console.error("Register response:", errorData)
+                setError("Signup failed: " + JSON.stringify(errorData))
                 return
             }
 
-            const loginRes = await fetch("http://127.0.0.1:8000/api/login/", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ username, password })
-            })
+            const loginRes = await loginUser(username, password);
 
-            if (!loginRes.ok) {
-                const text = await loginRes.text()
-                console.error("Login response text:", text)
-                setError("Login failed: " + text)
+            if (!loginRes) {
+                console.error("Login failed")
+                setError("Login failed: Invalid username or password")
                 return
             }
 
-            const loginData = await loginRes.json()
-            localStorage.setItem("access", loginData.access)
-            localStorage.setItem("refresh", loginData.refresh)
-            localStorage.setItem("username", loginData.username)
-            localStorage.setItem("user_id", loginData.user_id)
+            localStorage.setItem("access", loginRes.access)
+            localStorage.setItem("refresh", loginRes.refresh)
+            localStorage.setItem("username", loginRes.username)
+            localStorage.setItem("user_id", loginRes.user_id.toString())
 
-            router.push("/")
+            router.push("/profile")
         } catch (err) {
             console.error("Unexpected error:", err)
             setError("Unexpected error occurred")
@@ -92,6 +94,15 @@ function SignUpView() {
                 <form className="flex-row items-center self-center space-y-4 mx-auto" onSubmit={handleSubmit}>
                     <label className="text-white">Pseudo:</label><br />
                     <input className="bg-white border-2 border-gray-500 w-full" type="text" name="pseudo" /><br />
+
+                    <label className="text-white">Profile Image:</label><br />
+                    <input className="bg-white border-2 border-gray-500 w-full" type="file" name="profile_img" accept="image/*" /><br />
+
+                    <label className="text-white">First Name:</label><br />
+                    <input className="bg-white border-2 border-gray-500 w-full" type="text" name="first_name" /><br />
+
+                    <label className="text-white">Last Name:</label><br />
+                    <input className="bg-white border-2 border-gray-500 w-full" type="text" name="last_name" /><br />
 
                     <label className="text-white">Email:</label><br />
                     <input className="bg-white border-2 border-gray-500 w-full" type="email" name="email" /><br />

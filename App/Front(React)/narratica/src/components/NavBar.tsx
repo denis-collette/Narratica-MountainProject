@@ -23,6 +23,17 @@ export default function NavBar() {
         router.push("/");
     };
 
+    // WAIT FOR THE S3 UPLOADS TO BE FUNCTIONAL BEFORE USING THE AVATAR COMPONENT
+    // const [profileImg, setProfileImg] = useState<string | null>(null);
+    // const [username, setUsername] = useState("");
+
+    // useEffect(() => {
+    //     if (isAuthenticated()) {
+    //         setProfileImg(localStorage.getItem("profile_img"));
+    //         setUsername(localStorage.getItem("username") || "");
+    //     }
+    // }, []);
+
     return (
         <nav className="relative p-2 bg-[#120e0c] text-white z-10 px-3.5">
             <ul className="flex gap-5 justify-between items-center">
@@ -40,6 +51,15 @@ export default function NavBar() {
                                     <AvatarFallback>PR</AvatarFallback>
                                 </Link>
                             </Avatar>
+                            {/* WAIT FOR THE S3 UPLOADS TO BE FUNCTIONAL BEFORE USING THE AVATAR COMPONENT
+                            <Avatar>
+                                <Link href="/profile">
+                                    <AvatarImage src={profileImg || "/default_avatar.png" || "https://github.com/shadcn.png"} />
+                                    <AvatarFallback>{username.slice(0, 2).toUpperCase()}</AvatarFallback>
+                                </Link>
+                            </Avatar> 
+                            */}
+
                         </>
                     ) : (
                         <>
