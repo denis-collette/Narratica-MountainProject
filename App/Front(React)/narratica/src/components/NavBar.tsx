@@ -8,6 +8,8 @@ import { useRouter } from "next/navigation";
 import { isAuthenticated } from "@/app/api/userAuth/checkAuth";
 import { logoutUser } from "@/app/api/userAuth/logout";
 
+
+
 export default function NavBar() {
     const { search, setSearch } = useSearch();
     const [loggedIn, setLoggedIn] = useState(false);
@@ -37,7 +39,17 @@ export default function NavBar() {
     return (
         <nav className="relative p-2 bg-[#120e0c] text-white z-10 px-3.5">
             <ul className="flex gap-5 justify-between items-center">
-                <li><Link href="/">Accueil</Link></li>
+                <div className="flex gap-5 justify-between items-center">
+                <Link href="/">Accueil</Link>
+                {loggedIn ? (
+                        <>
+                            <Link href="/favorites">Favorites</Link>
+                        </>
+                    ) : (
+                        <>
+                        </>
+                    )}
+                </div>
                 <section>
                     <SearchBar search={search} setSearch={setSearch} />
                 </section>
@@ -68,7 +80,7 @@ export default function NavBar() {
                         </>
                     )}
                 </section>
-                {/* THIS IS THE SAFE ZONE ACCESS POINT - NEVER REMOVE IT */}
+                {/* THIS IS THE SAFE ZONE ACCESS POINT - NEVER REMOVE IT   A=> :p  */}
                 <li className="absolute bottom-1 right-1">
                     <Link href="/safeZone">
                         <div className="w-3 h-3 opacity-0 hover:opacity-100 bg-green-500 cursor-pointer rounded-full" />

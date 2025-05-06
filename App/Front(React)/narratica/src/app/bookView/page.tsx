@@ -9,6 +9,10 @@ import { Author, fetchAuthorById } from "../api/audio/getAuthorById";
 import { Narrator, fetchNarratorById } from '../api/audio/getNarratorById'
 import { useAudio } from '@/components/audio/AudioContext';
 import { useSearchParams } from 'next/navigation';
+import { isAuthenticated } from "@/app/api/userAuth/checkAuth";
+import { GoHeartFill,GoHeart } from "react-icons/go";
+import {PostFavoriteAudioBook,postFavoriteAudioBook} from '../api/favorites/postFavoriteAudioBook'
+import{fetchFavoriteAudioBookId} from '../api/favorites/getFavoriteAudioBookId'
 
 // #region Utils
 function sortChapter(bookChapterObj: Chapter[]) {
@@ -25,6 +29,7 @@ interface Informations {
     narrator: Narrator | null;
     loadingAudioBook: boolean;
     loadingChapter: boolean;
+    BookIsLiked:boolean;
 }
 // #endregion
 
@@ -37,7 +42,11 @@ function BookView({ searchParams }: { searchParams: { id: string; } }) {
         id = parseInt(strId);
     }
     // #endregion
-
+    const [loggedIn, setLoggedIn] = useState(false);
+    useEffect(() => {
+        setLoggedIn(isAuthenticated());
+    }, []);
+;
     // #region State & AudioContext
     const [informations, setState] = useState<Informations>({
         chapters: [],
@@ -46,12 +55,36 @@ function BookView({ searchParams }: { searchParams: { id: string; } }) {
         narrator: null,
         loadingAudioBook: false,
         loadingChapter: false,
+        BookIsLiked:false
     });
 
     const { setAudioState, loadChapter } = useAudio();
     // #endregion
 
     console.log("informations.audiobook?.cover_art_jpg :", informations.audiobook?.cover_art_jpg)
+
+    if (loggedIn == true){
+        const CheckIfBookLiked = async () => {
+            let user_idStr =  localStorage.getItem("user_id")
+            const user_id = parseInt(user_idStr || "0");
+            const FavoriteBookIdList = await fetchFavoriteAudioBookId(user_id);
+            console.log("search")
+            for(let i = 0; i < FavoriteBookIdList.length; i++){
+                if(FavoriteBookIdList[i].id == user_id && FavoriteBookIdList[i].book == informations.audiobook?.id){
+                    setState(prev => ({
+                        ...prev,
+                        BookIsLiked: true,
+                    }));
+                    console.log("found !")
+                    break
+                }
+            }
+        }
+        CheckIfBookLiked()
+    }
+
+
+
     // #region useEffect: chargement des données
     useEffect(() => {
         const loadData = async () => {
@@ -104,7 +137,6 @@ function BookView({ searchParams }: { searchParams: { id: string; } }) {
 
     // #region Gestion du clic sur un chapitre
     const handleChapterClick = (audioSource: string | null, chapter: Chapter) => {
-        console.log("test prout", audioSource, chapter)
 
         if (audioSource && informations.audiobook && informations.audiobook.id) {
             loadChapter(chapter, informations.audiobook?.title, informations.audiobook?.cover_art_jpg);
@@ -112,8 +144,41 @@ function BookView({ searchParams }: { searchParams: { id: string; } }) {
     }
     // #endregion
 
+    const LikeButton = async () => {
+        const newLikedState = !informations.BookIsLiked; // Predict the next state
+        setState(prev => ({
+            ...prev,
+            BookIsLiked: newLikedState,
+        }));
+    
+        const user_idStr = localStorage.getItem("user_id");
+        const user_id = parseInt(user_idStr || "0");
+    
+        if (newLikedState === true) {
+            const postObj: PostFavoriteAudioBook = {
+                book: id,
+                user: user_id,
+            };
+            await postFavoriteAudioBook(postObj);
+        } else {
+            const FavoriteBookIdList = await fetchFavoriteAudioBookId(user_id);
+            for (let i = 0; i < FavoriteBookIdList.length; i++) {
+                if (
+                    FavoriteBookIdList[i].id === user_id &&
+                    FavoriteBookIdList[i].book === informations.audiobook?.id
+                ) {
+                    const linkTableID = FavoriteBookIdList[i].id;
+                    // TODO: call delete API with linkTableID
+                    break;
+                }
+            }
+        }
+    };
+
+
     // #region Rendu
     return (
+        
         <section>
             {informations.loadingChapter && informations.loadingAudioBook ? (
                 <p>Chargement...</p>
@@ -135,6 +200,16 @@ function BookView({ searchParams }: { searchParams: { id: string; } }) {
                                 <img className="rounded-[5%] shadow-[0px_0px_25px]" src={informations.audiobook?.cover_art_jpg} ></img>
                             </div>
                             <div className="text-left self-end">
+                            {loggedIn && (
+                                <button  onClick={() => LikeButton()}>
+                                    {informations.BookIsLiked ? (
+                                        <GoHeartFill className="text-white hover:text-gray-300 transition text-xl w-5 h-5" />
+                                    ):(
+                                        <GoHeart className="text-white hover:text-red-500 transition text-xl" />
+                                    )}
+                                </button>
+                                )}
+                                
                                 <h1 className='text-white text-[1.5em] font-bold'>{informations.audiobook?.title}</h1>
                                 <div>
                                     <h2 className='text-white text-[0.7em]'>{informations.author?.name} . {informations.narrator?.name} narrator . {informations.audiobook?.total_time} </h2>
