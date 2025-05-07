@@ -1,6 +1,5 @@
 import axios from "axios";
-import  { url}  from './getAllAudioBooks';
-
+import { url } from "../baseUrl";
 
 export  interface User{
     id: number,
@@ -14,12 +13,12 @@ export  interface User{
     is_staff: boolean
 }
 
-export const fetchUserById = async (userId : number): Promise<User[]> => {
-    
+export const fetchUserById = async (userId: number): Promise<User[]> => {
+
     let routeUrl = url + `api/user/${userId}/`
 
- 
-    
+
+
     try {
         const response = await axios.get<User[]>(routeUrl);
         return response.data;
