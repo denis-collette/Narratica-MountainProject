@@ -35,6 +35,9 @@ export const loginUser = async (username: string, password: string): Promise<Log
 
         localStorage.setItem("profile_img", profileRes.data.profile_img || "");
 
+        // Notify that login has happened
+        window.dispatchEvent(new Event("storage"));
+
         return loginData;
     } catch (error) {
         console.error("Error logging in:", error);
