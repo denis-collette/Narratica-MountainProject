@@ -16,7 +16,7 @@ export default function LoginPage() {
         const response = await loginUser(username, password);
 
         if (response) {
-            router.push("/profil")
+            router.push("/profile")
         } else {
             setError("Invalid username or password");
         }
