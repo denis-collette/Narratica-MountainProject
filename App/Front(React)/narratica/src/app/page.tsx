@@ -86,7 +86,7 @@ export default function HomePage() {
                                 setSelectedTag={(tag) => setState((prev) => ({ ...prev, selectedTag: tag }))}
                             />
                         </section>
-                        <section className="flex flex-wrap justify-start gap-5 mb-16 content-center w-screen">
+                        <section className="flex flex-wrap justify-start gap-5 mb-25 content-center w-screen">
                             {filteredBooks.map((book) => (
                                 <Card key={book.id} book={book} />
                             ))}
