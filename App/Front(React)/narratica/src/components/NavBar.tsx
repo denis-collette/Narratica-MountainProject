@@ -25,7 +25,6 @@ export default function NavBar() {
         router.push("/");
     };
 
-    // WAIT FOR THE S3 UPLOADS TO BE FUNCTIONAL BEFORE USING THE AVATAR COMPONENT
     const [profileImg, setProfileImg] = useState<string | null>(null);
     const [username, setUsername] = useState("");
 
@@ -59,7 +58,11 @@ export default function NavBar() {
                             <li><button onClick={handleLogout}>Logout</button></li>
                             <Avatar>
                                 <Link href="/profile">
-                                    <AvatarImage src={profileImg || "/default_avatar.png" || "https://github.com/shadcn.png"} />
+                                <AvatarImage src={profileImg || "https://github.com/shadcn.png"} 
+                                    onError={(e) => {
+                                        (e.target as HTMLImageElement).src = "/default_avatar.png";
+                                    }}
+                                />
                                     <AvatarFallback>{username.slice(0, 2).toUpperCase()}</AvatarFallback>
                                 </Link>
                             </Avatar> 

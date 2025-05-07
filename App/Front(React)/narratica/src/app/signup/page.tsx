@@ -84,11 +84,6 @@ function SignUpView() {
                 return
             }
 
-            localStorage.setItem("access", loginRes.access)
-            localStorage.setItem("refresh", loginRes.refresh)
-            localStorage.setItem("username", loginRes.username)
-            localStorage.setItem("user_id", loginRes.user_id.toString())
-
             router.push("/profile")
         } catch (err) {
             console.error("Unexpected error:", err)
