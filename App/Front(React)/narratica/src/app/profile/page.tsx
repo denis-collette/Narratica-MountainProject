@@ -48,8 +48,8 @@ function ProfileView() {
                     <div className="space-y-4">
                         <h1 className="text-4xl font-bold">{userInfo.username}</h1>
                         <p>Email: {userInfo.email}</p>
-                        <p>Name: {userInfo.first_name} {userInfo.last_name}</p>
-                        <p>Joined: {new Date(userInfo.date_joined).toLocaleDateString()}</p>
+                        <p>Nom: {userInfo.first_name} {userInfo.last_name}</p>
+                        <p>Narraticien depuis: {new Date(userInfo.date_joined).toLocaleDateString("fr-FR")}</p>
                         <button className="px-4 py-2 bg-gray-700 rounded hover:bg-gray-600">
                             Edit Profile
                         </button>
