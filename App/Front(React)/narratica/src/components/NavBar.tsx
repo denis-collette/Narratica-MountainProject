@@ -45,7 +45,7 @@ export default function NavBar() {
                         <>
                             <li><button onClick={handleLogout}>Logout</button></li>
                             <Avatar>
-                                <Link href="/profile">
+                                <Link href="/profil">
                                 <AvatarImage src={profileImg || "https://github.com/shadcn.png"} 
                                     onError={(e) => {
                                         (e.target as HTMLImageElement).src = "/default_avatar.png";

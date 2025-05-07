@@ -84,7 +84,7 @@ function SignUpView() {
                 return
             }
 
-            router.push("/profile")
+            router.push("/profil")
         } catch (err) {
             console.error("Unexpected error:", err)
             setError("Unexpected error occurred")

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { url } from "../baseUrl";
 
-interface UserProfile {
+export interface UserProfile {
     id: number;
     username: string;
     profile_img: string;

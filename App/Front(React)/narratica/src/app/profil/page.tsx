@@ -1,96 +1,67 @@
 "use client"
-import { useEffect, useState } from 'react';
+
+import { useEffect, useState } from "react"
+import { useSearchParams } from "next/navigation"
 
 import NavBar from "@/components/NavBar"
-import ChapterCard from "@/components/chapterCard";
-import { fetchAudioBooksChaptersById, Chapter } from '../api/audio/getAllChaptersFromAudioBookId';
-import { fetchAudioBooksById } from '../api/audio/getAudioBooksById';
-import { Audiobook } from '../api/audio/getAllAudioBooks';
-import { Author, fetchAuthorById } from "../api/audio/getAuthorById";
-import { fetchUserById, User } from '../api/audio/getUserById'
-import { useAudio } from '@/components/audio/AudioContext';
-import { useSearchParams } from 'next/navigation';
-import { debug } from 'console';
-import { userInfo } from 'os';
+import { fetchUserProfile, UserProfile } from "../api/userAuth/fetchUserProfile"
 
-
-
-
-
-function ProfileView({ searchParams }: { searchParams: { id: string; } }) {
-
-    let id = 8
-
-
-    interface Information {
-        userInfo: User[]
-    }
-
+function ProfileView() {
     const params = useSearchParams()
+    const searchId = params.get("id")
+    const localId = typeof window !== "undefined" ? localStorage.getItem("user_id") : null
+    const userId = searchId || localId
 
-    const strId = params.get('id')
-    if (strId !== null) {
-        id = parseInt(strId)
-    }
-    const [informations, setInformation] = useState<Information>({
-        userInfo: [],
-    })
-    id = 8
+    const [userInfo, setUserInfo] = useState<UserProfile | null>(null)
+    const [loading, setLoading] = useState(true)
+
     useEffect(() => {
         const fetchData = async () => {
-
-            if (id === null)
-
-                return;
+            if (!userId) return
             try {
-                console.log("coucou")
-                const userInfos = await fetchUserById(id);
-                console.log("huhu")
-
-                setInformation(() => ({
-                    userInfo: userInfos
-                }));
-
+                const userData = await fetchUserProfile(Number(userId))
+                setUserInfo(userData)
+                console.log("Fetched user data:", userData)
 
             } catch (error) {
-                console.error("Failed to fetch:", error);
+                console.error("Failed to fetch user:", error)
+            } finally {
+                setLoading(false)
             }
-        };
-        fetchData();
-    }, [id]);
-    console.log(JSON.stringify(informations))
+        }
+        fetchData()
+    }, [userId])
+
+    if (loading) return <p className="text-white text-center mt-8">Loading...</p>
+    if (!userInfo) return <p className="text-white text-center mt-8">User not found</p>
 
     return (
-        <section>
-            {!informations.userInfo[0] ? (
-                <p>Chargement...</p>
-            ) : (
-                <main >
-                    <div className=" ml-7 text-white text-center  h-[10vh]">
-                        <section className="ml-52 mt-15 flex flex-row">
-                            <div>
-                                <img src="https://github.com/shadcn.png" className="rounded-full h-52"></img>
-                            </div>
-                            <div className="ml-10 text-left">
-                                <h1 className='text-white text-[4em] font-bold'> Pseudo { }</h1>
-                                <button>Edit Profile</button>
-                            </div>
-                            <section>
-                                <h1 className='text-3xl font-bold mb-2'>
-                                    {informations.userInfo[0]?.username}
-                                </h1>
-                            </section>
-                            <section className="space-y-2 text-gray-300">
-                                <p>Email: {informations.userInfo[0].email}</p>
-                                <p>Nom: {informations.userInfo[0].first_name} {informations.userInfo[0].last_name}</p>
-                                <p>Membre depuis: {new Date(informations.userInfo[0].date_joined).toLocaleDateString()}</p>
-                            </section>
-                        </section>
-                        <section>
-                            <h1>Playlist</h1>
-                        </section>
+        <main className="min-h-screen bg-black text-white">
+            <section className="p-10">
+                <div className="flex items-start gap-10">
+                    <img
+                        src={localStorage.getItem("profile_img") || "https://github.com/shadcn.png"}
+                        alt="Profile"
+                        className="rounded-full h-52 w-52 object-cover"
+                    />
+
+                    <div className="space-y-4">
+                        <h1 className="text-4xl font-bold">{userInfo.username}</h1>
+                        <p>Email: {userInfo.email}</p>
+                        <p>Name: {userInfo.first_name} {userInfo.last_name}</p>
+                        <p>Joined: {new Date(userInfo.date_joined).toLocaleDateString()}</p>
+                        <button className="px-4 py-2 bg-gray-700 rounded hover:bg-gray-600">
+                            Edit Profile
+                        </button>
                     </div>
-                </main>)}
-        </section>)
+                </div>
+                <section className="mt-10">
+                    <h2 className="text-2xl font-semibold">Playlist</h2>
+                    {/* TODO: Render playlist items here */}
+                </section>
+            </section>
+        </main>
+    )
 }
+
 export default ProfileView
