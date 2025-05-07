@@ -35,6 +35,17 @@ export default function NavBar() {
         }
     }, []);
 
+    useEffect(() => {
+        const handleStorageChange = () => {
+            setLoggedIn(isAuthenticated());
+            setProfileImg(localStorage.getItem("profile_img"));
+            setUsername(localStorage.getItem("username") || "");
+        };
+
+        window.addEventListener("storage", handleStorageChange);
+        return () => window.removeEventListener("storage", handleStorageChange);
+    }, []);
+
     return (
         <nav className="relative p-2 bg-[#120e0c] text-white z-10 px-3.5">
             <ul className="flex gap-5 justify-between items-center">
