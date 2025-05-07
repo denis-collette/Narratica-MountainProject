@@ -8,6 +8,7 @@ from rest_framework.views import APIView
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework_simplejwt.tokens import RefreshToken
 import boto3
+from django_filters.rest_framework import DjangoFilterBackend
 
 from Narratica.models import *
 from backend.serializers import *
@@ -167,18 +168,26 @@ class PlaylistViewSet(viewsets.ModelViewSet):
 class FavoriteBookViewSet(viewsets.ModelViewSet):
     serializer_class = FavoriteBookSerializer
     queryset = FavoriteBook.objects.all()
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['user', 'book']
 
 class FavoriteAuthorViewSet(viewsets.ModelViewSet):
     serializer_class = FavoriteAuthorSerializer
     queryset = FavoriteAuthor.objects.all()
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['user', 'author']
     
 class FavoriteNarratorViewSet(viewsets.ModelViewSet):
     serializer_class = FavoriteNarratorSerializer
-    queryset = FavoriteBook.objects.all()
+    queryset = FavoriteNarrator.objects.all()
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['user', 'narrator']
 
 class FavoritePublisherViewSet(viewsets.ModelViewSet):
     serializer_class = FavoritePublisherSerializer
-    queryset = FavoriteAuthor.objects.all()
+    queryset = FavoritePublisher.objects.all()
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['user', 'publisher']
 
 
 ### SEARCH ENTITIES ###
