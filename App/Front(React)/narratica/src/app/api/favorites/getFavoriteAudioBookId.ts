@@ -10,7 +10,7 @@ export interface FavoriteAudioBook {
 
 export const fetchFavoriteAudioBookId = async (user_id : number): Promise<FavoriteAudioBook[]> => {
     
-    let routeUrl = url + `api/favorites/?type=book&user=${user_id}`
+    let routeUrl = url + `/api/favorites/books/?user=${user_id}`
     
     try {
         const response = await axios.get<FavoriteAudioBook[]>(routeUrl);

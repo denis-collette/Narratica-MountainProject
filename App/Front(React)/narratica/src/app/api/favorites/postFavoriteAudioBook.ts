@@ -1,16 +1,22 @@
 import axios from 'axios';
 import { url } from "../baseUrl";
-import  { FavoriteAudioBook } from './getFavoriteAudioBookId'
+
+
+export interface PostFavoriteAudioBook {
+    //csrfmiddlewaretoken: string
+    user : number;
+    book : number;
+
+};
 
 // *TODO to test in local
-export const postFavoriteAudioBook = async ( favoriteAudioBook : FavoriteAudioBook) => {
-    let routeUrl = url + `/api/playlist/create/` //? Should be `/api/favorites/?type=book&user=${userId}` Missing userId
-        axios.post(routeUrl, favoriteAudioBook)
+export const postFavoriteAudioBook = async ( postFavoriteAudioBook : PostFavoriteAudioBook) => {
+    let routeUrl = url + `api/favorites/books/` //? Should be `/api/favorites/?type=book&user=${userId}` Missing userId
+        axios.post(routeUrl, postFavoriteAudioBook)
         .then(response => {
             console.log('Response data:', response.data);
         })
         .catch(error => {
             console.error('Error:', error);
         });
-
 }
