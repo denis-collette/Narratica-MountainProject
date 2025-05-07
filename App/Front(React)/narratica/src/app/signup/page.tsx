@@ -87,8 +87,8 @@ function SignUpView() {
     }
 
     return (
-        <main className="flex justify-center items-center min-h-screen bg-gradient-to-b from-[#242424] from-0% to-[#120e0c] to-90% rounded-[0.5%]">
-            <div className="flex-row justify-center items-center bg-[#1b1b1b] p-8 rounded-lg shadow-lg w-2/6">
+        <main className="flex justify-center items-center min-h-screen bg-gradient-to-b from-[#242424] from-0% to-[#120e0c] to-90% rounded-[0.5%] pb-[50px]">
+            <div className="flex-row justify-center items-center bg-[#1b1b1b] p-8 rounded-lg shadow-lg w-2/6 mb-10">
                 <img src="./favicon.ico" className="w-20 mx-auto" alt="Favicon" />
                 <h1 className="text-white font-bold text-4xl text-center pb-4">Signup now!</h1>
                 <form className="flex-row items-center self-center space-y-4 mx-auto" onSubmit={handleSubmit}>
