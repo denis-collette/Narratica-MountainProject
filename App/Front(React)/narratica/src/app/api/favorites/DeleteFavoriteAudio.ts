@@ -7,7 +7,7 @@ export interface DeleteFavoriteAudioBook {
 
 // *TODO to test in local
 export const deleteFavoriteAudioBook = async (deleteFavoriteAudioBook: DeleteFavoriteAudioBook) => {
-    const routeUrl = `${url}/api/favorites/${deleteFavoriteAudioBook.id}/`;
+    const routeUrl = `${url}/api/favorites/books/${deleteFavoriteAudioBook.id}/`;
 
     try {
         const response = await axios.delete(routeUrl);

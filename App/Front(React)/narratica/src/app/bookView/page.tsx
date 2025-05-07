@@ -13,7 +13,7 @@ import { isAuthenticated } from "@/app/api/userAuth/checkAuth";
 import { GoHeartFill,GoHeart } from "react-icons/go";
 import {PostFavoriteAudioBook,postFavoriteAudioBook} from '../api/favorites/postFavoriteAudioBook'
 import{fetchFavoriteAudioBookId} from '../api/favorites/getFavoriteAudioBookId'
-
+import{deleteFavoriteAudioBook} from '../api/favorites/DeleteFavoriteAudio'
 // #region Utils
 function sortChapter(bookChapterObj: Chapter[]) {
     bookChapterObj.sort((a, b) => a.chapter_number - b.chapter_number);
@@ -63,25 +63,6 @@ function BookView({ searchParams }: { searchParams: { id: string; } }) {
 
     console.log("informations.audiobook?.cover_art_jpg :", informations.audiobook?.cover_art_jpg)
 
-    if (loggedIn == true){
-        const CheckIfBookLiked = async () => {
-            let user_idStr =  localStorage.getItem("user_id")
-            const user_id = parseInt(user_idStr || "0");
-            const FavoriteBookIdList = await fetchFavoriteAudioBookId(user_id);
-            console.log("search")
-            for(let i = 0; i < FavoriteBookIdList.length; i++){
-                if(FavoriteBookIdList[i].id == user_id && FavoriteBookIdList[i].book == informations.audiobook?.id){
-                    setState(prev => ({
-                        ...prev,
-                        BookIsLiked: true,
-                    }));
-                    console.log("found !")
-                    break
-                }
-            }
-        }
-        CheckIfBookLiked()
-    }
 
 
 
@@ -145,36 +126,29 @@ function BookView({ searchParams }: { searchParams: { id: string; } }) {
     // #endregion
 
     const LikeButton = async () => {
-        const newLikedState = !informations.BookIsLiked; // Predict the next state
+        const newLikedState = !informations.BookIsLiked;
         setState(prev => ({
             ...prev,
             BookIsLiked: newLikedState,
         }));
     
-        const user_idStr = localStorage.getItem("user_id");
-        const user_id = parseInt(user_idStr || "0");
+        const userId = parseInt(localStorage.getItem("user_id") || "0");
+        const bookId = informations.audiobook?.id;
     
-        if (newLikedState === true) {
-            const postObj: PostFavoriteAudioBook = {
-                book: id,
-                user: user_id,
-            };
-            await postFavoriteAudioBook(postObj);
+        if (newLikedState) {
+            await postFavoriteAudioBook({ book: id, user: userId });
         } else {
-            const FavoriteBookIdList = await fetchFavoriteAudioBookId(user_id);
-            for (let i = 0; i < FavoriteBookIdList.length; i++) {
-                if (
-                    FavoriteBookIdList[i].id === user_id &&
-                    FavoriteBookIdList[i].book === informations.audiobook?.id
-                ) {
-                    const linkTableID = FavoriteBookIdList[i].id;
-                    // TODO: call delete API with linkTableID
-                    break;
-                }
+            const favoriteList = await fetchFavoriteAudioBookId(userId);
+            const favoriteEntry = favoriteList.find(
+                entry => entry.user === userId && entry.book === bookId
+            );
+    
+            if (favoriteEntry) {
+                await deleteFavoriteAudioBook({ id: favoriteEntry.id });
             }
         }
     };
-
+    
 
     // #region Rendu
     return (

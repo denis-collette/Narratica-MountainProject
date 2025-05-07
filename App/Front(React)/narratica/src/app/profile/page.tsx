@@ -19,7 +19,7 @@ import { userInfo } from 'os';
 
 function ProfileView({searchParams} : {searchParams : {id : string;}}) {
     
-     let id = 8
+    let id = 8
         
 
         interface Information {
@@ -34,8 +34,7 @@ function ProfileView({searchParams} : {searchParams : {id : string;}}) {
         }
         const [informations, setInformation] = useState<Information>({
         userInfo : [],
-         })
-         id = 8
+        })
             useEffect(() => {
                 const fetchData = async () => {
 
