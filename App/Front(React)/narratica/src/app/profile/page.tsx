@@ -95,7 +95,7 @@ function ProfileView() {
     if (!userInfo) return <p className="text-white text-center mt-8">Utilisateur non trouvé</p>;
 
     return (
-        <main className="min-h-screen bg-black text-white">
+        <main className="min-h-screen bg-black text-white mb-10">
             <section className="p-10">
                 <div className="flex items-start gap-10">
                     <img
