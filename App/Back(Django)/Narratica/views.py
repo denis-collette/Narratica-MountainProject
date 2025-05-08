@@ -3,11 +3,11 @@ from django.contrib.auth import get_user_model
 from django.db.models import Q
 from rest_framework import viewsets, generics, status
 from rest_framework.decorators import action, api_view
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework_simplejwt.tokens import RefreshToken
-import boto3
 from django_filters.rest_framework import DjangoFilterBackend
 
 from Narratica.models import *
@@ -17,6 +17,7 @@ User = get_user_model()
 
 ### AUDIOBOOKS ###
 class AudiobookViewSet(viewsets.ModelViewSet):
+    permission_classes = [AllowAny]
     queryset = Audiobook.objects.all()
     serializer_class = AudiobookSerializer
 
@@ -84,12 +85,14 @@ class AudiobookViewSet(viewsets.ModelViewSet):
 
 ### AUDIOBOOKS ###
 class BookChapterViewSet(viewsets.ModelViewSet):
+    permission_classes = [AllowAny]
     queryset = BookChapter.objects.all()
     serializer_class = BookChapterSerializer
 
 
 ### AUTHORS, NARRATORS, PUBLISHERS ###
 class AuthorViewSet(viewsets.ModelViewSet):
+    permission_classes = [AllowAny]
     queryset = Author.objects.all()
     serializer_class = AuthorSerializer
     
@@ -109,6 +112,7 @@ class AuthorViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 class NarratorViewSet(viewsets.ModelViewSet):
+    permission_classes = [AllowAny]
     queryset = Narrator.objects.all()
     serializer_class = NarratorSerializer
     
@@ -128,6 +132,7 @@ class NarratorViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 class PublisherViewSet(viewsets.ModelViewSet):
+    permission_classes = [AllowAny]
     queryset = Publisher.objects.all()
     serializer_class = PublisherSerializer
     
@@ -149,6 +154,7 @@ class PublisherViewSet(viewsets.ModelViewSet):
 
 ### TAGS ###
 class TagViewSet(viewsets.ModelViewSet):
+    permission_classes = [AllowAny]
     queryset = Tag.objects.all()
     serializer_class = TagsSerializer
 
@@ -192,6 +198,7 @@ class FavoritePublisherViewSet(viewsets.ModelViewSet):
 
 ### SEARCH ENTITIES ###
 class EntitySearchView(APIView):
+    permission_classes = [AllowAny]
     def get(self, request, query):
         data = {}
         data['audiobooks'] = AudiobookSerializer(Audiobook.objects.filter(title__icontains=query), many=True).data
@@ -203,9 +210,11 @@ class EntitySearchView(APIView):
 
 ### USERS & AUTH ###
 class RegisterView(generics.CreateAPIView):
+    permission_classes = [AllowAny]
     serializer_class = UserRegistrationSerializer
 
 class LoginView(APIView):
+    permission_classes = [AllowAny]
     def post(self, request):
         s = LoginSerializer(data=request.data)
         s.is_valid(raise_exception=True)

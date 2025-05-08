@@ -10,11 +10,22 @@ export interface FavoriteAuthor {
 
 export const fetchFavoriteAuthorId = async (user_id : number): Promise<FavoriteAuthor[]> => {
     
-    let routeUrl = url + `api/favorites/?type=author&user=${user_id}/`
+    let routeUrl = url + `api/favorites/authors/?user=${user_id}`
     
     try {
-        const response = await axios.get<FavoriteAuthor[]>(routeUrl);
-        return response.data;
+        const token = localStorage.getItem("access");
+                const response = await fetch(routeUrl, { 
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+        
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+        
+                const data: FavoriteAuthor[] = await response.json();
+                return data;
     } catch (error) {
         console.error('Error fetching data:', error);
         return [];

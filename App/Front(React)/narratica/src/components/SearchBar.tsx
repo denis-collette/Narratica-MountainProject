@@ -4,10 +4,11 @@ import { SearchAudioByName } from "../app/api/Search/SearchAudiobookByName";
 import ResearchRow from './researchRow';
 import { fetchAuthorById } from '../app/api/audio/getAuthorById';
 import { fetchNarratorById } from '../app/api/audio/getNarratorById';
+import { FaSearch } from "react-icons/fa";
 
 interface SearchBarProps {
-  search: string;
-  setSearch: (term: string) => void;
+    search: string;
+    setSearch: (term: string) => void;
 }
 
 const SearchBar: React.FC<SearchBarProps> = ({ search, setSearch }) => {
@@ -66,19 +67,24 @@ const SearchBar: React.FC<SearchBarProps> = ({ search, setSearch }) => {
     // You can add navigation or other actions here
   };
 
-  return (
-    <div className="relative w-full sm:w-64">
-      <input
-        type="text"
-        placeholder="Rechercher un livre..."
-        value={search}
-        onChange={async (e) => {
-          setSearch(e.target.value); // Update search term
-        }}
-        onFocus={() => setShowDropdown(true)}
-        onBlur={() => setTimeout(() => setShowDropdown(false), 100)} // Small delay to prevent immediate dropdown close
-        className="px-4 py-2 rounded border w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-      />
+    return (
+        <section className="relative w-full sm:w-64">
+            <div className="relative flex items-center">
+                <FaSearch className="absolute left-2 top-1/2 -translate-y-1/2 text-white" />
+                <input
+                    type="text"
+                    placeholder="Que souhaitez-vous écouter ?"
+                    value={search}
+                    onChange={async (e) => {
+                        setSearch(e.target.value); // Update search term
+                        let JsonObj = await SearchAudioByName(e.target.value);
+                        setBookList(JsonObj.audiobooks); // Update book list based on search term
+                    }}
+                    onFocus={() => setShowDropdown(true)}
+                    onBlur={() => setTimeout(() => setShowDropdown(false), 100)} // Small delay to prevent immediate dropdown close
+                    className="pl-8 py-2 bg-neutral-800 rounded-full w-full sm:w-64 border border-transparent hover:border-neutral-500 focus:outline-none"
+                />
+            </div>
 
       {showDropdown && bookList.length > 0 && (
         <ul className="absolute z-10 w-full mt-1 bg-black border-gray-300 rounded-md shadow-lg max-h-60 overflow-y-auto">
