@@ -1,5 +1,5 @@
 import React from 'react'
-import { Audiobook, BookWithAuthorAndNarrator } from '@/app/api/audio/getAllAudioBooks';
+import { Audiobook, BookWithAuthorAndNarrator } from '../app/api/audio/getAllAudioBooks';
 import Link from "next/link"
 
 interface Props {

@@ -2,7 +2,7 @@ import React from "react";
 import { FaPlay, FaPause } from "react-icons/fa";
 import { FaAngleDoubleLeft, FaAngleDoubleRight } from "react-icons/fa";
 import { AiOutlineFastBackward, AiOutlineFastForward } from "react-icons/ai";
-import { HiSpeakerWave } from "react-icons/hi2";
+import { HiSpeakerWave, HiSpeakerXMark } from "react-icons/hi2";
 import { useAudio } from "./AudioContext";
 
 /**
@@ -30,15 +30,16 @@ const AudioPlayerBar: React.FC = () => {
         coverImage,
         bookTitle,
         currentTime,
-        duration
+        duration,
+        volume
     } = audioState;
     // #endregion
 
     // #region Rendu JSX
     return (
-        <section className="fixed bottom-0 w-full bg-black text-white px-4 py-2 flex items-center justify-between h--[80px]">
+        <section className="fixed bottom-0 left-0 right-0 w-full bg-black text-white px-4 py-2 flex items-center justify-between h-[80px]">
             {/* #region Partie gauche : couverture et titre */}
-            <section className="flex items-center gap-4">
+            <section className="w-1/4 flex items-center gap-4">
                 {coverImage && (
                     <img
                         src={coverImage}
@@ -54,9 +55,9 @@ const AudioPlayerBar: React.FC = () => {
             {/* #endregion */}
 
             {/* #region Partie centrale : boutons de lecture et barre de progression */}
-            <section className="flex flex-col items-center justify-center gap-1 flex-1 max-w-xl">
+            <section className="flex-1 flex flex-col items-center justify-center gap-1 max-w-2xl mx-auto px-4">
                 {/* Contrôles de lecture */}
-                <section className="flex items-center gap-4">
+                <section className="flex items-center justify-center gap-4 w-full">
                     <button className="p-2 rounded-md hover:bg-white/10" onClick={previousChapter}>
                         <AiOutlineFastBackward />
                     </button>
@@ -97,13 +98,17 @@ const AudioPlayerBar: React.FC = () => {
             {/* #endregion */}
 
             {/* #region Partie droite : contrôle du volume */}
-            <section className="flex items-center gap-2 w-32">
-                <HiSpeakerWave className="w-5 h-5" />
+            <section className="w-1/4 flex items-center justify-end gap-2">
+                {volume === 0 ? (
+                    <HiSpeakerXMark className="w-5 h-5" />
+                ) : (
+                    <HiSpeakerWave className="w-5 h-5" />
+                )}
                 <input
                     type="range"
                     min="0"
                     max="100"
-                    className="w-full accent-green-400"
+                    className="w-32 accent-green-400"
                     onChange={(e) => handleVolume(Number(e.target.value) / 100)}
                 />
             </section>

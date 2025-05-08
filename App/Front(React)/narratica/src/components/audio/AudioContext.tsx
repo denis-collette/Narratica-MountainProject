@@ -78,17 +78,17 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     //#region État
 
     const [audioState, setAudioState] = useState<AudioState>({
-    audioSource: null,
-    isPlaying: false,
-    currentChapterTitle: undefined,
-    coverImage: undefined,
-    bookTitle: undefined,
-    volume: 1,
-    currentTime: 0,
-    duration: 0,
-    progress: 0,
-    allChapters: [],
-    currentChapterIndex: 0
+        audioSource: null,
+        isPlaying: false,
+        currentChapterTitle: undefined,
+        coverImage: undefined,
+        bookTitle: undefined,
+        volume: 1,
+        currentTime: 0,
+        duration: 0,
+        progress: 0,
+        allChapters: [],
+        currentChapterIndex: 0
     });
 
     const audioReference = useRef<HTMLAudioElement | null>(null);
@@ -189,6 +189,7 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     const loadChapter = (chapter: Chapter, bookTitle: string, coverImage: string) => {
         const audio = audioReference.current;
         if (!audio) return;
+
         audio.src = chapter.audio_data;
         audio.load();
 

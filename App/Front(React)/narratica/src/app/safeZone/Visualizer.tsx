@@ -14,7 +14,8 @@ export type VisualizerMode =
   | 'fire'
   | 'holographic'
   | 'liquid'
-  | 'tunnel';
+  | 'tunnel'
+  | 'rosace';
 
 export const allVisualizerModes: VisualizerMode[] = [
   'bars',
@@ -27,6 +28,7 @@ export const allVisualizerModes: VisualizerMode[] = [
   'holographic',
   'liquid',
   'tunnel',
+  'rosace'
 ];
 
 export default function Visualizer({ mode = 'bars' }: { mode?: VisualizerMode }) {
@@ -82,6 +84,9 @@ export default function Visualizer({ mode = 'bars' }: { mode?: VisualizerMode })
         case 'tunnel':
           drawTunnel(ctx, dataArray, canvas);
           break;
+        case 'rosace':
+          drawRosace(ctx, dataArray, canvas);
+          break;
       }
 
       animationRef.current = requestAnimationFrame(draw);
@@ -106,7 +111,7 @@ export default function Visualizer({ mode = 'bars' }: { mode?: VisualizerMode })
 function drawBars(ctx: CanvasRenderingContext2D, data: Uint8Array, canvas: HTMLCanvasElement, length: number) {
   const barWidth = (canvas.width / length) * 2.5;
   let x = 0;
-  
+
   // Loop through the bars
   for (let i = 0; i < length; i++) {
     const height = data[i];
@@ -126,7 +131,7 @@ function drawBars(ctx: CanvasRenderingContext2D, data: Uint8Array, canvas: HTMLC
 
     // Draw the bar with a glow effect
     ctx.fillRect(x, canvas.height - height, barWidth, height);
-    
+
     // Reset shadow for next bar (optional for cleanliness)
     ctx.shadowBlur = 0;
 
@@ -416,4 +421,31 @@ function drawTunnel(ctx: CanvasRenderingContext2D, data: Uint8Array, canvas: HTM
   }
 
   ctx.restore();
+}
+
+// Fonction pour dessiner une rosace
+function drawRosace(ctx: CanvasRenderingContext2D, data: Uint8Array, canvas: HTMLCanvasElement) {
+  const { width, height } = canvas;
+  const centerX = width / 2;
+  const centerY = height / 2;
+  const petalCount = 100;
+  const maxRadius = Math.min(width, height) * 0.4;
+
+  ctx.clearRect(0, 0, width, height);
+
+  for (let i = 0; i < petalCount; i++) {
+    const angle = (i / petalCount) * Math.PI * 2;
+    const frequencyIndex = Math.floor((i / petalCount) * data.length);
+    const radius = (data[frequencyIndex] / 255) * maxRadius;
+
+    ctx.beginPath();
+    ctx.moveTo(centerX, centerY);
+    ctx.lineTo(
+      centerX + Math.cos(angle) * radius,
+      centerY + Math.sin(angle) * radius
+    );
+    ctx.strokeStyle = `hsl(${(i * 360) / petalCount}, 100%, 50%)`;
+    ctx.lineWidth = 2;
+    ctx.stroke();
+  }
 }

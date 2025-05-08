@@ -1,14 +1,22 @@
 "use client";
 import { useEffect, useState } from 'react';
-import { fetchAllAudioBooks } from '../app/api/audio/getAllAudioBooks';
+import { BookWithAuthorAndNarrator }  from "./api/audio/getAllAudioBooks";
 import Card from '@/components/Card';
 import { fetchAuthorById } from './api/audio/getAuthorById';
 import { fetchNarratorById } from './api/audio/getNarratorById';
-import { BookWithAuthorAndNarrator } from '../app/api/audio/getAllAudioBooks';
+import { fetchAllAudioBooks } from "./api/audio/getAllAudioBooks";
 import { fetchAllTags } from './api/audio/getAllTags';
 import { Tag } from './api/audio/getTagById';
 import Filter from '@/components/TagFilter';
 import { useSearch } from "@/components/SearchContext";
+import {
+    Carousel,
+    CarouselContent,
+    CarouselItem,
+    CarouselNext,
+    CarouselPrevious,
+} from "@/components/ui/carousel"
+
 
 export default function HomePage() {
 
@@ -78,15 +86,60 @@ export default function HomePage() {
                 <p>Chargement...</p>
             ) : (
                 <>
-                    <section className='ml-4 px-4'>
-                        <section className="flex flex-wrap justify-start gap-5 w-screen mb-4 px-2">
-                            <Filter
-                                tags={state.tags}
-                                selectedTag={state.selectedTag}
-                                setSelectedTag={(tag) => setState((prev) => ({ ...prev, selectedTag: tag }))}
-                            />
+                    <section className='ml-4 w-1/2'>
+                        <section className="relative mx-12">
+                            <Carousel
+                                opts={{
+                                    align: "start",
+                                    loop: true,
+                                    slidesToScroll: 1,
+                                    containScroll: "trimSnaps"
+                                }}
+                                className="w-full mb-8"
+                            >
+                                <CarouselContent className='gap-2'>
+                                    {/* All Tags */}
+                                    <CarouselItem className="basis-auto">
+                                        <button
+                                            onClick={() => setState(prev => ({
+                                                ...prev,
+                                                selectedTag: null
+                                            }))}
+                                            className={`
+                                                px-4 py-1 rounded-full text-sm font-medium
+                                                transition-all duration-200 ease-in-out
+                                                ${!state.selectedTag ? "bg-white text-black" : "bg-neutral-800 text-white hover:bg-neutral-700"}`}>
+                                            All Tags
+                                        </button>
+                                    </CarouselItem>
+
+                                    {/* Le reste des tags */}
+                                    {state.tags.map((tag) => (
+                                        <CarouselItem key={tag.id} className="basis-auto">
+                                            <button
+                                                onClick={() => setState(prev => ({
+                                                    ...prev,
+                                                    selectedTag: tag.id === state.selectedTag ? null : tag.id
+                                                }))}
+                                                className={`
+                                                    px-4 py-1 rounded-full text-sm font-medium
+                                                    transition-all duration-200 ease-in-out
+                                                    ${state.selectedTag === tag.id
+                                                        ? "bg-white text-black"
+                                                        : "bg-neutral-800 text-white hover:bg-neutral-700"
+                                                    }
+                `}
+                                            >
+                                                {tag.name}
+                                            </button>
+                                        </CarouselItem>
+                                    ))}
+                                </CarouselContent>
+                                <CarouselPrevious className="bg-neutral-800 text-white hover:bg-white hover:text-black border-none" />
+                                <CarouselNext className="bg-neutral-800 text-white hover:bg-white hover:text-black border-none" />
+                            </Carousel>
                         </section>
-                        <section className="flex flex-wrap justify-start gap-5 mb-16 content-center w-screen">
+                        <section className="flex flex-wrap justify-start gap-5 mb-25 content-center w-screen">
                             {filteredBooks.map((book) => (
                                 <Card key={book.id} book={book} />
                             ))}
