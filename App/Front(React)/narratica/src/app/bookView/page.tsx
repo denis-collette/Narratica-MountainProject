@@ -217,7 +217,7 @@ useEffect(() => {
                                 </div>
                             </div>
                         </div>
-                        <div className='bg-gray-800/25 flex-1 h-full border-b-[65px]  overflow-y-auto'>
+                        <div className='bg-gray-800/25 flex-1 h-full border-b-[80px]  overflow-y-auto'>
                             <div className='text-white pt-[3%] flex-col items-center m-auto w-[80%] pb-[3%]'>
                                 <h2 className='text-[0.5em]'>Narrated by : {informations.narrator?.name}</h2>
                                 <h2 className='text-[0.7em]'>{informations.audiobook?.description}</h2>

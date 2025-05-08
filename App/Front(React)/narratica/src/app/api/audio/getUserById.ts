@@ -1,7 +1,7 @@
 import axios from "axios";
 import { url } from "../baseUrl";
 
-export  interface User{
+export interface User {
     id: number,
     username: string,
     email: string,
@@ -27,5 +27,3 @@ export const fetchUserById = async (userId: number): Promise<User[]> => {
         return [];
     }
 };
-
-
