@@ -7,7 +7,8 @@ import { useSearch } from "@/components/SearchContext";
 import { useRouter } from "next/navigation";
 import { isAuthenticated } from "@/app/api/userAuth/checkAuth";
 import { logoutUser } from "@/app/api/userAuth/logout";
-
+import { GoHome, GoHomeFill } from "react-icons/go";
+import Image from "next/image";
 
 
 export default function NavBar() {
@@ -47,13 +48,16 @@ export default function NavBar() {
     }, []);
 
     return (
-        <nav className="relative p-2 bg-[#120e0c] text-white z-10 px-3.5">
+        <nav className="relative p-2 bg-[#120e0c] text-white z-10 px-3.5 mb-5">
             <ul className="flex gap-5 justify-between items-center">
-                <div className="flex gap-5 justify-between items-center">
-                <Link href="/">Accueil</Link>
-                {loggedIn ? (
+                <div className="flex gap-2 justify-between items-center">
+                    <Link href="/" >
+                        {/* <GoHome size={22} /> */}
+                        <Image src="/favicon.ico" alt="Home" width={35} height={35} />
+                    </Link>
+                    {loggedIn ? (
                         <>
-                            <Link href="/favorites">Favorites</Link>
+                            <Link href="/favorites" className="px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ease-in-out bg-neutral-800 text-white hover:bg-neutral-700 hover:text-white">Favorites</Link>
                         </>
                     ) : (
                         <>
@@ -66,24 +70,24 @@ export default function NavBar() {
                 <section className="flex gap-5 items-center">
                     {loggedIn ? (
                         <>
-                            <li><button onClick={handleLogout}>Logout</button></li>
+                            <li><button onClick={handleLogout} className="px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ease-in-out bg-neutral-800 text-white hover:bg-neutral-700 hover:text-white">Logout</button></li>
                             <Avatar>
                                 <Link href="/profile">
-                                <AvatarImage src={profileImg || "https://github.com/shadcn.png"} 
-                                    onError={(e) => {
-                                        (e.target as HTMLImageElement).src = "/default_avatar.png";
-                                    }}
-                                />
+                                    <AvatarImage src={profileImg || "https://github.com/shadcn.png"}
+                                        onError={(e) => {
+                                            (e.target as HTMLImageElement).src = "/default_avatar.png";
+                                        }}
+                                    />
                                     <AvatarFallback>{username.slice(0, 2).toUpperCase()}</AvatarFallback>
                                 </Link>
-                            </Avatar> 
-                            
+                            </Avatar>
+
 
                         </>
                     ) : (
                         <>
-                            <li><Link href="/login">Connexion</Link></li>
-                            <li><Link href="/signup">Inscription</Link></li>
+                            <li><Link href="/login" className="px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ease-in-out bg-neutral-800 text-white hover:bg-neutral-700 hover:text-white">Connexion</Link></li>
+                            <li><Link href="/signup" className="px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ease-in-out bg-neutral-800 text-white hover:bg-neutral-700 hover:text-white">Inscription</Link></li>
                         </>
                     )}
                 </section>

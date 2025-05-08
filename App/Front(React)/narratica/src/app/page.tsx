@@ -99,14 +99,14 @@ export default function HomePage() {
                             >
                                 <CarouselContent className='gap-2'>
                                     {/* All Tags */}
-                                    <CarouselItem className="basis-auto pl-6">
+                                    <CarouselItem className="basis-auto">
                                         <button
                                             onClick={() => setState(prev => ({
                                                 ...prev,
                                                 selectedTag: null
                                             }))}
                                             className={`
-                                                px-5 py-2 rounded-full text-sm font-medium
+                                                px-4 py-1 rounded-full text-sm font-medium
                                                 transition-all duration-200 ease-in-out
                                                 ${!state.selectedTag ? "bg-white text-black" : "bg-neutral-800 text-white hover:bg-neutral-700"}`}>
                                             All Tags
@@ -115,14 +115,14 @@ export default function HomePage() {
 
                                     {/* Le reste des tags */}
                                     {state.tags.map((tag) => (
-                                        <CarouselItem key={tag.id} className="basis-auto pl-0">
+                                        <CarouselItem key={tag.id} className="basis-auto">
                                             <button
                                                 onClick={() => setState(prev => ({
                                                     ...prev,
                                                     selectedTag: tag.id === state.selectedTag ? null : tag.id
                                                 }))}
                                                 className={`
-                                                    px-5 py-2 rounded-full text-sm font-medium
+                                                    px-4 py-1 rounded-full text-sm font-medium
                                                     transition-all duration-200 ease-in-out
                                                     ${state.selectedTag === tag.id
                                                         ? "bg-white text-black"
