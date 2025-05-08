@@ -10,9 +10,18 @@ export const deleteFavoriteAudioBook = async (deleteFavoriteAudioBook: DeleteFav
     const routeUrl = url + `api/favorites/books/${deleteFavoriteAudioBook.id}/`;
 
     try {
-        const response = await axios.delete(routeUrl);
-        console.log('Response data:', response.data);
+        const token = localStorage.getItem("access");
+
+
+        const response = await axios.delete(routeUrl, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        console.log('Response data: ', response.data);
+        console.log("Deleted successfully: ", response.status);
+
     } catch (error) {
-        console.error('Error:', error);
+        console.error('Error deleting favorite audiobook: ', error);
     }
 };

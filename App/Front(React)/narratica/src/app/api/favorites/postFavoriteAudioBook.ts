@@ -11,12 +11,21 @@ export interface PostFavoriteAudioBook {
 
 // *TODO to test in local
 export const postFavoriteAudioBook = async ( postFavoriteAudioBook : PostFavoriteAudioBook) => {
-    let routeUrl = url + `api/favorites/books/` //? Should be `/api/favorites/books/?user=${userId}` Missing userId
-        axios.post(routeUrl, postFavoriteAudioBook)
-        .then(response => {
-            console.log('Response data:', response.data);
-        })
-        .catch(error => {
-            console.error('Error:', error);
+    const routeUrl = url + `api/favorites/books/`
+    
+    try {
+        const token = localStorage.getItem("access");
+
+        const response = await axios.post<PostFavoriteAudioBook>(routeUrl, postFavoriteAudioBook, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+            },
         });
+
+        console.log('Response data:', response.data);
+        
+    } catch (error) {
+        console.error('Error posting favorite audiobook:', error);
+    }
 }
