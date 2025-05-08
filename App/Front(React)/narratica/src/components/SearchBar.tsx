@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { Audiobook } from "../app/api/audio/getAllAudioBooks";
 import { SearchAudioByName } from "../app/api/Search/SearchAudiobookByName";
 import ResearchRow from './researchRow';
+import { fetchAuthorById } from '../app/api/audio/getAuthorById';
+import { fetchNarratorById } from '../app/api/audio/getNarratorById';
 
 interface SearchBarProps {
   search: string;
@@ -11,6 +13,8 @@ interface SearchBarProps {
 const SearchBar: React.FC<SearchBarProps> = ({ search, setSearch }) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [bookList, setBookList] = useState<Audiobook[]>([]);
+  const [authors, setAuthors] = useState<{ [key: string]: string }>({});
+  const [narrators, setNarrators] = useState<{ [key: string]: string }>({});
 
   useEffect(() => {
     if (search) {
@@ -20,10 +24,46 @@ const SearchBar: React.FC<SearchBarProps> = ({ search, setSearch }) => {
     }
   }, [search]);
 
+  useEffect(() => {
+    const loadBooks = async () => {
+      let JsonObj = await SearchAudioByName(search);
+      setBookList(JsonObj.audiobooks);
+
+      // Fetch author and narrator names for each book in the search result
+      const authorPromises = JsonObj.audiobooks.map((book) =>
+        fetchAuthorById(book.author).catch(() => ({ name: "Unknown Author" }))
+      );
+      const narratorPromises = JsonObj.audiobooks.map((book) =>
+        fetchNarratorById(book.narrator).catch(() => ({ name: "Unknown Narrator" }))
+      );
+
+      // Resolve promises for authors and narrators
+      const authorsList = await Promise.all(authorPromises);
+      const narratorsList = await Promise.all(narratorPromises);
+
+      // Create a map of author and narrator names
+      const authorMap: { [key: string]: string } = {};
+      authorsList.forEach((author, index) => {
+        authorMap[JsonObj.audiobooks[index].author] = author.name;
+      });
+
+      const narratorMap: { [key: string]: string } = {};
+      narratorsList.forEach((narrator, index) => {
+        narratorMap[JsonObj.audiobooks[index].narrator] = narrator.name;
+      });
+
+      setAuthors(authorMap);
+      setNarrators(narratorMap);
+    };
+
+    if (search) {
+      loadBooks();
+    }
+  }, [search]);
+
   const handleItemClick = (book: Audiobook) => {
     console.log(`Item clicked: ${book.title}`);
-    // Add any action you want to perform on click here, for example:
-    // Navigate to the book details page, etc.
+    // You can add navigation or other actions here
   };
 
   return (
@@ -34,8 +74,6 @@ const SearchBar: React.FC<SearchBarProps> = ({ search, setSearch }) => {
         value={search}
         onChange={async (e) => {
           setSearch(e.target.value); // Update search term
-          let JsonObj = await SearchAudioByName(e.target.value);
-          setBookList(JsonObj.audiobooks); // Update book list based on search term
         }}
         onFocus={() => setShowDropdown(true)}
         onBlur={() => setTimeout(() => setShowDropdown(false), 100)} // Small delay to prevent immediate dropdown close
@@ -44,7 +82,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ search, setSearch }) => {
 
       {showDropdown && bookList.length > 0 && (
         <ul className="absolute z-10 w-full mt-1 bg-black border-gray-300 rounded-md shadow-lg max-h-60 overflow-y-auto">
-          {Object.values(bookList) // Convert the object to an array of book values
+          {bookList
             .filter((book) =>
               book?.title?.toLowerCase().includes(search.toLowerCase())
             )
@@ -57,7 +95,11 @@ const SearchBar: React.FC<SearchBarProps> = ({ search, setSearch }) => {
                 }}
                 onClick={() => handleItemClick(book)} // Call handleItemClick on click
               >
-                <ResearchRow book={book} />
+                <ResearchRow
+                  book={book}
+                  author={authors[book.author] || "Unknown Author"}
+                  narrator={narrators[book.narrator] || "Unknown Narrator"}
+                />
               </li>
             ))}
         </ul>
