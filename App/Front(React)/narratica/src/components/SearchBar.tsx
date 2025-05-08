@@ -110,7 +110,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ search, setSearch }) => {
             ))}
         </ul>
       )}
-    </div>
+    </section>
   );
 };
 
