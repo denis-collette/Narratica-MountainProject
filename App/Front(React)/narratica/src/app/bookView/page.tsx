@@ -123,8 +123,8 @@ useEffect(() => {
 
             setAudioState((prevState) => ({
                 ...prevState,
-                bookTitle: audiobook.title,
-                coverImage: audiobook.cover_art_jpg,
+                // bookTitle: audiobook.title,
+                // coverImage: audiobook.cover_art_jpg,
                 allChapters: chapters,
             }));
 
