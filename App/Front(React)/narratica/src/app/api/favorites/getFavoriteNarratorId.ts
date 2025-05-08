@@ -10,7 +10,7 @@ export interface FavoriteNarrator {
 
 export const fetchFavoriteNarratorId = async (user_id : number): Promise<FavoriteNarrator[]> => {
     
-    let routeUrl = url + `api/favorites/?type=narrator&user=${user_id}/`
+    let routeUrl = url + `api/favorites/narrators/?user=${user_id}`
     
     try {
         const response = await axios.get<FavoriteNarrator[]>(routeUrl);

@@ -10,7 +10,7 @@ export interface FavoriteAuthor {
 
 export const fetchFavoriteAuthorId = async (user_id : number): Promise<FavoriteAuthor[]> => {
     
-    let routeUrl = url + `api/favorites/?type=author&user=${user_id}/`
+    let routeUrl = url + `api/favorites/authors/?user=${user_id}`
     
     try {
         const response = await axios.get<FavoriteAuthor[]>(routeUrl);
