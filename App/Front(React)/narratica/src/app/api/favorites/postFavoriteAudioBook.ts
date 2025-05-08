@@ -11,7 +11,7 @@ export interface PostFavoriteAudioBook {
 
 // *TODO to test in local
 export const postFavoriteAudioBook = async ( postFavoriteAudioBook : PostFavoriteAudioBook) => {
-    let routeUrl = url + `api/favorites/books/` //? Should be `/api/favorites/?type=book&user=${userId}` Missing userId
+    let routeUrl = url + `api/favorites/books/` //? Should be `/api/favorites/books/?user=${userId}` Missing userId
         axios.post(routeUrl, postFavoriteAudioBook)
         .then(response => {
             console.log('Response data:', response.data);

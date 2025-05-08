@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 
-import NavBar from "@/components/NavBar";
 import Card from "@/components/Card";
 import { fetchUserProfile, UserProfile } from "../api/userAuth/fetchUserProfile";
 import { fetchFavoriteAudioBookId } from "../api/favorites/getFavoriteAudioBookId";

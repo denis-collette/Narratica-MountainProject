@@ -1,4 +1,4 @@
-import axios from "axios";
+// import axios from "axios";
 import { url } from "../baseUrl";
 
 export interface FavoriteAudioBook {
@@ -10,11 +10,22 @@ export interface FavoriteAudioBook {
 
 export const fetchFavoriteAudioBookId = async (user_id : number): Promise<FavoriteAudioBook[]> => {
     
-    let routeUrl = url + `/api/favorites/books/?user=${user_id}`
+    let routeUrl = url + `api/favorites/books/?user=${user_id}`
     
     try {
-        const response = await axios.get<FavoriteAudioBook[]>(routeUrl);
-        return response.data;
+        const token = localStorage.getItem("access");
+        const response = await fetch(routeUrl, { 
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data: FavoriteAudioBook[] = await response.json();
+        return data;
     } catch (error) {
         console.error('Error fetching data:', error);
         return [];

@@ -1,5 +1,6 @@
-import axios from "axios";
+// import axios from "axios";
 import { url } from "../baseUrl";
+import { authRequest } from "./authRequest";
 
 export interface UserProfile {
     id: number;
@@ -23,11 +24,15 @@ export const fetchUserProfile = async (userId: number): Promise<UserProfile | nu
     const token = localStorage.getItem("access");
 
     try {
-        const response = await axios.get<UserProfile>(routeUrl, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
+        const response = await authRequest({
+            method: "GET",
+            url: routeUrl,
         });
+        // const response = await axios.get<UserProfile>(routeUrl, {
+        //     headers: {
+        //         Authorization: `Bearer ${token}`,
+        //     },
+        // });
 
         return response.data;
     } catch (error) {
