@@ -8,7 +8,7 @@ interface SearchBarProps {
 
 const SearchBar: React.FC<SearchBarProps> = ({ search, setSearch }) => {
     return (
-        <section className="flex items-center border rounded w-full sm:w-64">
+        <section className="flex items-center bg-neutral-800 rounded-full w-full sm:w-64 border border-transparent hover:border-neutral-500">
             <FaSearch className="ml-2 text-white-500" />
             <input
                 type="text"
