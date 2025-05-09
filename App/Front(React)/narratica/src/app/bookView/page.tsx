@@ -180,7 +180,7 @@ useEffect(() => {
     // #region Rendu
     return (
         
-        <section>
+        <section className='relative min-h-screen overflow-x-hidden'>
             {informations.loadingChapter && informations.loadingAudioBook ? (
                 <p>Chargement...</p>
             ) : (
