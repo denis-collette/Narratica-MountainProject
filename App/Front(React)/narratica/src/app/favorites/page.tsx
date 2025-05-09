@@ -10,7 +10,7 @@ import { fetchAllTags } from '../api/audio/getAllTags';
 import { Tag } from '../api/audio/getTagById';
 import Filter from '@/components/TagFilter';
 import { useSearch } from "@/components/SearchContext";
-
+import { fetchUserProfile, UserProfile } from "../api/userAuth/fetchUserProfile";
 export default function HomePage() {
 
     // Interface pour tout regrouper
@@ -21,7 +21,7 @@ export default function HomePage() {
     //     authorName: string;
     //     narratorName: string;
     // }
-
+const [userInfo, setUserInfo] = useState<UserProfile | null>(null);
     interface FavoritesPageState {
         audiobooks: BookWithAuthorAndNarrator[];
         tags: Tag[];
@@ -37,6 +37,7 @@ export default function HomePage() {
 
     const { search } = useSearch()
     let user_id =  localStorage.getItem("user_id")
+ 
 
     useEffect(() => {
 
@@ -70,8 +71,18 @@ export default function HomePage() {
             }));
         };
 
+        
+    try {
+        const loadUSer = async () => {
+        const userData = await fetchUserProfile(Number(user_id));
+        setUserInfo(userData);
+        }
+    loadUSer()
+    }   catch{ console.log("user not found")}    
+    
         loadBooks();
     }}, []);
+
 
     const filteredBooks = state.audiobooks.filter((book) => {
         const matchesTag = state.selectedTag ? book.tags?.includes(state.selectedTag) : true;
@@ -85,6 +96,7 @@ export default function HomePage() {
                 <p>Chargement...</p>
             ) : (
                 <>
+                <div className='text-white'> {userInfo?.username} : Favorites</div>
                     <section className='ml-4 px-4'>
                         <section className="flex flex-wrap justify-start gap-5 w-screen mb-4 px-2">
                             <Filter
