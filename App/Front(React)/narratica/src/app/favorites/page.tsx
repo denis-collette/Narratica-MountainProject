@@ -19,24 +19,26 @@ import {
 } from "@/components/ui/carousel"
 import SkeletonCard, { SkeletonCarousel } from '@/components/SkeletonAll';
 
-import { fetchUserProfile, UserProfile } from "../api/userAuth/fetchUserProfile";
 export default function HomePage() {
 
     // Interface pour tout regrouper
+
     // Ici le extends hérite de Audiobook et ajoute 2 éléments authorName et narratorName 
     // mais ceci fonctionne aussi : BookWithAuthorAndNarrator en le mettant dans le usestate
     // voir getAllAudioBooks ligne 18
+
     // interface AudiobookAllInfos extends Audiobook {
     //     authorName: string;
     //     narratorName: string;
     // }
-const [userInfo, setUserInfo] = useState<UserProfile | null>(null);
+
     interface FavoritesPageState {
         audiobooks: BookWithAuthorAndNarrator[];
         tags: Tag[];
         loading: boolean;
         selectedTag: number | null;
     }
+
     const [state, setState] = useState<FavoritesPageState>({
         audiobooks: [],
         tags: [],
@@ -49,6 +51,7 @@ const [userInfo, setUserInfo] = useState<UserProfile | null>(null);
     let user_id = localStorage.getItem("user_id")
 
     useEffect(() => {
+
 
         if (user_id !== null) {
             let data: BookWithAuthorAndNarrator[] = []
@@ -65,32 +68,24 @@ const [userInfo, setUserInfo] = useState<UserProfile | null>(null);
                     const author = await fetchAuthorById(book.author).catch(() => ({ id: 0, name: "Unknown Author" }));
                     const narrator = await fetchNarratorById(book.narrator).catch(() => ({ id: 0, name: "Unknown Narrator" }));
 
-                return {
-                    ...book,
-                    authorName: author.name,
-                    narratorName: narrator.name,
-                };
-            }));
-            setState((prev) => ({
-                ...prev,
-                audiobooks: booksInfos,
-                tags: allTags,
-                loading: false,
-            }));
-        };
+                    return {
+                        ...book,
+                        authorName: author.name,
+                        narratorName: narrator.name,
+                    };
+                }));
 
-        
-    try {
-        const loadUSer = async () => {
-        const userData = await fetchUserProfile(Number(user_id));
-        setUserInfo(userData);
+                setState((prev) => ({
+                    ...prev,
+                    audiobooks: booksInfos,
+                    tags: allTags,
+                    loading: false,
+                }));
+            };
+
+            loadBooks();
         }
-    loadUSer()
-    }   catch{ console.log("user not found")}    
-    
-        loadBooks();
-    }}, []);
-
+    }, []);
 
     const filteredBooks = state.audiobooks.filter((book) => {
         const matchesTag = state.selectedTag ? book.tags?.includes(state.selectedTag) : true;
@@ -116,14 +111,59 @@ const [userInfo, setUserInfo] = useState<UserProfile | null>(null);
                 </>
             ) : (
                 <>
-                <div className='text-white'> {userInfo?.username} : Favorites</div>
-                    <section className='ml-4 px-4'>
-                        <section className="flex flex-wrap justify-start gap-5 w-screen mb-4 px-2">
-                            <Filter
-                                tags={state.tags}
-                                selectedTag={state.selectedTag}
-                                setSelectedTag={(tag) => setState((prev) => ({ ...prev, selectedTag: tag }))}
-                            />
+                    <section className='ml-4 w-1/2'>
+                        <section className="relative mx-12">
+                            <Carousel
+                                opts={{
+                                    align: "start",
+                                    loop: true,
+                                    slidesToScroll: 1,
+                                    containScroll: "trimSnaps"
+                                }}
+                                className="w-full mb-8"
+                            >
+                                <CarouselContent className='gap-2'>
+                                    {/* All Tags */}
+                                    <CarouselItem className="basis-auto">
+                                        <button
+                                            onClick={() => setState(prev => ({
+                                                ...prev,
+                                                selectedTag: null
+                                            }))}
+                                            className={`
+                                            px-4 py-1 rounded-full text-sm font-medium
+                                            transition-all duration-200 ease-in-out
+                                            ${!state.selectedTag ? "bg-white text-black" : "bg-neutral-800 text-white hover:bg-neutral-700"}
+                                        `}>
+                                            All Tags
+                                        </button>
+                                    </CarouselItem>
+
+                                    {/* Le reste des tags */}
+                                    {state.tags.map((tag) => (
+                                        <CarouselItem key={tag.id} className="basis-auto">
+                                            <button
+                                                onClick={() => setState(prev => ({
+                                                    ...prev,
+                                                    selectedTag: tag.id === state.selectedTag ? null : tag.id
+                                                }))}
+                                                className={`
+                                                px-4 py-1 rounded-full text-sm font-medium
+                                                transition-all duration-200 ease-in-out
+                                                ${state.selectedTag === tag.id
+                                                        ? "bg-white text-black"
+                                                        : "bg-neutral-800 text-white hover:bg-neutral-700"
+                                                    }
+                                            `}
+                                            >
+                                                {tag.name}
+                                            </button>
+                                        </CarouselItem>
+                                    ))}
+                                </CarouselContent>
+                                <CarouselPrevious className="bg-neutral-800 text-white hover:bg-white hover:text-black border-none" />
+                                <CarouselNext className="bg-neutral-800 text-white hover:bg-white hover:text-black border-none" />
+                            </Carousel>
                         </section>
                         <section className="flex flex-wrap justify-start gap-5 mb-25 content-center w-screen">
                             {filteredBooks.map((book) => (
@@ -135,4 +175,5 @@ const [userInfo, setUserInfo] = useState<UserProfile | null>(null);
             )}
         </section>
     );
+
 }
