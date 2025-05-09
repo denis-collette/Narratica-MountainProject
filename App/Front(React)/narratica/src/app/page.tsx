@@ -81,7 +81,7 @@ export default function HomePage() {
     });
 
     return (
-        <section>
+        <section className='relative min-h-screen overflow-x-hidden mt-5'>
             {state.loading ? (
                 <p>Chargement...</p>
             ) : (
