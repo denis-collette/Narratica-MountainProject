@@ -203,7 +203,9 @@ function BookView({ searchParams }: { searchParams: { id: string; } }) {
                                 />
                             </div>
                             <div className="text-left self-end">
-                                {loggedIn && (
+                                
+                                
+                                <h1 className='text-white text-[2em] font-bold'>{informations.audiobook?.title} {loggedIn && (
                                     <button  onClick={() => LikeButton()}>
                                         {informations.BookIsLiked ? (
                                             <GoHeartFill className="text-white hover:text-gray-300 transition text-xl w-5 h-5" />
@@ -211,35 +213,33 @@ function BookView({ searchParams }: { searchParams: { id: string; } }) {
                                             <GoHeart className="text-white hover:text-red-500 transition text-xl" />
                                         )}
                                     </button>
-                                    )}
-                                
-                                <h1 className='text-white text-[1.5em] font-bold'>{informations.audiobook?.title}</h1>
-                                <div>
+                                )}</h1>
+                                <div className="flex flex-col space-y-2">
                                     <h2 className='text-white text-[0.9em] mb-2'>
-                                        Ecrit par : 
+                                        Ecrit par :{" "}
                                         <Link 
                                         href={`/authorView?id=${informations.author?.id}`} 
-                                        className="inline-block px-3 py-1 rounded-full text-xs font-medium bg-white/10 text-white border border-white/20 hover:bg-neutral-400 hover:text-black transition-transform duration-200 hover:scale-105"
+                                        className="group inline-flex items-center gap-x-2 px-3 py-1 rounded-full text-xs font-medium bg-white/10 text-white border border-white/20 hover:bg-neutral-200 hover:text-black transition-transform duration-200 hover:scale-105"
                                         >
                                             <FaFeatherAlt className="text-white text-[0.7rem] group-hover:text-black transition" />
                                             {informations.author?.name}
                                         </Link>
                                     </h2>
                                     <h2 className='text-white text-[0.9em] mb-2'>
-                                        Lu par : 
+                                        Lu par :{" "}
                                         <Link 
                                         href={`/narratorView?id=${informations.narrator?.id}`} 
-                                        className="inline-block px-3 py-1 rounded-full text-xs font-medium bg-white/10 text-white border border-white/20 hover:bg-neutral-400 hover:text-black transition-transform duration-200 hover:scale-105"
+                                        className="group inline-flex items-center gap-x-2 px-3 py-1 rounded-full text-xs font-medium bg-white/10 text-white border border-white/20 hover:bg-neutral-200 hover:text-black transition-transform duration-200 hover:scale-105"
                                         >
                                             <FaMicrophoneAlt className="text-white text-[0.7rem] group-hover:text-black transition" />
                                             {informations.narrator?.name}
                                         </Link>
                                     </h2>
                                     <h2 className='text-white text-[0.9em] mb-2'>
-                                        Mis en ligne par : 
+                                        Mis en ligne par :{" "}
                                         <Link 
                                         href={`/publisherView?id=${informations.publisher?.id}`} 
-                                        className="inline-block px-3 py-1 rounded-full text-xs font-medium bg-white/10 text-white border border-white/20 hover:bg-neutral-400 hover:text-black transition-transform duration-200 hover:scale-105"
+                                        className="group inline-flex items-center gap-x-2 px-3 py-1 rounded-full text-xs font-medium bg-white/10 text-white border border-white/20 hover:bg-neutral-200 hover:text-black transition-transform duration-200 hover:scale-105"
                                         >
                                             <FaBuilding className="text-white text-[0.7rem] group-hover:text-black transition" />
                                             {informations.publisher?.name}
