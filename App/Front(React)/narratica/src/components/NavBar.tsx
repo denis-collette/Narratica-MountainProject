@@ -48,7 +48,7 @@ export default function NavBar() {
     }, []);
 
     return (
-        <nav className="relative p-2 bg-[#120e0c] text-white z-10 px-3.5 mb-5">
+        <nav className="relative p-2 bg-[#120e0c] text-white z-10 px-3.5">
             <ul className="flex gap-5 justify-between items-center">
                 <div className="flex gap-2 justify-between items-center">
                     <Link href="/" >
