@@ -1,15 +1,24 @@
 "use client";
 import { useEffect, useState } from 'react';
 import { fetchAudioBooksById } from '../api/audio/getAudioBooksById';
-import{fetchFavoriteAudioBookId} from '../api/favorites/getFavoriteAudioBookId'
+import { fetchFavoriteAudioBookId } from '../api/favorites/getFavoriteAudioBookId';
 import Card from '@/components/Card';
 import { fetchAuthorById } from '../api/audio/getAuthorById';
 import { fetchNarratorById } from '../api/audio/getNarratorById';
-import { BookWithAuthorAndNarrator } from  '../api/audio/getAllAudioBooks';
+import { BookWithAuthorAndNarrator } from '../api/audio/getAllAudioBooks';
 import { fetchAllTags } from '../api/audio/getAllTags';
 import { Tag } from '../api/audio/getTagById';
 import Filter from '@/components/TagFilter';
 import { useSearch } from "@/components/SearchContext";
+import {
+    Carousel,
+    CarouselContent,
+    CarouselItem,
+    CarouselNext,
+    CarouselPrevious,
+} from "@/components/ui/carousel"
+import SkeletonCard, { SkeletonCarousel } from '@/components/SkeletonAll';
+
 import { fetchUserProfile, UserProfile } from "../api/userAuth/fetchUserProfile";
 export default function HomePage() {
 
@@ -36,26 +45,25 @@ const [userInfo, setUserInfo] = useState<UserProfile | null>(null);
     });
 
     const { search } = useSearch()
-    let user_id =  localStorage.getItem("user_id")
- 
+
+    let user_id = localStorage.getItem("user_id")
 
     useEffect(() => {
 
         if (user_id !== null) {
-            let data : BookWithAuthorAndNarrator[] = []
-        const loadBooks = async () => {
-            const bookIdList = await fetchFavoriteAudioBookId(parseInt(user_id));
-            // loop in recived object 
-            const allTags = await fetchAllTags();
-            let book = await Promise.all(bookIdList.map(async (LinkTable) =>{
-                const book = await fetchAudioBooksById(LinkTable.book)
-                data.push(book)
-            }))
+            let data: BookWithAuthorAndNarrator[] = []
+            const loadBooks = async () => {
+                const bookIdList = await fetchFavoriteAudioBookId(parseInt(user_id));
+                // loop in recived object 
+                const allTags = await fetchAllTags();
+                let book = await Promise.all(bookIdList.map(async (LinkTable) => {
+                    const book = await fetchAudioBooksById(LinkTable.book)
+                    data.push(book)
+                }))
 
-
-            const booksInfos = await Promise.all(data.map(async (book) => {
-                const author = await fetchAuthorById(book.author).catch(() => ({ id: 0, name: "Unknown Author" }));
-                const narrator = await fetchNarratorById(book.narrator).catch(() => ({ id: 0, name: "Unknown Narrator" }));
+                const booksInfos = await Promise.all(data.map(async (book) => {
+                    const author = await fetchAuthorById(book.author).catch(() => ({ id: 0, name: "Unknown Author" }));
+                    const narrator = await fetchNarratorById(book.narrator).catch(() => ({ id: 0, name: "Unknown Narrator" }));
 
                 return {
                     ...book,
@@ -91,9 +99,21 @@ const [userInfo, setUserInfo] = useState<UserProfile | null>(null);
     });
 
     return (
-        <section>
+        <section className='relative min-h-screen overflow-x-hidden mt-5'>
             {state.loading ? (
-                <p>Chargement...</p>
+
+                <>
+                    <section className='ml-4 w-1/2'>
+                        <section className="relative mx-12 mb-8">
+                            <SkeletonCarousel />
+                        </section>
+                        <section className="flex flex-wrap justify-start gap-5 mb-25 content-center w-screen">
+                            {[...Array(10)].map((_, index) => (
+                                <SkeletonCard key={index} />
+                            ))}
+                        </section>
+                    </section>
+                </>
             ) : (
                 <>
                 <div className='text-white'> {userInfo?.username} : Favorites</div>
@@ -105,7 +125,7 @@ const [userInfo, setUserInfo] = useState<UserProfile | null>(null);
                                 setSelectedTag={(tag) => setState((prev) => ({ ...prev, selectedTag: tag }))}
                             />
                         </section>
-                        <section className="flex flex-wrap justify-start gap-5 mb-16 content-center w-screen">
+                        <section className="flex flex-wrap justify-start gap-5 mb-25 content-center w-screen">
                             {filteredBooks.map((book) => (
                                 <Card key={book.id} book={book} />
                             ))}
@@ -115,4 +135,5 @@ const [userInfo, setUserInfo] = useState<UserProfile | null>(null);
             )}
         </section>
     );
+
 }
