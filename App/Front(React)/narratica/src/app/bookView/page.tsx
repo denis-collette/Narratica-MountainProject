@@ -6,6 +6,7 @@ import { fetchAudioBooksById } from '../api/audio/getAudioBooksById';
 import { Audiobook } from '../api/audio/getAllAudioBooks';
 import { Author, fetchAuthorById } from "../api/audio/getAuthorById";
 import { Narrator, fetchNarratorById } from '../api/audio/getNarratorById'
+import { Publisher, fetchPublisherById } from '../api/audio/getPublisherById';
 import { useAudio } from '@/components/audio/AudioContext';
 import { useSearchParams } from 'next/navigation';
 import { isAuthenticated } from "@/app/api/userAuth/checkAuth";
@@ -14,6 +15,8 @@ import { PostFavoriteAudioBook, postFavoriteAudioBook } from '../api/favorites/p
 import { fetchFavoriteAudioBookId } from '../api/favorites/getFavoriteAudioBookId'
 import { deleteFavoriteAudioBook } from '../api/favorites/DeleteFavoriteAudio'
 import { fetchFavoriteAudioBookTableId } from '../api/favorites/getFavoriteAudioBookTableId'
+import Link from 'next/link';
+import { FaFeatherAlt, FaMicrophoneAlt, FaBuilding } from "react-icons/fa";
 import { SkeletonBookView } from '@/components/SkeletonAll';
 // #region Utils
 function sortChapter(bookChapterObj: Chapter[]) {
@@ -28,6 +31,7 @@ interface Informations {
     audiobook: Audiobook | null;
     author: Author | null;
     narrator: Narrator | null;
+    publisher: Publisher | null;
     loadingAudioBook: boolean;
     loadingChapter: boolean;
     BookIsLiked: boolean;
@@ -64,9 +68,6 @@ function BookView({ searchParams }: { searchParams: { id: string; } }) {
 
     console.log("informations.audiobook?.cover_art_jpg :", informations.audiobook?.cover_art_jpg)
 
-
-
-
     // #region useEffect: chargement des données
     useEffect(() => {
         const loadData = async () => {
@@ -92,8 +93,7 @@ function BookView({ searchParams }: { searchParams: { id: string; } }) {
 
                 const author = await fetchAuthorById(audiobook.author);
                 const narrator = await fetchNarratorById(audiobook.narrator);
-
-                console.log("isAuth", isAuthenticated());
+                const publisher = await fetchPublisherById(audiobook.publisher);
 
                 if (isAuthenticated()) {
                     const userId = localStorage.getItem("user_id");
@@ -116,6 +116,7 @@ function BookView({ searchParams }: { searchParams: { id: string; } }) {
                     ...prevState,
                     author,
                     narrator,
+                    publisher,
                     audiobook,
                     chapters,
                     loadingAudioBook: false,
@@ -194,59 +195,92 @@ function BookView({ searchParams }: { searchParams: { id: string; } }) {
                 <SkeletonBookView />
             ) : (
                 <div className="relative min-h-screen">
-                    <div
-                        className="absolute inset-0 z-0"
-                        style={{
-                            filter: 'blur(150px)',
-                            backgroundImage: `url(${informations.audiobook?.cover_art_jpg})`,
-                            backgroundSize: 'cover',
-                            backgroundPosition: 'center',
-                        }}
-                    />
-                    <div className="relative flex justify-between z-0 h-screen w-screen ">
-                        <div className=" w-full flex flex-col bg-gradient-to-b from-[#00000000] from-15%  to-[#120e0c] to-45% rounded-[0.5%] " >
-                            <div className="pt-[3%] flex items-center m-auto w-[80%] pb-[3%]">
-                                <div className="w-[20%] h-0 pb-[20%] mr-[5%]">
-                                    <img className="rounded-[5%] shadow-[0px_0px_25px]" src={informations.audiobook?.cover_art_jpg} ></img>
-                                </div>
-                                <div className="text-left self-end">
-                                    {loggedIn && (
-                                        <button onClick={() => LikeButton()}>
-                                            {informations.BookIsLiked ? (
-                                                <GoHeartFill className="text-white hover:text-gray-300 transition text-xl w-5 h-5" />
-                                            ) : (
-                                                <GoHeart className="text-white hover:text-red-500 transition text-xl" />
-                                            )}
-                                        </button>
+                <div 
+                    className="absolute inset-0 z-0"
+                    style={{
+                    filter: 'blur(150px)',
+                    backgroundImage: `url(${informations.audiobook?.cover_art_jpg})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    }}
+                />
+                <div className="relative flex justify-between z-0 min-h-screen w-screen ">
+                    <div className=" w-full flex flex-col bg-gradient-to-b from-[#00000000] from-15%  to-[#120e0c] to-45% rounded-[0.5%] " >
+                        <div className="pt-[3%] flex gap-6 m-auto w-[80%] pb-[3%] items-start">
+                            <div className="w-[300px] h-[300px] flex-shrink-0">
+                                <img
+                                    src={informations.audiobook?.cover_art_jpg}
+                                    alt="Cover"
+                                    className="w-full h-full object-cover rounded-[5%] shadow-[0px_0px_25px]"
+                                />
+                            </div>
+                            <div className="text-left self-end">
+                                {loggedIn && (
+                                    <button  onClick={() => LikeButton()}>
+                                        {informations.BookIsLiked ? (
+                                            <GoHeartFill className="text-white hover:text-gray-300 transition text-xl w-5 h-5" />
+                                        ):(
+                                            <GoHeart className="text-white hover:text-red-500 transition text-xl" />
+                                        )}
+                                    </button>
                                     )}
-
-                                    <h1 className='text-white text-[1.5em] font-bold'>{informations.audiobook?.title}</h1>
-                                    <div>
-                                        <h2 className='text-white text-[0.7em]'>{informations.author?.name} . {informations.narrator?.name} narrator . {informations.audiobook?.total_time} </h2>
-                                    </div>
+                                
+                                <h1 className='text-white text-[1.5em] font-bold'>{informations.audiobook?.title}</h1>
+                                <div>
+                                    <h2 className='text-white text-[0.9em] mb-2'>
+                                        Ecrit par : 
+                                        <Link 
+                                        href={`/authorView?id=${informations.author?.id}`} 
+                                        className="inline-block px-3 py-1 rounded-full text-xs font-medium bg-white/10 text-white border border-white/20 hover:bg-neutral-400 hover:text-black transition-transform duration-200 hover:scale-105"
+                                        >
+                                            <FaFeatherAlt className="text-white text-[0.7rem] group-hover:text-black transition" />
+                                            {informations.author?.name}
+                                        </Link>
+                                    </h2>
+                                    <h2 className='text-white text-[0.9em] mb-2'>
+                                        Lu par : 
+                                        <Link 
+                                        href={`/narratorView?id=${informations.narrator?.id}`} 
+                                        className="inline-block px-3 py-1 rounded-full text-xs font-medium bg-white/10 text-white border border-white/20 hover:bg-neutral-400 hover:text-black transition-transform duration-200 hover:scale-105"
+                                        >
+                                            <FaMicrophoneAlt className="text-white text-[0.7rem] group-hover:text-black transition" />
+                                            {informations.narrator?.name}
+                                        </Link>
+                                    </h2>
+                                    <h2 className='text-white text-[0.9em] mb-2'>
+                                        Mis en ligne par : 
+                                        <Link 
+                                        href={`/publisherView?id=${informations.publisher?.id}`} 
+                                        className="inline-block px-3 py-1 rounded-full text-xs font-medium bg-white/10 text-white border border-white/20 hover:bg-neutral-400 hover:text-black transition-transform duration-200 hover:scale-105"
+                                        >
+                                            <FaBuilding className="text-white text-[0.7rem] group-hover:text-black transition" />
+                                            {informations.publisher?.name}
+                                        </Link>
+                                    </h2>
+                                    <h2 className='text-white text-[0.9em] mb-2'>
+                                        Durée totale : {informations.audiobook?.total_time}
+                                    </h2>
+                                    <h2 className='text-white text-[1em]'>{informations.audiobook?.description}</h2>
                                 </div>
                             </div>
-                            <div className='bg-gray-800/25 flex-1 h-full border-b-[80px]  overflow-y-auto'>
-                                <div className='text-white pt-[3%] flex-col items-center m-auto w-[80%] pb-[3%]'>
-                                    <h2 className='text-[0.5em]'>Narrated by : {informations.narrator?.name}</h2>
-                                    <h2 className='text-[0.7em]'>{informations.audiobook?.description}</h2>
+                        </div>
+                        <div className='bg-gray-800/25 flex-1 h-full border-b-[80px] overflow-y-auto pt-5'>
+                            <div className=' max-h-[60vh]'>
+                                <div className="grid grid-cols-[0.1fr_0.8fr_0.4fr_0.5fr] grid-rows-1 mx-auto w-[80%] text-[hsl(0,0%,70%)] items-center justify-between Arial h-full">
+                                    <div className='text-[hsl(0,_0%,_70%)] text-xs' >#</div>
+                                    <div className='text-[hsl(0,_0%,_70%)] text-xs'>Chapters</div>
+                                    <div className='text-[hsl(0,_0%,_70%)] text-xs text-center'>Lectures</div>
+                                    <div className='text-[hsl(0,_0%,_70%)] text-xs text-right'>Time</div>
                                 </div>
-                                <div className=' max-h-[60vh]'>
-                                    <div className="grid grid-cols-[0.1fr_0.8fr_0.4fr_0.5fr] grid-rows-1 mx-auto w-[80%] text-[hsl(0,0%,70%)] items-center justify-between Arial h-full">
-                                        <div className='text-[hsl(0,_0%,_70%)] text-xs' >#</div>
-                                        <div className='text-[hsl(0,_0%,_70%)] text-xs'>Chapters</div>
-                                        <div className='text-[hsl(0,_0%,_70%)] text-xs text-center'>Lectures</div>
-                                        <div className='text-[hsl(0,_0%,_70%)] text-xs text-right'>Time</div>
-                                    </div>
-                                    <ul>
-                                        {informations.chapters.map((chapter) => (
-                                            <li key={chapter.chapter_number}>
-                                                <ChapterCard  {...chapter} onChapterClick={handleChapterClick} />
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
+                                <ul>
+                                    {informations.chapters.map((chapter) => (
+                                        <li key={chapter.chapter_number}>
+                                            <ChapterCard  {...chapter} onChapterClick={handleChapterClick} />
+                                        </li> 
+                                    ))}
+                                </ul>
                             </div>
+                        </div>
                         </div>
                     </div>
                 </div>
