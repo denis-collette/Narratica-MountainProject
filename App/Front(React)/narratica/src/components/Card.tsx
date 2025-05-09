@@ -30,10 +30,10 @@ const Card = ({ book }: Props) => {
                         {book.title}
                     </h2>
                     <h3 className='text-[hsl(0,_0%,_70%)] text-xs'>
-                        {book.authorName}
+                        Auteur : {book.authorName}
                     </h3>
                     <h3 className='text-[hsl(0,_0%,_70%)] text-xs '>
-                        {book.narratorName}
+                        Narrateur : {book.narratorName}
                     </h3>
                 </section>
             </section>
