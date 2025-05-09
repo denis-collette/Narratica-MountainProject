@@ -1,6 +1,5 @@
 "use client"
 import { useEffect, useState } from 'react';
-import NavBar from "@/components/NavBar"
 import ChapterCard from "@/components/chapterCard";
 import { fetchAudioBooksChaptersById, Chapter } from '../api/audio/getAllChaptersFromAudioBookId';
 import { fetchAudioBooksById } from '../api/audio/getAudioBooksById';
@@ -11,10 +10,11 @@ import { useAudio } from '@/components/audio/AudioContext';
 import { useSearchParams } from 'next/navigation';
 import { isAuthenticated } from "@/app/api/userAuth/checkAuth";
 import { GoHeartFill,GoHeart } from "react-icons/go";
-import {PostFavoriteAudioBook,postFavoriteAudioBook} from '../api/favorites/postFavoriteAudioBook'
-import{fetchFavoriteAudioBookId} from '../api/favorites/getFavoriteAudioBookId'
-import{deleteFavoriteAudioBook} from '../api/favorites/DeleteFavoriteAudio'
-import{fetchFavoriteAudioBookTableId} from '../api/favorites/getFavoriteAudioBookTableId'
+import { postFavoriteAudioBook } from '../api/favorites/postFavoriteAudioBook'
+import { fetchFavoriteAudioBookId } from '../api/favorites/getFavoriteAudioBookId'
+import { deleteFavoriteAudioBook } from '../api/favorites/DeleteFavoriteAudio'
+import { fetchFavoriteAudioBookTableId } from '../api/favorites/getFavoriteAudioBookTableId'
+
 // #region Utils
 function sortChapter(bookChapterObj: Chapter[]) {
     bookChapterObj.sort((a, b) => a.chapter_number - b.chapter_number);
@@ -68,79 +68,76 @@ function BookView({ searchParams }: { searchParams: { id: string; } }) {
 
 
     // #region useEffect: chargement des données
-    // #region useEffect: chargement des données
-useEffect(() => {
-    const loadData = async () => {
-        try {
-            let chapters = await fetchAudioBooksChaptersById(id);
-            chapters = sortChapter(chapters);
+    useEffect(() => {
+        const loadData = async () => {
+            try {
+                let chapters = await fetchAudioBooksChaptersById(id);
+                chapters = sortChapter(chapters);
 
-            let audiobook = await fetchAudioBooksById(id);
-            if (!audiobook || !audiobook.id) {
+                let audiobook = await fetchAudioBooksById(id);
+                if (!audiobook || !audiobook.id) {
+                    setState((prevState) => ({
+                        ...prevState,
+                        audiobook,
+                    }));
+
+                    setAudioState((prevState) => ({
+                        ...prevState,
+                        bookTitle: "titre test",
+                    }));
+                    return;
+                }
+
+                const author = await fetchAuthorById(audiobook.author);
+                const narrator = await fetchNarratorById(audiobook.narrator);
+
+                console.log("isAuth", isAuthenticated());
+
+                if (isAuthenticated()) {
+                    const userId = localStorage.getItem("user_id");
+                    if (userId !== null) {
+                        const queryObj = {
+                            user: parseInt(userId),
+                            book: audiobook.id,
+                        };
+                        const BookIsLiked = await fetchFavoriteAudioBookTableId(queryObj);
+                        if(BookIsLiked.length > 0 ){
+                            setState((prevState) => ({
+                                ...prevState,
+                                BookIsLiked : true
+                            }));
+                        }
+                    }
+                }
+
                 setState((prevState) => ({
                     ...prevState,
+                    author,
+                    narrator,
                     audiobook,
                 }));
 
+                console.log("Titre :", audiobook.title);
+                console.log("Image :", audiobook.cover_art_jpg);
+
                 setAudioState((prevState) => ({
                     ...prevState,
-                    bookTitle: "titre test",
+                    // bookTitle: audiobook.title,
+                    // coverImage: audiobook.cover_art_jpg,
+                    allChapters: chapters,
                 }));
-                return;
+
+                setState((prevState) => ({
+                    ...prevState,
+                    chapters,
+                }));
+            } catch (error) {
+                console.error("Error loading data:", error);
             }
+        };
 
-            const author = await fetchAuthorById(audiobook.author);
-            const narrator = await fetchNarratorById(audiobook.narrator);
-
-            console.log("isAuth", isAuthenticated());
-
-            if (isAuthenticated()) {
-                const userId = localStorage.getItem("user_id");
-                if (userId !== null) {
-                    const queryObj = {
-                        user: parseInt(userId),
-                        book: audiobook.id,
-                    };
-                    const BookIsLiked = await fetchFavoriteAudioBookTableId(queryObj);
-                    if(BookIsLiked.length > 0 ){
-                        setState((prevState) => ({
-                            ...prevState,
-                            BookIsLiked : true
-                        }));
-                    }
-                }
-            }
-
-            setState((prevState) => ({
-                ...prevState,
-                author,
-                narrator,
-                audiobook,
-            }));
-
-            console.log("Titre :", audiobook.title);
-            console.log("Image :", audiobook.cover_art_jpg);
-
-            setAudioState((prevState) => ({
-                ...prevState,
-                // bookTitle: audiobook.title,
-                // coverImage: audiobook.cover_art_jpg,
-                allChapters: chapters,
-            }));
-
-            setState((prevState) => ({
-                ...prevState,
-                chapters,
-            }));
-        } catch (error) {
-            console.error("Error loading data:", error);
-        }
-    };
-
-    loadData();
-}, [id]);
-// #endregion
-
+        loadData();
+    }, [id]);
     // #endregion
 
     // #region Gestion du clic sur un chapitre

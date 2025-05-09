@@ -5,49 +5,49 @@ import { useSearchParams } from 'next/navigation';
 import { fetchAudioBooksById } from '../api/audio/getAudioBooksById';
 import { fetchAuthorById } from '../api/audio/getAuthorById';
 import { fetchNarratorById } from '../api/audio/getNarratorById';
-import { fetchAudioBooksByAuthor } from '../api/audio/getByAuthorId';
+import { fetchAudioBooksByNarrator } from '../api/audio/getByNarrator';
 import { fetchAllTags } from '../api/audio/getAllTags';
 import { useSearch } from "@/components/SearchContext";
 import Card from '@/components/Card';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { Tag } from '../api/audio/getTagById';
 import { BookWithAuthorAndNarrator } from '../api/audio/getAllAudioBooks';
-import { fetchFavoriteAuthorId } from '../api/favorites/getFavoriteAuthorId';
-import { postFavoriteAuthor } from '../api/favorites/postFavoriteAuthor';
-import { deleteFavoriteAuthor } from '../api/favorites/DeleteFavoriteAuthor';
+import { fetchFavoriteNarratorId } from '../api/favorites/getFavoriteNarratorId';
+import { PostFavoriteNarrator } from '../api/favorites/postFavoriteNarrator';
+import { DeleteFavoriteNarrator } from '../api/favorites/DeleteFavoriteNarrator';
 import { GoHeart, GoHeartFill } from "react-icons/go";
 import { isAuthenticated } from '../api/userAuth/checkAuth';
 
-export default function AuthorView() {
-    interface AuthorViewState {
+export default function NarratorView() {
+    interface NarratorViewState {
         audiobooks: BookWithAuthorAndNarrator[];
         tags: Tag[];
         loading: boolean;
         selectedTag: number | null;
-        authorName: string;
+        narratorName: string;
     }
 
-    const [state, setState] = useState<AuthorViewState>({
+    const [state, setState] = useState<NarratorViewState>({
         audiobooks: [],
         tags: [],
         loading: true,
         selectedTag: null,
-        authorName: "",
+        narratorName: "",
     });
 
     const { search } = useSearch();
     const searchParams = useSearchParams();
-    const author_id = searchParams.get("id") || "1";
+    const narrator_id = searchParams.get("id") || "1";
 
     useEffect(() => {
         const loadBooks = async () => {
-            if (!author_id) {
+            if (!narrator_id) {
                 return;
             }
             try {
-                const bookIdList = await fetchAudioBooksByAuthor(parseInt(author_id));
+                const bookIdList = await fetchAudioBooksByNarrator(parseInt(narrator_id));
                 const allTags = await fetchAllTags();
-                const author = await fetchAuthorById(parseInt(author_id));
+                const narrator = await fetchNarratorById(parseInt(narrator_id));
 
                 const detailedBooks = await Promise.all(
                     bookIdList.map(async (book) => {
@@ -68,7 +68,7 @@ export default function AuthorView() {
                     tags: allTags,
                     loading: false,
                     selectedTag: null,
-                    authorName: author.name,
+                    narratorName: narrator.name,
                 });
             } catch (error) {
                 console.error("Error loading books:", error);
@@ -77,7 +77,7 @@ export default function AuthorView() {
         };
 
         loadBooks();
-    }, [author_id]);
+    }, [narrator_id]);
 
     const filteredBooks = state.audiobooks.filter((book) => {
         const matchesTag = state.selectedTag ? book.tags?.includes(state.selectedTag) : true;
@@ -85,46 +85,46 @@ export default function AuthorView() {
         return matchesTag && matchesSearch;
     });
 
-    const [authorIsLiked, setAuthorIsLiked] = useState(false);
-    const [loggedIn, setLoggedIn] = useState(false);
-
-    const LikeButton = async () => {
-        const newLikedState = !authorIsLiked;
-        setAuthorIsLiked(newLikedState);
-        
-        const userId = parseInt(localStorage.getItem("user_id") || "0");
-        const authorId = parseInt(author_id || "0");
+    const [narratorIsLiked, setNarratorIsLiked] = useState(false);
+        const [loggedIn, setLoggedIn] = useState(false);
     
-        if (newLikedState) {
-            await postFavoriteAuthor({ author: parseInt(author_id || "0"), user: userId });
-        } else {
-            const favoriteList = await fetchFavoriteAuthorId(userId);
-            const favoriteEntry = favoriteList.find(
-                entry => entry.user === userId && entry.author === authorId
-            );
-    
-            if (favoriteEntry) {
-                await deleteFavoriteAuthor({ id: favoriteEntry.id });
-            }
-        }
-    };
-
-    useEffect(() => {
-        const checkIfLiked = async () => {
+        const LikeButton = async () => {
+            const newLikedState = !narratorIsLiked;
+            setNarratorIsLiked(newLikedState);
+            
             const userId = parseInt(localStorage.getItem("user_id") || "0");
-            const favs = await fetchFavoriteAuthorId(userId);
-            const liked = favs.some(fav => fav.author === parseInt(author_id || "0"));
-            setAuthorIsLiked(liked);
+            const narratorId = parseInt(narrator_id || "0");
+        
+            if (newLikedState) {
+                await PostFavoriteNarrator({ narrator: parseInt(narrator_id || "0"), user: userId });
+            } else {
+                const favoriteList = await fetchFavoriteNarratorId(userId);
+                const favoriteEntry = favoriteList.find(
+                    entry => entry.user === userId && entry.narrator === narratorId
+                );
+        
+                if (favoriteEntry) {
+                    await DeleteFavoriteNarrator({ id: favoriteEntry.id });
+                }
+            }
         };
     
-        if (author_id) {
-            checkIfLiked();
-        }
-    }, [author_id]);
-
-    useEffect(() => {
-        setLoggedIn(isAuthenticated());
-    }, []);
+        useEffect(() => {
+            const checkIfLiked = async () => {
+                const userId = parseInt(localStorage.getItem("user_id") || "0");
+                const favs = await fetchFavoriteNarratorId(userId);
+                const liked = favs.some(fav => fav.narrator === parseInt(narrator_id || "0"));
+                setNarratorIsLiked(liked);
+            };
+        
+            if (narrator_id) {
+                checkIfLiked();
+            }
+        }, [narrator_id]);
+    
+        useEffect(() => {
+            setLoggedIn(isAuthenticated());
+        }, []);
 
     return (
         <section className="px-6">
@@ -133,17 +133,17 @@ export default function AuthorView() {
             ) : (
                 <>
                     <h1 className="text-3xl font-semibold my-6 text-white">
-                        Livres de {state.authorName} {loggedIn && (
-                        <button  onClick={() => LikeButton()}>
-                            {authorIsLiked ? (
-                                <GoHeartFill className="text-white hover:text-gray-300 transition text-xl w-5 h-5" />
-                            ):(
-                                <GoHeart className="text-white hover:text-red-500 transition text-xl" />
-                            )}
-                        </button>
-                    )}
+                        Livres contés par {state.narratorName} {loggedIn && (
+                            <button  onClick={() => LikeButton()}>
+                                {narratorIsLiked ? (
+                                    <GoHeartFill className="text-white hover:text-gray-300 transition text-xl w-5 h-5" />
+                                ):(
+                                    <GoHeart className="text-white hover:text-red-500 transition text-xl" />
+                                )}
+                            </button>
+                        )}
                     </h1>
-                    
+
                     <section className="relative mx-12">
                         <Carousel
                             opts={{

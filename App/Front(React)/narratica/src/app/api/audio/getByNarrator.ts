@@ -2,9 +2,9 @@ import axios from "axios";
 import { url } from "../baseUrl";
 import  { Audiobook }  from './getAllAudioBooks';
 
-export const fetchAudioBooksByPublisher = async (publisherId : number, quantity? : number): Promise<Audiobook[]> => {
+export const fetchAudioBooksByNarrator = async (narratorId : number, quantity? : number): Promise<Audiobook[]> => {
     
-    let routeUrl = url + `api/audiobooks/by-publisher/${publisherId}`
+    let routeUrl = url + `api/audiobooks/by-narrator/${narratorId}`
 
     if( quantity != undefined){
         routeUrl += `/${quantity}`
