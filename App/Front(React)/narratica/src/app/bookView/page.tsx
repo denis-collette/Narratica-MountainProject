@@ -58,6 +58,7 @@ function BookView({ searchParams }: { searchParams: { id: string; } }) {
         audiobook: null,
         author: null,
         narrator: null,
+        publisher: null,
         loadingAudioBook: true,
         loadingChapter: true,
         BookIsLiked: false
