@@ -135,5 +135,4 @@ const [userInfo, setUserInfo] = useState<UserProfile | null>(null);
             )}
         </section>
     );
-
 }
