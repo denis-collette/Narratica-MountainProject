@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from 'react';
-import { BookWithAuthorAndNarrator }  from "./api/audio/getAllAudioBooks";
+import { BookWithAuthorAndNarrator } from "./api/audio/getAllAudioBooks";
 import Card from '@/components/Card';
 import { fetchAuthorById } from './api/audio/getAuthorById';
 import { fetchNarratorById } from './api/audio/getNarratorById';
@@ -16,6 +16,7 @@ import {
     CarouselNext,
     CarouselPrevious,
 } from "@/components/ui/carousel"
+import SkeletonCard, { SkeletonCarousel } from '@/components/SkeletonAll';
 
 
 export default function HomePage() {
@@ -83,7 +84,19 @@ export default function HomePage() {
     return (
         <section className='relative min-h-screen overflow-x-hidden mt-5'>
             {state.loading ? (
-                <p>Chargement...</p>
+
+                <>
+                    <section className='ml-4 w-1/2'>
+                        <section className="relative mx-12 mb-8">
+                            <SkeletonCarousel />
+                        </section>
+                        <section className="flex flex-wrap justify-start gap-5 mb-25 content-center w-screen">
+                            {[...Array(10)].map((_, index) => (
+                                <SkeletonCard key={index} />
+                            ))}
+                        </section>
+                    </section>
+                </>
             ) : (
                 <>
                     <section className='ml-4 w-1/2'>
