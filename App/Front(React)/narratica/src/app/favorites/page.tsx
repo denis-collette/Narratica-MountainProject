@@ -14,11 +14,9 @@ import { useSearch } from "@/components/SearchContext";
 export default function HomePage() {
 
     // Interface pour tout regrouper
-
     // Ici le extends hérite de Audiobook et ajoute 2 éléments authorName et narratorName 
     // mais ceci fonctionne aussi : BookWithAuthorAndNarrator en le mettant dans le usestate
     // voir getAllAudioBooks ligne 18
-
     // interface AudiobookAllInfos extends Audiobook {
     //     authorName: string;
     //     narratorName: string;
@@ -30,7 +28,6 @@ export default function HomePage() {
         loading: boolean;
         selectedTag: number | null;
     }
-
     const [state, setState] = useState<FavoritesPageState>({
         audiobooks: [],
         tags: [],
@@ -39,11 +36,9 @@ export default function HomePage() {
     });
 
     const { search } = useSearch()
-    
     let user_id =  localStorage.getItem("user_id")
 
     useEffect(() => {
-
 
         if (user_id !== null) {
             let data : BookWithAuthorAndNarrator[] = []
@@ -57,7 +52,6 @@ export default function HomePage() {
             }))
 
 
-
             const booksInfos = await Promise.all(data.map(async (book) => {
                 const author = await fetchAuthorById(book.author).catch(() => ({ id: 0, name: "Unknown Author" }));
                 const narrator = await fetchNarratorById(book.narrator).catch(() => ({ id: 0, name: "Unknown Narrator" }));
@@ -68,7 +62,6 @@ export default function HomePage() {
                     narratorName: narrator.name,
                 };
             }));
-
             setState((prev) => ({
                 ...prev,
                 audiobooks: booksInfos,

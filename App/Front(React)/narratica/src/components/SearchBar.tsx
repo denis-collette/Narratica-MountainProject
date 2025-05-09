@@ -101,6 +101,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ search, setSearch }) => {
                 }}
                 onClick={() => handleItemClick(book)} // Call handleItemClick on click
               >
+                {/* add narator, add autor */}
                 <ResearchRow
                   book={book}
                   author={authors[book.author] || "Unknown Author"}
