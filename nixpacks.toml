@@ -5,12 +5,12 @@ nixPkgs = ["python311", "python311Packages.virtualenv"]
 cmds = [
   "python3 -m venv /app/venv",
   "/app/venv/bin/pip install --upgrade pip",
-  "/app/venv/bin/pip install -r App/back_django/requirementsProd.txt"
+  "/app/venv/bin/pip install -r app/back_django/requirementsProd.txt"
 ]
 
 [phases.build]
 cmds = [
-  "/app/venv/bin/python App/back_django/manage.py collectstatic --noinput"
+  "/app/venv/bin/python app/back_django/manage.py collectstatic --noinput"
 ]
 
 [start]
