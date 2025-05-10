@@ -60,7 +60,8 @@ function BookView({ searchParams }: { searchParams: { id: string; } }) {
         narrator: null,
         loadingAudioBook: true,
         loadingChapter: true,
-        BookIsLiked: false
+        BookIsLiked: false,
+        publisher: null
     });
 
     const { setAudioState, loadChapter } = useAudio();
@@ -231,17 +232,17 @@ function BookView({ searchParams }: { searchParams: { id: string; } }) {
                                         Ecrit par : 
                                         <Link 
                                         href={`/authorView?id=${informations.author?.id}`} 
-                                        className="inline-block px-3 py-1 rounded-full text-xs font-medium bg-white/10 text-white border border-white/20 hover:bg-neutral-400 hover:text-black transition-transform duration-200 hover:scale-105"
+                                        className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-white/10 text-white border border-white/20 hover:bg-neutral-400 hover:text-black transition-transform duration-200 hover:scale-105"
                                         >
                                             <FaFeatherAlt className="text-white text-[0.7rem] group-hover:text-black transition" />
                                             {informations.author?.name}
                                         </Link>
                                     </h2>
                                     <h2 className='text-white text-[0.9em] mb-2'>
-                                        Lu par : 
+                                        <div>Lu par :</div> 
                                         <Link 
                                         href={`/narratorView?id=${informations.narrator?.id}`} 
-                                        className="inline-block px-3 py-1 rounded-full text-xs font-medium bg-white/10 text-white border border-white/20 hover:bg-neutral-400 hover:text-black transition-transform duration-200 hover:scale-105"
+                                        className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-white/10 text-white border border-white/20 hover:bg-neutral-400 hover:text-black transition-transform duration-200 hover:scale-105"
                                         >
                                             <FaMicrophoneAlt className="text-white text-[0.7rem] group-hover:text-black transition" />
                                             {informations.narrator?.name}
@@ -251,7 +252,7 @@ function BookView({ searchParams }: { searchParams: { id: string; } }) {
                                         Mis en ligne par : 
                                         <Link 
                                         href={`/publisherView?id=${informations.publisher?.id}`} 
-                                        className="inline-block px-3 py-1 rounded-full text-xs font-medium bg-white/10 text-white border border-white/20 hover:bg-neutral-400 hover:text-black transition-transform duration-200 hover:scale-105"
+                                        className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-white/10 text-white border border-white/20 hover:bg-neutral-400 hover:text-black transition-transform duration-200 hover:scale-105"
                                         >
                                             <FaBuilding className="text-white text-[0.7rem] group-hover:text-black transition" />
                                             {informations.publisher?.name}
