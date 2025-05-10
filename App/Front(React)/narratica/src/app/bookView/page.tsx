@@ -62,7 +62,6 @@ function BookView({ searchParams }: { searchParams: { id: string; } }) {
         loadingAudioBook: true,
         loadingChapter: true,
         BookIsLiked: false,
-        publisher: null
     });
 
     const { setAudioState, loadChapter } = useAudio();

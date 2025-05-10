@@ -90,11 +90,16 @@ export default function NarratorView() {
     
         const LikeButton = async () => {
             const newLikedState = !narratorIsLiked;
+            let userId = null
+            let narratorId = null
             setNarratorIsLiked(newLikedState);
+
+            if(localStorage != undefined){
+                const userId = parseInt(localStorage.getItem("user_id") || "0");
+                const narratorId = parseInt(narrator_id || "0");
+            }
             
-            const userId = parseInt(localStorage.getItem("user_id") || "0");
-            const narratorId = parseInt(narrator_id || "0");
-        
+            if(userId != null){
             if (newLikedState) {
                 await PostFavoriteNarrator({ narrator: parseInt(narrator_id || "0"), user: userId });
             } else {
@@ -106,20 +111,20 @@ export default function NarratorView() {
                 if (favoriteEntry) {
                     await DeleteFavoriteNarrator({ id: favoriteEntry.id });
                 }
-            }
+            }}
         };
     
         useEffect(() => {
             const checkIfLiked = async () => {
-                const userId = parseInt(localStorage.getItem("user_id") || "0");
-                const favs = await fetchFavoriteNarratorId(userId);
-                const liked = favs.some(fav => fav.narrator === parseInt(narrator_id || "0"));
-                setNarratorIsLiked(liked);
+                if(localStorage != undefined){
+                    const userId = parseInt(localStorage.getItem("user_id") || "0");
+                    const favs = await fetchFavoriteNarratorId(userId);
+                    const liked = favs.some(fav => fav.narrator === parseInt(narrator_id || "0"));
+                    setNarratorIsLiked(liked);
             };
-        
             if (narrator_id) {
                 checkIfLiked();
-            }
+            }}
         }, [narrator_id]);
     
         useEffect(() => {

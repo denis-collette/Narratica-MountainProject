@@ -104,7 +104,14 @@ const SearchBar: React.FC<SearchBarProps> = ({ search, setSearch }) => {
                         <li
                           key={`book-${index}`}
                           className="px-4 py-2 cursor-pointer hover:bg-[rgb(43,43,43)] hover:text-white active:bg-[rgb(94,94,94)]"
-                          onMouseDown={(e) => e.preventDefault()}
+                          onMouseDown={(e) => {
+                            e.preventDefault(); // Prevent blur from firing immediately
+                          }}
+                          onClick={() => {
+                            setSearch(""); // 
+                            setShowDropdown(false); 
+                            
+                          }}
                         >
                           <ResearchRow
                             book={book}
@@ -126,8 +133,10 @@ const SearchBar: React.FC<SearchBarProps> = ({ search, setSearch }) => {
                         className='cursor-pointer hover:bg-[rgb(43,43,43)] hover:text-white active:bg-[rgb(94,94,94)]'
                         onMouseDown={(e) => e.preventDefault()}
                       >
-                        <Link href={{ pathname: "/authorView", query: { id: author.id } }}>
+                        <Link href={{ pathname: "/authorView", query: { id: author.id }}}
+                        onClick={() => setSearch("")}>
                           <li className='pl-2 list-none'>{author.name}</li>
+                          
                         </Link>
                       </div>
                     ))}
@@ -144,7 +153,8 @@ const SearchBar: React.FC<SearchBarProps> = ({ search, setSearch }) => {
                         className='cursor-pointer hover:bg-[rgb(43,43,43)] hover:text-white active:bg-[rgb(94,94,94)]'
                         onMouseDown={(e) => e.preventDefault()}
                       >
-                        <Link href={{ pathname: "/authorView", query: { id: narrator.id } }}>
+                        <Link href={{ pathname: "/narratorView", query: { id: narrator.id } }}
+                        onClick={() => setSearch("")}>
                           <li className='pl-2 list-none'>{narrator.name}</li>
                         </Link>
                       </div>
