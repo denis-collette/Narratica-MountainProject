@@ -91,7 +91,7 @@ export default function AuthorView() {
     const LikeButton = async () => {
         const newLikedState = !authorIsLiked;
         setAuthorIsLiked(newLikedState);
-        if(localStorage != undefined){
+        
         const userId = parseInt(localStorage.getItem("user_id") || "0");
         const authorId = parseInt(author_id || "0");
     
@@ -107,21 +107,22 @@ export default function AuthorView() {
                 await deleteFavoriteAuthor({ id: favoriteEntry.id });
             }
         }
-    }};
+    };
 
     useEffect(() => {
         const checkIfLiked = async () => {
-            if(localStorage != undefined){
-            const userId = parseInt(localStorage.getItem("user_id") || "0");
-            const favs = await fetchFavoriteAuthorId(userId);
-            const liked = favs.some(fav => fav.author === parseInt(author_id || "0"));
-            setAuthorIsLiked(liked);
+            if(isAuthenticated()){
+                const userId = parseInt(localStorage.getItem("user_id") || "0");
+                const favs = await fetchFavoriteAuthorId(userId);
+                const liked = favs.some(fav => fav.author === parseInt(author_id || "0"));
+                setAuthorIsLiked(liked);
+            }
         };
     
         if (author_id) {
             checkIfLiked();
         }
-    }}, [author_id]);
+    }, [author_id]);
 
     useEffect(() => {
         setLoggedIn(isAuthenticated());
