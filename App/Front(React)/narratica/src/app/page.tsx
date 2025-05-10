@@ -82,7 +82,7 @@ export default function HomePage() {
     });
 
     return (
-        <section className='relative min-h-screen overflow-x-hidden mt-5'>
+        <section className='relative overflow-x-hidden mt-5'>
             {state.loading ? (
 
                 <>
@@ -90,7 +90,7 @@ export default function HomePage() {
                         <section className="relative mx-12 mb-8">
                             <SkeletonCarousel />
                         </section>
-                        <section className="flex flex-wrap justify-start gap-5 mb-25 content-center w-screen">
+                        <section className="flex flex-wrap justify-start gap-5 mb-25 content-center w-full">
                             {[...Array(10)].map((_, index) => (
                                 <SkeletonCard key={index} />
                             ))}
@@ -110,7 +110,7 @@ export default function HomePage() {
                                 }}
                                 className="w-full mb-8"
                             >
-                                <CarouselContent className='gap-2'>
+                                <CarouselContent className='gap-2 max-w-full overflow-x-hidden'>
                                     {/* All Tags */}
                                     <CarouselItem className="basis-auto">
                                         <button

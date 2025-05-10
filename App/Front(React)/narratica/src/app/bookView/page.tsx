@@ -58,6 +58,7 @@ function BookView({ searchParams }: { searchParams: { id: string; } }) {
         audiobook: null,
         author: null,
         narrator: null,
+        publisher: null,
         loadingAudioBook: true,
         loadingChapter: true,
         BookIsLiked: false,
@@ -191,22 +192,25 @@ function BookView({ searchParams }: { searchParams: { id: string; } }) {
     // #region Rendu
     return (
 
-        <section className='relative min-h-screen overflow-x-hidden'>
+        <section className='relative overflow-x-hidden pb-[80px]'>
             {informations.loadingChapter && informations.loadingAudioBook ? (
                 <SkeletonBookView />
             ) : (
-                <div className="relative min-h-screen">
-                <div 
-                    className="absolute inset-0 z-0"
-                    style={{
-                    filter: 'blur(150px)',
-                    backgroundImage: `url(${informations.audiobook?.cover_art_jpg})`,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                    }}
-                />
-                <div className="relative flex justify-between z-0 min-h-screen w-screen ">
-                    <div className=" w-full flex flex-col bg-gradient-to-b from-[#00000000] from-15%  to-[#120e0c] to-45% rounded-[0.5%] " >
+                <div className="relative">
+                <div className="absolute top-0 left-0 w-full h-full z-0 pointer-events-none overflow-hidden">
+                    <div
+                        style={{
+                        backgroundImage: `url(${informations.audiobook?.cover_art_jpg})`,
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
+                        filter: 'blur(150px)',
+                        }}
+                        className="w-full h-full"
+                    />
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#120e0c]" />
+                </div>
+                <div className="relative flex flex-col w-screen ">
+                    <div className=" w-full flex flex-col bg-gradient-to-b from-[#00000000] from-15%  to-[#120e0c] to-45% rounded-[0.5%]">
                         <div className="pt-[3%] flex gap-6 m-auto w-[80%] pb-[3%] items-start">
                             <div className="w-[300px] h-[300px] flex-shrink-0">
                                 <img
@@ -216,7 +220,9 @@ function BookView({ searchParams }: { searchParams: { id: string; } }) {
                                 />
                             </div>
                             <div className="text-left self-end">
-                                {loggedIn && (
+                                
+                                
+                                <h1 className='text-white text-[2em] font-bold'>{informations.audiobook?.title} {loggedIn && (
                                     <button  onClick={() => LikeButton()}>
                                         {informations.BookIsLiked ? (
                                             <GoHeartFill className="text-white hover:text-gray-300 transition text-xl w-5 h-5" />
@@ -224,35 +230,33 @@ function BookView({ searchParams }: { searchParams: { id: string; } }) {
                                             <GoHeart className="text-white hover:text-red-500 transition text-xl" />
                                         )}
                                     </button>
-                                    )}
-                                
-                                <h1 className='text-white text-[1.5em] font-bold'>{informations.audiobook?.title}</h1>
-                                <div>
+                                )}</h1>
+                                <div className="flex flex-col space-y-2">
                                     <h2 className='text-white text-[0.9em] mb-2'>
-                                        Ecrit par : 
+                                        Ecrit par :{" "}
                                         <Link 
                                         href={`/authorView?id=${informations.author?.id}`} 
-                                        className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-white/10 text-white border border-white/20 hover:bg-neutral-400 hover:text-black transition-transform duration-200 hover:scale-105"
+                                        className="group inline-flex items-center gap-x-2 px-3 py-1 rounded-full text-xs font-medium bg-white/10 text-white border border-white/20 hover:bg-neutral-200 hover:text-black transition-transform duration-200 hover:scale-105"
                                         >
                                             <FaFeatherAlt className="text-white text-[0.7rem] group-hover:text-black transition" />
                                             {informations.author?.name}
                                         </Link>
                                     </h2>
                                     <h2 className='text-white text-[0.9em] mb-2'>
-                                        <div>Lu par :</div> 
+                                        Lu par :{" "}
                                         <Link 
                                         href={`/narratorView?id=${informations.narrator?.id}`} 
-                                        className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-white/10 text-white border border-white/20 hover:bg-neutral-400 hover:text-black transition-transform duration-200 hover:scale-105"
+                                        className="group inline-flex items-center gap-x-2 px-3 py-1 rounded-full text-xs font-medium bg-white/10 text-white border border-white/20 hover:bg-neutral-200 hover:text-black transition-transform duration-200 hover:scale-105"
                                         >
                                             <FaMicrophoneAlt className="text-white text-[0.7rem] group-hover:text-black transition" />
                                             {informations.narrator?.name}
                                         </Link>
                                     </h2>
                                     <h2 className='text-white text-[0.9em] mb-2'>
-                                        Mis en ligne par : 
+                                        Mis en ligne par :{" "}
                                         <Link 
                                         href={`/publisherView?id=${informations.publisher?.id}`} 
-                                        className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-white/10 text-white border border-white/20 hover:bg-neutral-400 hover:text-black transition-transform duration-200 hover:scale-105"
+                                        className="group inline-flex items-center gap-x-2 px-3 py-1 rounded-full text-xs font-medium bg-white/10 text-white border border-white/20 hover:bg-neutral-200 hover:text-black transition-transform duration-200 hover:scale-105"
                                         >
                                             <FaBuilding className="text-white text-[0.7rem] group-hover:text-black transition" />
                                             {informations.publisher?.name}
@@ -265,8 +269,8 @@ function BookView({ searchParams }: { searchParams: { id: string; } }) {
                                 </div>
                             </div>
                         </div>
-                        <div className='bg-gray-800/25 flex-1 h-full border-b-[80px] overflow-y-auto pt-5'>
-                            <div className=' max-h-[60vh]'>
+                        <div className='bg-gray-800/25 overflow-y-auto pt-5 pb-5 max-h-[60vh]'>
+                            <div>
                                 <div className="grid grid-cols-[0.1fr_0.8fr_0.4fr_0.5fr] grid-rows-1 mx-auto w-[80%] text-[hsl(0,0%,70%)] items-center justify-between Arial h-full">
                                     <div className='text-[hsl(0,_0%,_70%)] text-xs' >#</div>
                                     <div className='text-[hsl(0,_0%,_70%)] text-xs'>Chapters</div>
