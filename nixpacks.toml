@@ -1,16 +1,14 @@
 [phases.setup]
-nixPkgs = ["python311", "python311Packages.pip", "postgresql"]
+nixPkgs = ["python311", "python311Packages.pip"]
 
 [phases.install]
 cmds = [
-  "python3 -m ensurepip --upgrade",  # Ensures pip is available
-  "python3 -m pip install -r 'App/Back(Django)/requirements.txt'"
-]
+  "pip install -r App/Back(Django)/requirementsProd.txt"
 
 [phases.build]
 cmds = [
-  'python3 App/Back(Django)/manage.py collectstatic --noinput'
+  "python3 App/Back(Django)/manage.py collectstatic --noinput"
 ]
 
 [start]
-cmd = 'gunicorn backend.wsgi:application --chdir App/Back(Django) --bind 0.0.0.0:${PORT}'
+cmd = "gunicorn backend.wsgi:application --chdir App/Back(Django) --bind 0.0.0.0:${PORT}"
