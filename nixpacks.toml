@@ -1,5 +1,5 @@
 [phases.setup]
-nixPkgs = ["python311", "postgresql"]
+nixPkgs = ["python311Full", "postgresql"]
 
 [phases.install]
 cmds = ['python3 -m pip install -r "App/Back(Django)/requirements.txt"']
