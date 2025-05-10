@@ -2,10 +2,10 @@
 nixPkgs = ["python311", "postgresql"]
 
 [phases.install]
-cmds = ["pip install -r App/Back(Django)/requirements.txt"]
+cmds = ['pip install -r "App/Back(Django)/requirements.txt"']
 
 [phases.build]
-cmds = ["python App/Back(Django)/manage.py collectstatic --noinput"]
+cmds = ['python "App/Back(Django)/manage.py" collectstatic --noinput']
 
 [start]
-cmd = "gunicorn backend.wsgi:application --chdir App/Back(Django) --bind 0.0.0.0:${PORT}"
+cmd = 'gunicorn backend.wsgi:application --chdir "App/Back(Django)" --bind 0.0.0.0:${PORT}'
