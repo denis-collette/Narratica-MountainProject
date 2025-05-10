@@ -4,7 +4,6 @@ __pycache__/
 *.pyo
 env/
 venv/
-settings.py
 .python-version
 db.sqlite3
 # Node.js
