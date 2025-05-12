@@ -104,12 +104,13 @@ Check below [full version](#gpt-lapi).
 | POST | /api/token/ | Obtain access/refresh token |
 | POST | /api/token/refresh/ | Refresh JWT access token |
 
-### 👤 Users (Read-Only)
+### 👤 Users
 
 | Method | URL | Description |
 |--------|-----|-------------|
 | GET | /api/users/ | List all users |
 | GET | /api/users/{id}/ | Retrieve a user |
+| PUT or PATCH or DELETE | /api/users/<user_id>/ | Edit/delete a user |
 
 ### 🎧 Audiobooks
 

@@ -3,7 +3,7 @@ from django.contrib.auth import get_user_model
 from django.db.models import Q
 from rest_framework import viewsets, generics, status
 from rest_framework.decorators import action, api_view
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.parsers import MultiPartParser, FormParser
@@ -223,6 +223,28 @@ class LoginView(APIView):
         return Response({'refresh': str(refresh), 'access': str(refresh.access_token),
             'user_id': user.id, 'username': user.username})
 
-class UserViewSet(viewsets.ReadOnlyModelViewSet):
+class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+
+    def get_permissions(self):
+        if self.action in ['update', 'partial_update', 'destroy']:
+            return [IsAuthenticated()]
+        return super().get_permissions()
+    
+    def get_queryset(self):
+        if self.action in ['update', 'partial_update', 'destroy']:
+            return self.queryset.filter(id=self.request.user.id)
+        return self.queryset
+    
+    def destroy(self, request, *args, **kwargs):
+        user = self.get_object()
+        profile_img_url = user.profile_img
+
+        # Optional: Delete the image from S3 if present
+        if profile_img_url:
+            from backend.utils.aws_s3 import delete_image_from_s3  # Adjust path if needed
+            delete_image_from_s3(profile_img_url)
+
+        user.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)

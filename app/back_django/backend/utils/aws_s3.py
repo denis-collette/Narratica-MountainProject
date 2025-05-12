@@ -3,6 +3,7 @@ from django.conf import settings
 from botocore.client import Config
 from botocore.exceptions import NoCredentialsError
 from datetime import datetime
+from urllib.parse import urlparse
 import logging
 logger = logging.getLogger(__name__)
 
@@ -42,3 +43,15 @@ def upload_image_to_s3(image_file):
         raise Exception("Credentials not available.")
     except Exception as e:
         raise Exception(f"Error uploading to S3: {e}")
+
+def delete_image_from_s3(image_url):
+    s3 = boto3.client(
+        's3',
+        aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
+        aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
+    )
+    bucket_name = settings.AWS_STORAGE_BUCKET_NAME
+
+    # Extract the object key from the full URL
+    path = urlparse(image_url).path.lstrip("/")
+    s3.delete_object(Bucket=bucket_name, Key=path)

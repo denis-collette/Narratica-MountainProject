@@ -112,6 +112,30 @@ class LoginSerializer(serializers.Serializer):
         return attrs
 
 class UserSerializer(serializers.ModelSerializer):
+    profile_img = serializers.SerializerMethodField()
+    
     class Meta:
         model = get_user_model()
         fields = ['id', 'username', 'profile_img', 'email', 'first_name', 'last_name', 'last_login', 'is_active', 'created_at', 'date_joined', 'is_staff', 'is_superuser']
+        read_only_fields = ['id', 'last_login', 'is_active', 'created_at', 'date_joined', 'is_staff', 'is_superuser']
+    
+    def get_profile_img(self, obj):
+        return obj.profile_img if obj.profile_img else None
+    
+    def update(self, instance, validated_data):
+        profile_img = validated_data.pop('profile_img', None)
+
+        # Upload new image to S3 if provided
+        if profile_img is not None:
+            if profile_img == "":
+                instance.profile_img = None
+            else:
+                s3_url = upload_image_to_s3(profile_img)
+                instance.profile_img = s3_url
+
+        # Update remaining fields
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+
+        instance.save()
+        return instance
