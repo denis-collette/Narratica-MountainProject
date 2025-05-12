@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useEffect, useState, ChangeEvent } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
-
+import axios from "axios";
 import Card from "@/components/Card";
 import { fetchUserProfile, UserProfile } from "../api/userAuth/fetchUserProfile";
 import { fetchFavoriteAudioBookId } from "../api/favorites/getFavoriteAudioBookId";
@@ -14,6 +14,7 @@ import { fetchAudioBooksById } from "../api/audio/getAudioBooksById";
 import { fetchAuthorById } from "../api/audio/getAuthorById";
 import { fetchNarratorById } from "../api/audio/getNarratorById";
 import { fetchPublisherById } from "../api/audio/getPublisherById";
+import { url } from "../api/baseUrl";
 
 interface FavoriteItem {
     id: number;
@@ -21,6 +22,7 @@ interface FavoriteItem {
 }
 
 function ProfileView() {
+    const router = useRouter();
     const params = useSearchParams();
     const searchId = params.get("id");
     const localId = typeof window !== "undefined" ? localStorage.getItem("user_id") : null;
@@ -28,6 +30,16 @@ function ProfileView() {
 
     const [userInfo, setUserInfo] = useState<UserProfile | null>(null);
     const [loading, setLoading] = useState(true);
+    const [editMode, setEditMode] = useState(false);
+    const [formData, setFormData] = useState({
+        username: "",
+        email: "",
+        first_name: "",
+        last_name: "",
+        profile_img: null as File | null,
+    });
+    const [previewImg, setPreviewImg] = useState<string | null>(null);
+    const [profileImgUrl, setProfileImgUrl] = useState<string | null>(null);
 
     const [favoriteBooks, setFavoriteBooks] = useState<any[]>([]);
     const [favoriteAuthors, setFavoriteAuthors] = useState<FavoriteItem[]>([]);
@@ -40,6 +52,16 @@ function ProfileView() {
             try {
                 const userData = await fetchUserProfile(Number(userId));
                 setUserInfo(userData);
+                if (userData) {
+                    setFormData({
+                        username: userData.username,
+                        email: userData.email,
+                        first_name: userData.first_name,
+                        last_name: userData.last_name,
+                        profile_img: null,
+                    });
+                    setProfileImgUrl(userData.profile_img || null);
+                };
 
                 // Fetch favorite audiobooks
                 const favBooks = await fetchFavoriteAudioBookId(Number(userId));
@@ -78,10 +100,6 @@ function ProfileView() {
                 );
                 setFavoritePublishers(publisherDetails);
 
-                console.log("Authors:", favAuthors);
-                console.log("Narrators:", favNarrators);
-                console.log("Publishers:", favPublishers);
-
             } catch (error) {
                 console.error("Failed to fetch user data:", error);
             } finally {
@@ -91,6 +109,71 @@ function ProfileView() {
         fetchData();
     }, [userId]);
 
+    const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setFormData((prev) => ({ ...prev, [name]: value }));
+    };
+
+    const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files && e.target.files[0]) {
+            const file = e.target.files[0];
+            setFormData((prev) => ({ ...prev, profile_img: file }));
+            setPreviewImg(URL.createObjectURL(file));
+        }
+    };
+
+    const saveProfileChanges = async () => {
+        if (!userId) return;
+
+        try {
+            const token = localStorage.getItem("access_token");
+            const form = new FormData();
+            form.append("username", formData.username);
+            form.append("email", formData.email);
+            form.append("first_name", formData.first_name);
+            form.append("last_name", formData.last_name);
+
+            if (formData.profile_img) {
+                form.append("profile_img", formData.profile_img);
+            }
+
+            const res = await axios.patch(`${url}/api/user/${userId}/`, form, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "multipart/form-data",
+                },
+            });
+
+            localStorage.setItem("profile_img", res.data.profile_img || "");
+            if (res.data.profile_img) {
+                setProfileImgUrl(`${res.data.profile_img}?cb=${Date.now()}`);
+            }
+
+            setEditMode(false);
+            setUserInfo(res.data);
+            setPreviewImg(null);
+        } catch (error) {
+            console.error("❌ Failed to update profile:", error);
+        }
+    };
+
+    const deleteAccount = async () => {
+        if (!confirm("Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible.")) return;
+
+        try {
+            const token = localStorage.getItem("access_token");
+            await axios.delete(`${url}/api/user/${userId}/`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            localStorage.clear();
+            router.push("/");
+        } catch (error) {
+            console.error("Erreur lors de la suppression du compte:", error);
+        }
+    }
+
     if (loading) return <p className="text-white text-center mt-8">Chargement...</p>;
     if (!userInfo) return <p className="text-white text-center mt-8">Utilisateur non trouvé</p>;
 
@@ -98,27 +181,85 @@ function ProfileView() {
         <main className="min-h-screen bg-black text-white mb-10">
             <section className="p-10">
                 <div className="flex items-start gap-10">
-                    <img
-                        src={localStorage.getItem("profile_img") || "https://github.com/shadcn.png"}
-                        alt="Profile"
-                        className="rounded-full h-52 w-52 object-cover"
-                    />
+                    <div>
+                        <img
+                            src={previewImg || profileImgUrl || "https://github.com/shadcn.png" + `?cb=${Date.now()}`}
+                            alt="Profile"
+                            className="rounded-full h-52 w-52 object-cover"
+                        />
+                        {editMode && (
+                            <input
+                                type="file"
+                                accept="image/*"
+                                onChange={handleImageChange}
+                                className="mt-2 text-sm"
+                            />
+                        )}
+                    </div>
 
-                    <div className="space-y-4">
-                        <h1 className="text-4xl font-bold">{userInfo.username}</h1>
-                        <p>Email : {userInfo.email}</p>
-                        <p>Nom : {userInfo.first_name} {userInfo.last_name}</p>
-                        <p>Narraticien depuis : {new Date(userInfo.date_joined).toLocaleDateString('fr-FR')}</p>
-                        <button className="px-4 py-2 bg-gray-700 rounded hover:bg-gray-600">
-                            Modifier le profil
-                        </button>
+                    <div className="space-y-4 flex-1">
+                        {editMode ? (
+                            <>
+                                <input
+                                    name="username"
+                                    value={formData.username}
+                                    onChange={handleInputChange}
+                                    placeholder="Nom d'utilisateur"
+                                    className="w-full bg-gray-800 text-white px-4 py-2 rounded"
+                                />
+                                <input
+                                    name="email"
+                                    value={formData.email}
+                                    onChange={handleInputChange}
+                                    placeholder="Email"
+                                    className="w-full bg-gray-800 text-white px-4 py-2 rounded"
+                                />
+                                <input
+                                    name="first_name"
+                                    value={formData.first_name}
+                                    onChange={handleInputChange}
+                                    placeholder="Prénom"
+                                    className="w-full bg-gray-800 text-white px-4 py-2 rounded"
+                                />
+                                <input
+                                    name="last_name"
+                                    value={formData.last_name}
+                                    onChange={handleInputChange}
+                                    placeholder="Nom"
+                                    className="w-full bg-gray-800 text-white px-4 py-2 rounded"
+                                />
+
+                                <div className="flex gap-4 mt-4">
+                                    <button onClick={saveProfileChanges} className="px-4 py-2 bg-green-600 rounded hover:bg-green-500">
+                                        Enregistrer
+                                    </button>
+                                    <button onClick={() => setEditMode(false)} className="px-4 py-2 bg-gray-700 rounded hover:bg-gray-600">
+                                        Annuler
+                                    </button>
+                                </div>
+                            </>
+                        ) : (
+                            <>
+                                <h1 className="text-4xl font-bold">{userInfo.username}</h1>
+                                <p>Email : {userInfo.email}</p>
+                                <p>Nom : {userInfo.first_name} {userInfo.last_name}</p>
+                                <p>Narraticien depuis : {new Date(userInfo.date_joined).toLocaleDateString('fr-FR')}</p>
+                                <div className="flex gap-4">
+                                    <button onClick={() => setEditMode(true)} className="px-4 py-2 bg-gray-700 rounded hover:bg-gray-600">
+                                        Modifier le profil
+                                    </button>
+                                    <button onClick={deleteAccount} className="px-4 py-2 bg-red-600 rounded hover:bg-red-500">
+                                        Supprimer le compte
+                                    </button>
+                                </div>
+                            </>
+                        )}
                     </div>
                 </div>
 
                 <section className="mt-10">
                     <h2 className="text-2xl font-semibold mb-4">Favoris</h2>
 
-                    {/* Favorite Audiobooks */}
                     <div className="mb-6">
                         <h3 className="text-xl font-semibold mb-2">Livres audio</h3>
                         <div className="flex gap-4 overflow-x-auto">
@@ -128,32 +269,41 @@ function ProfileView() {
                         </div>
                     </div>
 
-                    {/* Favorite Authors */}
                     <div className="mb-6">
                         <h3 className="text-xl font-semibold mb-2">Auteurs</h3>
                         <ul className="list-disc list-inside">
                             {favoriteAuthors.map((author) => (
-                                <li key={author.id}>{author.name}</li>
+                                <li key={author.id}>
+                                    <Link href={`/authorView?id=${author.id}`} className="underline hover:text-gray-300">
+                                        {author.name}
+                                    </Link>
+                                </li>
                             ))}
                         </ul>
                     </div>
 
-                    {/* Favorite Narrators */}
                     <div className="mb-6">
                         <h3 className="text-xl font-semibold mb-2">Narrateurs</h3>
                         <ul className="list-disc list-inside">
                             {favoriteNarrators.map((narrator) => (
-                                <li key={narrator.id}>{narrator.name}</li>
+                                <li key={narrator.id}>
+                                    <Link href={`/narratorView?id=${narrator.id}`} className="underline hover:text-gray-300">
+                                        {narrator.name}
+                                    </Link>
+                                </li>
                             ))}
                         </ul>
                     </div>
 
-                    {/* Favorite Publishers */}
                     <div className="mb-6">
                         <h3 className="text-xl font-semibold mb-2">Éditeurs</h3>
                         <ul className="list-disc list-inside">
                             {favoritePublishers.map((publisher) => (
-                                <li key={publisher.id}>{publisher.name}</li>
+                                <li key={publisher.id}>
+                                    <Link href={`/publisherView?id=${publisher.id}`} className="underline hover:text-gray-300">
+                                        {publisher.name}
+                                    </Link>
+                                </li>
                             ))}
                         </ul>
                     </div>
