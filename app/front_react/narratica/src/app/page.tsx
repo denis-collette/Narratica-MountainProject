@@ -110,7 +110,7 @@ export default function HomePage() {
                                 }}
                                 className="w-full mb-8"
                             >
-                                <CarouselContent className='gap-2 max-w-full overflow-x-hidden'>
+                                <CarouselContent className='gap-2 max-w-full'>
                                     {/* All Tags */}
                                     <CarouselItem className="basis-auto">
                                         <button
