@@ -21,14 +21,14 @@ const ResearchRow: React.FC<ResearchRowProps> = ({ book, author, narrator }) => 
             </div>
         
             {/* Text content on the right */}
-            <div className="w-3/4 p-2 flex flex-col justify-center overflow-hidden">
-                <h2 className="text-white text-xs font-bold leading-tight break-words line-clamp-none">
+            <div className="w-3/4 p-2 flex flex-col justify-center overflow-hidden whitespace-nowrap text-ellipsis">
+                <h2 className="text-white text-xs font-bold  break-words  ">
                 {book.title}
                 </h2>
-                <div className="text-white text-[0.55em] mt-1 leading-tight break-words">
+                <div className="text-white text-[0.55em] mt-1  break-words">
                 Author: {author}
                 </div>
-                <div className="text-white text-[0.55em] mt-1 leading-tight break-words">
+                <div className="text-white text-[0.55em] mt-1  break-words">
                 Narrator: {narrator}
                 </div>
             </div>

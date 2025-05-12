@@ -130,7 +130,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ search, setSearch }) => {
                     {authorList.map((author) => (
                       <div
                         key={`author-${author.id}`}
-                        className='cursor-pointer hover:bg-[rgb(43,43,43)] hover:text-white active:bg-[rgb(94,94,94)]'
+                        className='cursor-pointer text-xs hover:bg-[rgb(43,43,43)] hover:text-white active:bg-[rgb(94,94,94)]'
                         onMouseDown={(e) => e.preventDefault()}
                       >
                         <Link href={{ pathname: "/authorView", query: { id: author.id }}}
@@ -150,7 +150,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ search, setSearch }) => {
                     {narratorList.map((narrator) => (
                       <div
                         key={`narrator-${narrator.id}`}
-                        className='cursor-pointer hover:bg-[rgb(43,43,43)] hover:text-white active:bg-[rgb(94,94,94)]'
+                        className='cursor-pointer text-xs hover:bg-[rgb(43,43,43)] hover:text-white active:bg-[rgb(94,94,94)]'
                         onMouseDown={(e) => e.preventDefault()}
                       >
                         <Link href={{ pathname: "/narratorView", query: { id: narrator.id } }}
