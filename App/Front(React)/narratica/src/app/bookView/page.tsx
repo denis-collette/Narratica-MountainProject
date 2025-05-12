@@ -195,7 +195,7 @@ function BookView({ searchParams }: { searchParams: { id: string; } }) {
             {informations.loadingChapter && informations.loadingAudioBook ? (
                 <SkeletonBookView />
             ) : (
-                <div className="relative">
+                <div className="relative h-[calc(100vh-140px)]">
                 <div className="absolute top-0 left-0 w-full h-full z-0 pointer-events-none overflow-hidden">
                     <div
                         style={{
@@ -208,8 +208,8 @@ function BookView({ searchParams }: { searchParams: { id: string; } }) {
                     />
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#120e0c]" />
                 </div>
-                <div className="relative flex flex-col w-screen ">
-                    <div className=" w-full flex flex-col bg-gradient-to-b from-[#00000000] from-15%  to-[#120e0c] to-45% rounded-[0.5%]">
+                <div className="relative h-full flex flex-col w-screen ">
+                    <div className=" w-full h-full flex flex-col bg-gradient-to-b from-[#00000000] from-15%  to-[#120e0c] to-45% rounded-[0.5%]">
                         <div className="pt-[3%] flex gap-6 m-auto w-[80%] pb-[3%] items-start">
                             <div className="w-[300px] h-[300px] flex-shrink-0">
                                 <img
@@ -268,7 +268,7 @@ function BookView({ searchParams }: { searchParams: { id: string; } }) {
                                 </div>
                             </div>
                         </div>
-                        <div className='bg-gray-800/25 overflow-y-auto pt-5 pb-5 max-h-[60vh]'>
+                        <div className='bg-gray-800/25 overflow-y-auto pt-5 pb-5 h-full '>
                             <div>
                                 <div className="grid grid-cols-[0.1fr_0.8fr_0.4fr_0.5fr] grid-rows-1 mx-auto w-[80%] text-[hsl(0,0%,70%)] items-center justify-between Arial h-full">
                                     <div className='text-[hsl(0,_0%,_70%)] text-xs' >#</div>
