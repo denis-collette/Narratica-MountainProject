@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { FaUser, FaLock } from "react-icons/fa";
 import { loginUser } from "../api/userAuth/login";
+import { LuUser } from "react-icons/lu";
 
 export default function LoginPage() {
     const [username, setUsername] = useState("");
@@ -23,47 +24,57 @@ export default function LoginPage() {
     };
 
     return (
-        <section className="flex justify-center items-center min-h-screen bg-black">
-            <section className="bg-white/10 backdrop-blur-lg rounded-2xl p-8 w-96 shadow-lg">
-                <h2 className="text-center text-white text-xl font-semibold mb-4">
-                    CUSTOMER LOGIN
-                </h2>
-                <form onSubmit={handleSubmit}>
-                    <section className="relative mb-4">
-                        <FaUser className="absolute left-3 top-3 text-gray-300" />
-                        <input
-                            type="text"
-                            placeholder="Username"
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
-                            className="w-full pl-10 pr-4 py-2 bg-transparent border border-gray-300 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-gray-500"
-                        />
-                    </section>
-                    <section className="relative mb-4">
-                        <FaLock className="absolute left-3 top-3 text-gray-300" />
-                        <input
-                            type="password"
-                            placeholder="Password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            className="w-full pl-10 pr-4 py-2 bg-transparent border border-gray-300 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-gray-500"
-                        />
-                    </section>
-                    {error && <p className="text-red-400 text-sm mb-4">{error}</p>}
-                    <section className="flex justify-between text-sm text-gray-300 mb-4">
-                        <label className="flex items-center">
-                            <input type="checkbox" className="mr-2" /> Remember me
-                        </label>
-                        <a href="#" className="hover:underline">Forgot Password?</a>
-                    </section>
+        <main className="flex justify-center items-center min-h-screen bg-gradient-to-b from-[#000000] from-0% to-[#120e0c] to-90%">
+            <section className="flex-row justify-center items-center bg-[#1b1b1b] p-8 rounded-lg shadow-lg w-[450px] mb-30 mt-10">
+                <img src="./favicon.ico" className="w-16 mx-auto mb-6" alt="Favicon" />
+                <h1 className="text-white font-bold text-3xl text-center mb-8">Se connecter</h1>
+
+                <form className="space-y-6" onSubmit={handleSubmit}>
+                    <div className="relative">
+                        <label className="text-white text-lg mb-2 block">Nom d'utilisateur</label>
+                        <div className="relative">
+                            <LuUser className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                            <input
+                                type="text"
+                                value={username}
+                                onChange={(e) => setUsername(e.target.value)}
+                                className="w-full bg-[#2b2b2b] text-white pl-10 pr-4 py-3 rounded-md focus:outline-none"
+                                placeholder="Votre nom d'utilisateur"
+                            />
+                        </div>
+                    </div>
+
+                    <div className="relative">
+                        <label className="text-white text-lg mb-2 block">Mot de passe</label>
+                        <div className="relative">
+                            <FaLock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                            <input
+                                type="password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                className="w-full bg-[#2b2b2b] text-white pl-10 pr-4 py-3 rounded-md focus:outline-none"
+                                placeholder="••••••••"
+                            />
+                        </div>
+                    </div>
+
+                    {error && <p className="text-red-500 text-center">{error}</p>}
+
                     <button
                         type="submit"
-                        className="w-full py-2 bg-gray-700 text-white rounded-md hover:bg-gray-600 transition"
+                        className="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-3 rounded-md transition-colors duration-300"
                     >
-                        LOGIN
+                        Se connecter
                     </button>
                 </form>
+
+                <p className="text-gray-400 text-center mt-6">
+                    Vous n'avez pas de compte ?{' '}
+                    <a href="/signup" className="text-green-500 hover:text-green-400 hover:underline">
+                        S'inscrire
+                    </a>
+                </p>
             </section>
-        </section>
+        </main>
     );
 }
