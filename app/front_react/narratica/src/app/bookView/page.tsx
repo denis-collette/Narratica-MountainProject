@@ -212,17 +212,17 @@ function BookView({ searchParams }: { searchParams: { id: string; } }) {
                 <div className="relative h-full flex flex-col w-screen ">
                     <div className=" w-full h-full flex flex-col bg-gradient-to-b from-[#00000000] from-15%  to-[#120e0c] to-45% rounded-[0.5%]">
                         <div className="pt-[3%] flex gap-6 m-auto w-[80%] pb-[3%] items-start">
-                            <div className="w-[300px] h-[300px] flex-shrink-0">
+                            <div className="w-[300px] h-[300px] flex-shrink-0 ">
                                 <img
                                     src={informations.audiobook?.cover_art_jpg}
                                     alt="Cover"
                                     className="w-full h-full object-cover rounded-[5%] shadow-[0px_0px_25px]"
                                 />
                             </div>
-                            <div className="text-left self-end">
+                            <div className="text-left self-end h-full">
                                 
                                 
-                                <h1 className='text-white text-[2em] font-bold'>{informations.audiobook?.title} {loggedIn && (
+                                <h1 className='text-white text-[3em] font-bold'>{informations.audiobook?.title} {loggedIn && (
                                     <button  onClick={() => LikeButton()}>
                                         {informations.BookIsLiked ? (
                                             <GoHeartFill className="text-white hover:text-gray-300 transition text-xl w-5 h-5" />
@@ -231,7 +231,7 @@ function BookView({ searchParams }: { searchParams: { id: string; } }) {
                                         )}
                                     </button>
                                 )}</h1>
-                                <div className="flex flex-col space-y-2">
+                                <div className="flex flex-col space-y-2 h-full">
                                     <h2 className='text-white text-[0.9em] mb-2'>
                                         Ecrit par :{" "}
                                         <Link 
@@ -264,13 +264,18 @@ function BookView({ searchParams }: { searchParams: { id: string; } }) {
                                     </h2>
                                     <h2 className='text-white text-[0.9em] mb-2'>
                                         Durée totale : {informations.audiobook?.total_time}
-                                    </h2>
-                                    <h2 className='text-white text-[1em]'>{informations.audiobook?.description}</h2>
+                                    </h2 >
+                                    
                                 </div>
                             </div>
                         </div>
                         <div className='bg-gray-800/25 overflow-y-auto pt-5 pb-5 h-full '>
                             <div>
+                                <div className='"pt-[1%]  gap-6 m-auto w-[80%] pb-[1%] items-start"'>
+                                <h2 className='text-white text-[1em]'>Description:</h2>
+                                    <h2 className='text-white text-[0.8em] h-32 overflow-y-auto pr-2 w-3/4'>{informations.audiobook?.description}</h2>
+                                </div>
+                                
                                 <div className="grid grid-cols-[0.1fr_0.8fr_0.4fr_0.5fr] grid-rows-1 mx-auto w-[80%] text-[hsl(0,0%,70%)] items-center justify-between Arial h-full">
                                     <div className='text-[hsl(0,_0%,_70%)] text-xs' >#</div>
                                     <div className='text-[hsl(0,_0%,_70%)] text-xs'>Chapters</div>
