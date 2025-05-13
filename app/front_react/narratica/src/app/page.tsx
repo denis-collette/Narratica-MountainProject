@@ -81,7 +81,7 @@ export default function HomePage() {
     });
 
     return (
-        <section className='relative overflow-x-hidden mt-5'>
+        <section className='relative overflow-x-hidden'>
             {state.loading ? (
 
                 <>
@@ -93,7 +93,7 @@ export default function HomePage() {
                         </section>
                         <div className='flex justify-center w-screen'>
                             <section className="flex flex-wrap justify-center gap-5 mb-25  w-11/12">
-                                {[...Array(12)].map((_, index) => (
+                                {[...Array(10)].map((_, index) => (
                                     <SkeletonCard key={index} />
                                 ))}
                             </section>
@@ -103,7 +103,7 @@ export default function HomePage() {
             ) : (
                 <>
                     <section className='ml-4 w-1/2'>
-                        <section className="relative mx-12 mb-8">
+                        <section className="relative mx-12 mb-8 mt-5">
                             <Carousel
                                 opts={{
                                     align: "start",
