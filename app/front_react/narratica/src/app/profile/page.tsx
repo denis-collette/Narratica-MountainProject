@@ -3,7 +3,6 @@
 import { useEffect, useState, ChangeEvent } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
-import axios from "axios";
 import Card from "@/components/Card";
 import { fetchUserProfile, UserProfile } from "../api/userAuth/fetchUserProfile";
 import { fetchFavoriteAudioBookId } from "../api/favorites/getFavoriteAudioBookId";
@@ -16,7 +15,6 @@ import { fetchNarratorById } from "../api/audio/getNarratorById";
 import { fetchPublisherById } from "../api/audio/getPublisherById";
 import { updateUserProfile } from "../api/userAuth/updateUserProfile";
 import { deleteUserProfile } from "../api/userAuth/deleteUserProfile";
-import { url } from "../api/baseUrl";
 
 interface FavoriteItem {
     id: number;
@@ -68,7 +66,17 @@ function ProfileView() {
                 // Fetch favorite audiobooks
                 const favBooks = await fetchFavoriteAudioBookId(Number(userId));
                 const bookDetails = await Promise.all(
-                    favBooks.slice(0, 5).map((fav) => fetchAudioBooksById(fav.book))
+                    favBooks.slice(0, 5).map(async (fav) => {
+                        const baseBook = await fetchAudioBooksById(fav.book);
+                        const author = await fetchAuthorById(baseBook.author).catch(() => ({ name: "Unknown Author" }));
+                        const narrator = await fetchNarratorById(baseBook.narrator).catch(() => ({ name: "Unknown Narrator" }));
+
+                        return {
+                            ...baseBook,
+                            authorName: author.name,
+                            narratorName: narrator.name,
+                        };
+                    })
                 );
                 setFavoriteBooks(bookDetails);
 
