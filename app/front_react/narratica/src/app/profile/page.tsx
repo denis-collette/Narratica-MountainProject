@@ -15,6 +15,7 @@ import { fetchNarratorById } from "../api/audio/getNarratorById";
 import { fetchPublisherById } from "../api/audio/getPublisherById";
 import { updateUserProfile } from "../api/userAuth/updateUserProfile";
 import { deleteUserProfile } from "../api/userAuth/deleteUserProfile";
+import { FaFeatherAlt, FaMicrophoneAlt, FaBuilding } from "react-icons/fa";
 import {
     Carousel,
     CarouselContent,
@@ -73,7 +74,7 @@ function ProfileView() {
                 // Fetch favorite audiobooks
                 const favBooks = await fetchFavoriteAudioBookId(Number(userId));
                 const bookDetails = await Promise.all(
-                    favBooks.slice(0, 5).map(async (fav) => {
+                    favBooks.map(async (fav) => {
                         const baseBook = await fetchAudioBooksById(fav.book);
                         const author = await fetchAuthorById(baseBook.author).catch(() => ({ name: "Unknown Author" }));
                         const narrator = await fetchNarratorById(baseBook.narrator).catch(() => ({ name: "Unknown Narrator" }));
@@ -90,7 +91,7 @@ function ProfileView() {
                 // Fetch favorite authors
                 const favAuthors = await fetchFavoriteAuthorId(Number(userId));
                 const authorDetails = await Promise.all(
-                    favAuthors.slice(0, 5).map(async (fav) => {
+                    favAuthors.map(async (fav) => {
                         const author = await fetchAuthorById(fav.author);
                         return { id: author.id, name: author.name };
                     })
@@ -100,7 +101,7 @@ function ProfileView() {
                 // Fetch favorite narrators
                 const favNarrators = await fetchFavoriteNarratorId(Number(userId));
                 const narratorDetails = await Promise.all(
-                    favNarrators.slice(0, 5).map(async (fav) => {
+                    favNarrators.map(async (fav) => {
                         const narrator = await fetchNarratorById(fav.narrator);
                         return { id: narrator.id, name: narrator.name };
                     })
@@ -110,7 +111,7 @@ function ProfileView() {
                 // Fetch favorite publishers
                 const favPublishers = await fetchFavoritePublisherId(Number(userId));
                 const publisherDetails = await Promise.all(
-                    favPublishers.slice(0, 5).map(async (fav) => {
+                    favPublishers.map(async (fav) => {
                         const publisher = await fetchPublisherById(fav.publisher);
                         return { id: publisher.id, name: publisher.name };
                     })
@@ -176,9 +177,24 @@ function ProfileView() {
     if (!userInfo) return <p className="text-white text-center mt-8">Utilisateur non trouvé</p>;
 
     return (
-        <main className="min-h-screen bg-black text-white mb-10">
+        <main className="relative h-[calc(100vh-140px)]">
+            <div className="absolute top-0 left-0 w-full h-full z-0 ">
+                    <div
+                        style={{
+                        backgroundImage: `url(${previewImg || profileImgUrl || "https://github.com/shadcn.png" + `?cb=${Date.now()}`})`,
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
+                        filter: 'blur(150px)',
+                        }}
+                        className="w-full h-full"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#120e0c]"/>
+            </div>
+            
             <section className="p-10">
                 <div className="flex items-start gap-10">
+                <div className='h-full w-3/4 bg-[rgba(67,67,67,0.42)] backdrop-blur-sm border border-white/10 overflow-y-auto pt-5 pb-5 rounded-3xl'>
+
                     <div>
                         <img
                             src={previewImg || profileImgUrl || "https://github.com/shadcn.png" + `?cb=${Date.now()}`}
@@ -253,13 +269,17 @@ function ProfileView() {
                             </>
                         )}
                     </div>
-                </div>
+                
 
                 <section className="mt-10">
                     <h2 className="text-2xl font-semibold mb-4">Favoris</h2>
 
-                    <div className="mb-6 w-3/4">
-                        <Carousel
+                    <div className="mb-6">
+                        <h3 className="text-xl font-semibold mb-2">Livres audio</h3>
+                    </div>
+
+                        <div className="w-10/12 mb-8 m-auto">
+                            <Carousel
                                 opts={{
                                     align: "start",
                                     loop: true,
@@ -281,47 +301,62 @@ function ProfileView() {
                                 <CarouselPrevious className="bg-neutral-800 text-white hover:bg-white hover:text-black border-none" />
                                 <CarouselNext className="bg-neutral-800 text-white hover:bg-white hover:text-black border-none" />
                             </Carousel>
-                    </div>
+                        </div>
+                    <div className="flex w-10/12 justify-around m-auto">
+                        <div className="mb-6">
+                            <div className="group inline-flex items-center gap-x-2 px-3 py-1">
+                                <h3 className="text-xl font-semibold mb-2"> Auteurs</h3>
+                                <FaFeatherAlt className="text-white text-[0.7rem] group-hover:text-black transition" />
+                            </div>
+                            
+                            <ul className="list-disc list-inside">
+                                {favoriteAuthors.map((author) => (
+                                    <li key={author.id}>
+                                        <Link href={`/authorView?id=${author.id}`} className="underline hover:text-gray-300">
+                                            {author.name}
+                                        </Link>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
 
-                    <div className="mb-6">
-                        <h3 className="text-xl font-semibold mb-2">Auteurs</h3>
-                        <ul className="list-disc list-inside">
-                            {favoriteAuthors.map((author) => (
-                                <li key={author.id}>
-                                    <Link href={`/authorView?id=${author.id}`} className="underline hover:text-gray-300">
-                                        {author.name}
-                                    </Link>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
+                        <div className="mb-6">
+                            <div className="group inline-flex items-center gap-x-2 px-3 py-1">
+                                <h3 className="text-xl font-semibold mb-2">Narrateurs</h3>
+                                <FaMicrophoneAlt className="text-white text-[0.7rem] group-hover:text-black transition" />
+                            </div>
+                            
+                            <ul className="list-disc list-inside">
+                                {favoriteNarrators.map((narrator) => (
+                                    <li key={narrator.id}>
+                                        <Link href={`/narratorView?id=${narrator.id}`} className="underline hover:text-gray-300">
+                                            {narrator.name}
+                                        </Link>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
 
-                    <div className="mb-6">
-                        <h3 className="text-xl font-semibold mb-2">Narrateurs</h3>
-                        <ul className="list-disc list-inside">
-                            {favoriteNarrators.map((narrator) => (
-                                <li key={narrator.id}>
-                                    <Link href={`/narratorView?id=${narrator.id}`} className="underline hover:text-gray-300">
-                                        {narrator.name}
-                                    </Link>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-
-                    <div className="mb-6">
-                        <h3 className="text-xl font-semibold mb-2">Éditeurs</h3>
-                        <ul className="list-disc list-inside">
-                            {favoritePublishers.map((publisher) => (
-                                <li key={publisher.id}>
-                                    <Link href={`/publisherView?id=${publisher.id}`} className="underline hover:text-gray-300">
-                                        {publisher.name}
-                                    </Link>
-                                </li>
-                            ))}
-                        </ul>
+                        <div className="mb-6">
+                            <div className="group inline-flex items-center gap-x-2 px-3 py-1">
+                                <h3 className="text-xl font-semibold mb-2">Éditeurs</h3>
+                                <FaBuilding className="text-white text-[0.7rem] group-hover:text-black transition" />
+                            </div>
+                            
+                            <ul className="list-disc list-inside">
+                                {favoritePublishers.map((publisher) => (
+                                    <li key={publisher.id}>
+                                        <Link href={`/publisherView?id=${publisher.id}`} className="underline hover:text-gray-300">
+                                            {publisher.name}
+                                        </Link>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
                     </div>
                 </section>
+                </div>
+                </div>
             </section>
         </main>
     );

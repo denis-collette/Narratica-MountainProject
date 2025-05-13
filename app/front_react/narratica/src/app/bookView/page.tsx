@@ -214,11 +214,11 @@ function BookView({ searchParams }: { searchParams: { id: string; } }) {
                         }}
                         className="w-full h-full"
                     />
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#120e0c]" />
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#120e0c]"/>
                 </div>
                 <div className="relative h-full flex flex-col w-screen ">
                     <div className=" w-full h-full flex flex-col bg-gradient-to-b from-[#00000000] from-15%  to-[#120e0c] to-45% rounded-[0.5%]">
-                        <div className="pt-[3%] flex gap-6 m-auto w-[80%]  h-2/5">
+                        <div className="pt-[3%] flex gap-6 m-auto w-[80%] pb-[1%] h-2/5">
                             <div className="w-[h-full] h-full flex-shrink-0 ">
                                 <img
                                     src={informations.audiobook?.cover_art_jpg}
@@ -270,7 +270,7 @@ function BookView({ searchParams }: { searchParams: { id: string; } }) {
                                     <h2 className='text-white text-[0.9em] mb-[1%]'>
                                         Durée totale : {informations.audiobook?.total_time}
                                     </h2 >
-                                    
+                                    <h2 className='text-white text-[0.9em] mb-[1%]'>Nombre de vue :</h2>
                                 </div>
                             </div>
                         </div>
