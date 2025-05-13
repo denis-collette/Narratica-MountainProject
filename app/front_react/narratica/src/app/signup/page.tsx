@@ -7,7 +7,7 @@ import { registerUser } from "../api/userAuth/register"
 import { LuUser } from "react-icons/lu";
 import { FaLock, FaRegImage } from "react-icons/fa6";
 import { MdOutlineEmail } from "react-icons/md";
-import { FaPen } from "react-icons/fa";
+import { FaPen } from "react-icons/fa"; 
 
 function SignUpView() {
     const router = useRouter()
