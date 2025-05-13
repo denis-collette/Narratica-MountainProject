@@ -96,7 +96,7 @@ function SignUpView() {
     }
 
     return (
-        <main className="flex justify-center items-center min-h-screen bg-gradient-to-b from-[#242424] from-0% to-[#120e0c] to-90%">
+        <main className="flex justify-center items-center min-h-screen bg-gradient-to-b from-[#000000] from-0% to-[#120e0c] to-90%">
             <section className="flex-row justify-center items-center bg-[#1b1b1b] p-8 rounded-lg shadow-lg w-[450px] mb-30 mt-10">
                 <img src="./favicon.ico" className="w-16 mx-auto mb-6" alt="Favicon" />
                 <h1 className="text-white font-bold text-3xl text-center mb-8">Créer un compte</h1>
