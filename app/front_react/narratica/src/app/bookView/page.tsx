@@ -18,6 +18,13 @@ import { fetchFavoriteAudioBookTableId } from '../api/favorites/getFavoriteAudio
 import Link from 'next/link';
 import { FaFeatherAlt, FaMicrophoneAlt, FaBuilding } from "react-icons/fa";
 import { SkeletonBookView } from '@/components/SkeletonAll';
+import {
+    Carousel,
+    CarouselContent,
+    CarouselItem,
+    CarouselNext,
+    CarouselPrevious,
+} from "@/components/ui/carousel"
 // #region Utils
 function sortChapter(bookChapterObj: Chapter[]) {
     bookChapterObj.sort((a, b) => a.chapter_number - b.chapter_number);
@@ -197,7 +204,7 @@ function BookView({ searchParams }: { searchParams: { id: string; } }) {
                 <SkeletonBookView />
             ) : (
                 <div className="relative h-[calc(100vh-140px)]">
-                <div className="absolute top-0 left-0 w-full h-full z-0 pointer-events-none overflow-hidden">
+                <div className="absolute top-0 left-0 w-full h-full z-0 ">
                     <div
                         style={{
                         backgroundImage: `url(${informations.audiobook?.cover_art_jpg})`,
@@ -211,8 +218,8 @@ function BookView({ searchParams }: { searchParams: { id: string; } }) {
                 </div>
                 <div className="relative h-full flex flex-col w-screen ">
                     <div className=" w-full h-full flex flex-col bg-gradient-to-b from-[#00000000] from-15%  to-[#120e0c] to-45% rounded-[0.5%]">
-                        <div className="pt-[3%] flex gap-6 m-auto w-[80%] pb-[3%] items-start">
-                            <div className="w-[300px] h-[300px] flex-shrink-0 ">
+                        <div className="pt-[3%] flex gap-6 m-auto w-[80%]  h-2/5">
+                            <div className="w-[h-full] h-full flex-shrink-0 ">
                                 <img
                                     src={informations.audiobook?.cover_art_jpg}
                                     alt="Cover"
@@ -220,9 +227,7 @@ function BookView({ searchParams }: { searchParams: { id: string; } }) {
                                 />
                             </div>
                             <div className="text-left self-end h-full">
-                                
-                                
-                                <h1 className='text-white text-[3em] font-bold'>{informations.audiobook?.title} {loggedIn && (
+                                <h1 className='text-white text-[2.5em] font-bold'>{informations.audiobook?.title} {loggedIn && (
                                     <button  onClick={() => LikeButton()}>
                                         {informations.BookIsLiked ? (
                                             <GoHeartFill className="text-white hover:text-gray-300 transition text-xl w-5 h-5" />
@@ -231,8 +236,8 @@ function BookView({ searchParams }: { searchParams: { id: string; } }) {
                                         )}
                                     </button>
                                 )}</h1>
-                                <div className="flex flex-col space-y-2 h-full">
-                                    <h2 className='text-white text-[0.9em] mb-2'>
+                                <div className="flex flex-col space-y-2 h-3/4">
+                                    <h2 className='text-white text-[0.9em] mb-[1%]'>
                                         Ecrit par :{" "}
                                         <Link 
                                         href={`/authorView?id=${informations.author?.id}`} 
@@ -242,17 +247,17 @@ function BookView({ searchParams }: { searchParams: { id: string; } }) {
                                             {informations.author?.name}
                                         </Link>
                                     </h2>
-                                    <h2 className='text-white text-[0.9em] mb-2'>
+                                    <h2 className='text-white text-[0.9em]  mb-[1%]'>
                                         Lu par :{" "}
                                         <Link 
                                         href={`/narratorView?id=${informations.narrator?.id}`} 
-                                        className="group inline-flex items-center gap-x-2 px-3 py-1 rounded-full text-xs font-medium bg-white/10 text-white border border-white/20 hover:bg-neutral-200 hover:text-black transition-transform duration-200 hover:scale-105"
+                                        className="group inline-flex items-center gap-x-2 px-3 py-1 h-full rounded-full text-xs font-medium bg-white/10 text-white border border-white/20 hover:bg-neutral-200 hover:text-black transition-transform duration-200 hover:scale-105"
                                         >
                                             <FaMicrophoneAlt className="text-white text-[0.7rem] group-hover:text-black transition" />
                                             {informations.narrator?.name}
                                         </Link>
                                     </h2>
-                                    <h2 className='text-white text-[0.9em] mb-2'>
+                                    <h2 className='text-white text-[0.9em]  mb-[1%]'>
                                         Mis en ligne par :{" "}
                                         <Link 
                                         href={`/publisherView?id=${informations.publisher?.id}`} 
@@ -262,7 +267,7 @@ function BookView({ searchParams }: { searchParams: { id: string; } }) {
                                             {informations.publisher?.name}
                                         </Link>
                                     </h2>
-                                    <h2 className='text-white text-[0.9em] mb-2'>
+                                    <h2 className='text-white text-[0.9em] mb-[1%]'>
                                         Durée totale : {informations.audiobook?.total_time}
                                     </h2 >
                                     
@@ -272,8 +277,8 @@ function BookView({ searchParams }: { searchParams: { id: string; } }) {
                         <div className='bg-gray-800/25 overflow-y-auto pt-5 pb-5 h-full '>
                             <div>
                                 <div className='"pt-[1%]  gap-6 m-auto w-[80%] pb-[1%] items-start"'>
-                                <h2 className='text-white text-[1em]'>Description:</h2>
-                                    <h2 className='text-white text-[0.8em] h-32 overflow-y-auto pr-2 w-3/4'>{informations.audiobook?.description}</h2>
+                                <h2 className='text-white text-[1.5em]'>Description:</h2>
+                                    <h2 className='text-white text-[1em] h-32 overflow-y-auto pr-2 w-3/4'>{informations.audiobook?.description}</h2>
                                 </div>
                                 
                                 <div className="grid grid-cols-[0.1fr_0.8fr_0.4fr_0.5fr] grid-rows-1 mx-auto w-[80%] text-[hsl(0,0%,70%)] items-center justify-between Arial h-full">
