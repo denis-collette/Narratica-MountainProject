@@ -18,6 +18,13 @@ import { fetchFavoriteAudioBookTableId } from '../api/favorites/getFavoriteAudio
 import Link from 'next/link';
 import { FaFeatherAlt, FaMicrophoneAlt, FaBuilding } from "react-icons/fa";
 import { SkeletonBookView } from '@/components/SkeletonAll';
+import {
+    Carousel,
+    CarouselContent,
+    CarouselItem,
+    CarouselNext,
+    CarouselPrevious,
+} from "@/components/ui/carousel"
 // #region Utils
 function sortChapter(bookChapterObj: Chapter[]) {
     bookChapterObj.sort((a, b) => a.chapter_number - b.chapter_number);
