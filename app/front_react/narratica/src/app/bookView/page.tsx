@@ -132,6 +132,7 @@ function BookView({ searchParams }: { searchParams: { id: string; } }) {
                     // bookTitle: audiobook.title,
                     // coverImage: audiobook.cover_art_jpg,
                     allChapters: chapters,
+                    currentChapterIndex: -1,
                 }));
 
                 // setState((prevState) => ({

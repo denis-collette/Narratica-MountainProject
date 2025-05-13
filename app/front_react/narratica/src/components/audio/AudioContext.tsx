@@ -40,6 +40,7 @@ interface AudioContextType {
 
     /** Revient au chapitre précédent ou au début du chapitre actuel */
     previousChapter: () => void;
+
 }
 
 /**
@@ -88,7 +89,7 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         duration: 0,
         progress: 0,
         allChapters: [],
-        currentChapterIndex: 0
+        currentChapterIndex: -1
     });
 
     const audioReference = useRef<HTMLAudioElement | null>(null);
@@ -217,6 +218,10 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
     /** Charge le chapitre suivant si disponible. */
     const nextChapter = () => {
+        if (audioState.currentChapterIndex === -1) {
+            return;
+        }
+
         const next = audioState.currentChapterIndex + 1;
         if (next < audioState.allChapters.length) {
             loadChapter(audioState.allChapters[next], audioState.bookTitle!, audioState.coverImage!);
@@ -225,12 +230,39 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
     /** Revient au chapitre précédent ou au début si déjà au début. */
     const previousChapter = () => {
+        if (audioState.currentChapterIndex === -1) {
+            return;
+        }
+
         const prev = audioState.currentChapterIndex - 1;
         if (prev >= 0) {
             loadChapter(audioState.allChapters[prev], audioState.bookTitle!, audioState.coverImage!);
         } else if (audioReference.current) {
             audioReference.current.currentTime = 0;
         }
+    };
+
+    const resetAudioState = () => {
+        const audio = audioReference.current;
+        if (audio) {
+            audio.pause();
+            audio.currentTime = 0;
+            audio.src = '';
+        }
+
+        setAudioState({
+            audioSource: null,
+            isPlaying: false,
+            currentChapterTitle: undefined,
+            coverImage: undefined,
+            bookTitle: undefined,
+            volume: 1,
+            currentTime: 0,
+            duration: 0,
+            progress: 0,
+            allChapters: [],
+            currentChapterIndex: -1
+        });
     };
 
     //#endregion
@@ -306,7 +338,7 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         skipBackward,
         nextChapter,
         previousChapter,
-        loadChapter
+        loadChapter,
     };
 
     return (
