@@ -58,7 +58,7 @@ export default function NavBar() {
                     {/* <li><Link href="/homePage02" className="px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ease-in-out bg-neutral-800 text-white hover:bg-neutral-700 hover:text-white">Homepage 02</Link></li> */}
                     {loggedIn ? (
                         <>
-                            <Link href="/favorites" className="px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ease-in-out bg-neutral-800 text-white hover:bg-neutral-700 hover:text-white">Favorites</Link>
+                            <Link href="/favorites" className="px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ease-in-out bg-neutral-800 text-white hover:bg-neutral-700 hover:text-white">Favoris</Link>
                         </>
                     ) : (
                         <>
