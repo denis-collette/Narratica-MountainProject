@@ -77,8 +77,7 @@ export default function HomePage() {
 
     const filteredBooks = state.audiobooks.filter((book) => {
         const matchesTag = state.selectedTag ? book.tags?.includes(state.selectedTag) : true;
-        const matchesSearch = book.title.toLowerCase().includes(search.toLowerCase());
-        return matchesTag && matchesSearch;
+        return matchesTag;
     });
 
     return (
@@ -87,20 +86,24 @@ export default function HomePage() {
 
                 <>
                     <section className='ml-4 w-1/2'>
+                        {/* <div className='flex justify-center w-screen'>
+                            <section className="flex flex-wrap justify-center gap-5 mb-25  w-11/12"> */}
                         <section className="relative mx-12 mb-8">
                             <SkeletonCarousel />
                         </section>
-                        <section className="flex flex-wrap justify-start gap-5 mb-25 content-center w-full">
-                            {[...Array(10)].map((_, index) => (
-                                <SkeletonCard key={index} />
-                            ))}
-                        </section>
+                        <div className='flex justify-center w-screen'>
+                            <section className="flex flex-wrap justify-center gap-5 mb-25  w-11/12">
+                                {[...Array(12)].map((_, index) => (
+                                    <SkeletonCard key={index} />
+                                ))}
+                            </section>
+                        </div>
                     </section>
                 </>
             ) : (
                 <>
                     <section className='ml-4 w-1/2'>
-                        <section className="relative mx-12">
+                        <section className="relative mx-12 mb-8">
                             <Carousel
                                 opts={{
                                     align: "start",
@@ -140,9 +143,7 @@ export default function HomePage() {
                                                     ${state.selectedTag === tag.id
                                                         ? "bg-white text-black"
                                                         : "bg-neutral-800 text-white hover:bg-neutral-700"
-                                                    }
-                `}
-                                            >
+                                                    }`}>
                                                 {tag.name}
                                             </button>
                                         </CarouselItem>
@@ -152,11 +153,13 @@ export default function HomePage() {
                                 <CarouselNext className="bg-neutral-800 text-white hover:bg-white hover:text-black border-none" />
                             </Carousel>
                         </section>
-                        <section className="flex flex-wrap justify-start gap-5 mb-25 content-center w-screen">
-                            {filteredBooks.map((book) => (
-                                <Card key={book.id} book={book} />
-                            ))}
-                        </section>
+                        <div className="flex justify-center w-screen">
+                            <section className="flex flex-wrap mb-25 gap-5 w-full max-w-[90%]">
+                                {filteredBooks.map((book) => (
+                                    <Card key={book.id} book={book} />
+                                ))}
+                            </section>
+                        </div>
                     </section>
                 </>
             )}

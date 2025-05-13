@@ -198,11 +198,13 @@ export default function PublisherView() {
                             </Carousel>
                         </section>
 
-                        <section className="flex flex-wrap justify-start gap-5 mb-25 content-center w-screen">
-                            {filteredBooks.map((book) => (
-                                <Card key={book.id} book={book} />
-                            ))}
-                        </section>
+                        <div className="flex justify-center w-screen">
+                            <section className="flex flex-wrap mb-25 gap-5 w-full max-w-[90%]">
+                                {filteredBooks.map((book) => (
+                                    <Card key={book.id} book={book} />
+                                ))}
+                            </section>
+                        </div>
                     </section>
                 </>
             )}
