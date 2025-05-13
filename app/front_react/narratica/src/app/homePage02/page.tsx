@@ -145,7 +145,7 @@ export default function HomePage() {
                                                         : "bg-neutral-800 text-white hover:bg-neutral-700"
                                                     }`}>
                                                 {tag.name}
-                                            </button>8
+                                            </button>
                                         </CarouselItem>
                                     ))}
                                 </CarouselContent>
