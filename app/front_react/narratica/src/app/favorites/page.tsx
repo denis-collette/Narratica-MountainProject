@@ -118,12 +118,11 @@ function ProfileView() {
     if (!userInfo) return <p className="text-white text-center mt-8">Utilisateur non trouvé</p>;
 
     return (
-        <main className="min-h-screen bg-black text-white mb-10">
-            <div className="bg-gray-800/25 overflow-y-auto pt-5 pb-5 h-full">
-            </div>
+        <main className="relative h-[calc(100vh-140px)] w-screen  text-white mb-10 flex items-center justify-center bg-[url('/favicon.ico')]  bg-no-repeat bg-center bg-contain">
+            <div className='h-10/12 w-10/12 bg-[rgba(67,67,67,0.42)] backdrop-blur-sm border border-white/10 overflow-y-auto pt-5 pb-5 rounded-3xl'>
             <section className="px-10">
                 <section >
-                    <h2 className="text-[7em] font-semibold  text-center">Favoris</h2>
+                    <h2 className="text-[3em] font-semibold  text-center">Favoris</h2>
                     <div className="mb-6">
                         <h3 className="text-xl font-semibold mb-2">Livres audio</h3>
                     </div>
@@ -152,58 +151,61 @@ function ProfileView() {
                                 <CarouselNext className="bg-neutral-800 text-white hover:bg-white hover:text-black border-none" />
                             </Carousel>
                         </div>
-                    <div className="mb-6">
-                        <div className="group inline-flex items-center gap-x-2 px-3 py-1">
-                            <h3 className="text-xl font-semibold mb-2"> Auteurs</h3>
-                            <FaFeatherAlt className="text-white text-[0.7rem] group-hover:text-black transition" />
+                    <div className="flex w-10/12 justify-around m-auto">
+                        <div className="mb-6">
+                            <div className="group inline-flex items-center gap-x-2 px-3 py-1">
+                                <h3 className="text-xl font-semibold mb-2"> Auteurs</h3>
+                                <FaFeatherAlt className="text-white text-[0.7rem] group-hover:text-black transition" />
+                            </div>
+                            
+                            <ul className="list-disc list-inside">
+                                {favoriteAuthors.map((author) => (
+                                    <li key={author.id}>
+                                        <Link href={`/authorView?id=${author.id}`} className="underline hover:text-gray-300">
+                                            {author.name}
+                                        </Link>
+                                    </li>
+                                ))}
+                            </ul>
                         </div>
-                        
-                        <ul className="list-disc list-inside">
-                            {favoriteAuthors.map((author) => (
-                                <li key={author.id}>
-                                    <Link href={`/authorView?id=${author.id}`} className="underline hover:text-gray-300">
-                                        {author.name}
-                                    </Link>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
 
-                    <div className="mb-6">
-                        <div className="group inline-flex items-center gap-x-2 px-3 py-1">
-                            <h3 className="text-xl font-semibold mb-2">Narrateurs</h3>
-                            <FaMicrophoneAlt className="text-white text-[0.7rem] group-hover:text-black transition" />
+                        <div className="mb-6">
+                            <div className="group inline-flex items-center gap-x-2 px-3 py-1">
+                                <h3 className="text-xl font-semibold mb-2">Narrateurs</h3>
+                                <FaMicrophoneAlt className="text-white text-[0.7rem] group-hover:text-black transition" />
+                            </div>
+                            
+                            <ul className="list-disc list-inside">
+                                {favoriteNarrators.map((narrator) => (
+                                    <li key={narrator.id}>
+                                        <Link href={`/narratorView?id=${narrator.id}`} className="underline hover:text-gray-300">
+                                            {narrator.name}
+                                        </Link>
+                                    </li>
+                                ))}
+                            </ul>
                         </div>
-                        
-                        <ul className="list-disc list-inside">
-                            {favoriteNarrators.map((narrator) => (
-                                <li key={narrator.id}>
-                                    <Link href={`/narratorView?id=${narrator.id}`} className="underline hover:text-gray-300">
-                                        {narrator.name}
-                                    </Link>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
 
-                    <div className="mb-6">
-                        <div className="group inline-flex items-center gap-x-2 px-3 py-1">
-                            <h3 className="text-xl font-semibold mb-2">Éditeurs</h3>
-                            <FaBuilding className="text-white text-[0.7rem] group-hover:text-black transition" />
+                        <div className="mb-6">
+                            <div className="group inline-flex items-center gap-x-2 px-3 py-1">
+                                <h3 className="text-xl font-semibold mb-2">Éditeurs</h3>
+                                <FaBuilding className="text-white text-[0.7rem] group-hover:text-black transition" />
+                            </div>
+                            
+                            <ul className="list-disc list-inside">
+                                {favoritePublishers.map((publisher) => (
+                                    <li key={publisher.id}>
+                                        <Link href={`/publisherView?id=${publisher.id}`} className="underline hover:text-gray-300">
+                                            {publisher.name}
+                                        </Link>
+                                    </li>
+                                ))}
+                            </ul>
                         </div>
-                        
-                        <ul className="list-disc list-inside">
-                            {favoritePublishers.map((publisher) => (
-                                <li key={publisher.id}>
-                                    <Link href={`/publisherView?id=${publisher.id}`} className="underline hover:text-gray-300">
-                                        {publisher.name}
-                                    </Link>
-                                </li>
-                            ))}
-                        </ul>
                     </div>
                 </section>
             </section>
+            </div>
         </main>
     );
 }
