@@ -278,7 +278,7 @@ function BookView({ searchParams }: { searchParams: { id: string; } }) {
                             <div>
                                 <div className='"pt-[1%]  gap-6 m-auto w-[80%] pb-[1%] items-start"'>
                                 <h2 className='text-white text-[1.5em]'>Description:</h2>
-                                    <h2 className='text-white text-[1em] h-32 overflow-y-auto pr-2 w-3/4'>{informations.audiobook?.description}</h2>
+                                    <h2 className='text-white text-[1em]  pr-2 w-3/4'>{informations.audiobook?.description}</h2>
                                 </div>
                                 
                                 <div className="grid grid-cols-[0.1fr_0.8fr_0.4fr_0.5fr] grid-rows-1 mx-auto w-[80%] text-[hsl(0,0%,70%)] items-center justify-between Arial h-full">
