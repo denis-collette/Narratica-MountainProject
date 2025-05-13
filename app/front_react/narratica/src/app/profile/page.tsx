@@ -165,7 +165,7 @@ function ProfileView() {
             const success = await deleteUserProfile(Number(userId));
             if (success) {
                 localStorage.clear();
-                router.push("/");
+                window.location.href = "/";
             }
         } catch (error) {
             console.error("Erreur lors de la suppression du compte:", error);
