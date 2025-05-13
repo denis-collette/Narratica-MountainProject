@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model, authenticate
 from rest_framework import serializers
 from rest_framework.exceptions import AuthenticationFailed
 from Narratica.models import *
-from .utils.aws_s3 import upload_image_to_s3
+from .utils.aws_s3 import upload_image_to_s3, delete_image_from_s3
 
 class AudiobookSerializer(serializers.ModelSerializer):
     class Meta:
@@ -135,15 +135,18 @@ class UserSerializer(serializers.ModelSerializer):
         return rep
 
     def update(self, instance, validated_data):
-        # Handle manual S3 image upload
         profile_img = validated_data.pop('profile_img', None)
 
-        if profile_img:
-            from backend.utils.aws_s3 import upload_image_to_s3
-            s3_url = upload_image_to_s3(profile_img)
-            instance.profile_img = s3_url
-        elif profile_img == "":
-            instance.profile_img = None
+        if profile_img is not None:
+            # Delete the old image from S3 if it exists and is a URL (not a local file or empty string)
+            if instance.profile_img and isinstance(instance.profile_img, str):
+                delete_image_from_s3(instance.profile_img)
+
+            if profile_img == "":
+                instance.profile_img = None
+            else:
+                s3_url = upload_image_to_s3(profile_img)
+                instance.profile_img = s3_url
 
         # Update other fields
         for attr, value in validated_data.items():
