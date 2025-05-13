@@ -140,6 +140,7 @@ Check below [full version](#gpt-lapi).
 | PUT | /api/bookchapters/{id}/ | Update a chapter |
 | PATCH | /api/bookchapters/{id}/ | Partially update a chapter |
 | DELETE | /api/bookchapters/{id}/ | Delete a chapter |
+| POST | /api/bookchapters/{chapter_id}/increment-listening/ | Increment number of listening of a chapter |
 
 ### ✍️ Authors
 
