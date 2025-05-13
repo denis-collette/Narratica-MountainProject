@@ -17,6 +17,7 @@ import { postFavoriteAuthor } from '../api/favorites/postFavoriteAuthor';
 import { deleteFavoriteAuthor } from '../api/favorites/DeleteFavoriteAuthor';
 import { GoHeart, GoHeartFill } from "react-icons/go";
 import { isAuthenticated } from '../api/userAuth/checkAuth';
+import SkeletonCard, { SkeletonCarousel } from '@/components/SkeletonAll';
 
 export default function AuthorView() {
     interface AuthorViewState {
@@ -131,7 +132,24 @@ export default function AuthorView() {
     return (
         <section className="px-6">
             {state.loading ? (
-                <p>Chargement...</p>
+                <>
+                    <h1 className="text-3xl font-semibold my-6 text-white">
+                        Chargement...
+                    </h1>
+                    <section className='ml-4 w-1/2'>
+                        <section className="relative mx-12">
+                            <SkeletonCarousel />
+                        </section>
+
+                        <section className="flex justify-center w-screen">
+                            <section className="flex flex-wrap mb-25 gap-5 w-full max-w-[90%]">
+                                {[...Array(10)].map((_, index) => (
+                                    <SkeletonCard key={index} />
+                                ))}
+                            </section>
+                        </section>
+                    </section>
+                </>
             ) : (
                 <>
                     <h1 className="text-3xl font-semibold my-6 text-white">
@@ -198,13 +216,13 @@ export default function AuthorView() {
                             </Carousel>
                         </section>
 
-                        <div className="flex justify-center w-screen">
+                        <section className="flex justify-center w-screen">
                             <section className="flex flex-wrap mb-25 gap-5 w-full max-w-[90%]">
                                 {filteredBooks.map((book) => (
                                     <Card key={book.id} book={book} />
                                 ))}
                             </section>
-                        </div>
+                        </section>
                     </section>
                 </>
             )}
