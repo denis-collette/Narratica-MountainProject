@@ -119,7 +119,7 @@ function ProfileView() {
 
     return (
         <main className="relative h-[calc(100vh-140px)] w-screen  text-white mb-10 flex items-center justify-center bg-[url('/favicon.ico')]  bg-no-repeat bg-center bg-contain">
-            <div className='h-10/12 w-10/12 bg-[rgba(67,67,67,0.42)] backdrop-blur-sm border border-white/10 overflow-y-auto pt-5 pb-5 rounded-3xl'>
+            <div className='h-full w-3/4 bg-[rgba(67,67,67,0.42)] backdrop-blur-sm border border-white/10 overflow-y-auto pt-5 pb-5 rounded-3xl'>
             <section className="px-10">
                 <section >
                     <h2 className="text-[3em] font-semibold  text-center">Favoris</h2>

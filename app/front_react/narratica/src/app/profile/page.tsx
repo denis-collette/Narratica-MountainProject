@@ -15,6 +15,13 @@ import { fetchNarratorById } from "../api/audio/getNarratorById";
 import { fetchPublisherById } from "../api/audio/getPublisherById";
 import { updateUserProfile } from "../api/userAuth/updateUserProfile";
 import { deleteUserProfile } from "../api/userAuth/deleteUserProfile";
+import {
+    Carousel,
+    CarouselContent,
+    CarouselItem,
+    CarouselNext,
+    CarouselPrevious,
+} from "@/components/ui/carousel"
 
 interface FavoriteItem {
     id: number;
@@ -251,13 +258,29 @@ function ProfileView() {
                 <section className="mt-10">
                     <h2 className="text-2xl font-semibold mb-4">Favoris</h2>
 
-                    <div className="mb-6">
-                        <h3 className="text-xl font-semibold mb-2">Livres audio</h3>
-                        <div className="flex gap-4 overflow-x-auto">
-                            {favoriteBooks.map((book) => (
-                                <Card key={book.id} book={book} />
-                            ))}
-                        </div>
+                    <div className="mb-6 w-3/4">
+                        <Carousel
+                                opts={{
+                                    align: "start",
+                                    loop: true,
+                                    slidesToScroll: 1,
+                                    containScroll: "trimSnaps"
+                                }}
+                                 className="w-full mb-8"
+                            >
+                                <CarouselContent className='gap-2 max-w-full'>
+                                    {/* All Tags */}
+
+                                    {/* Le reste des tags */}
+                                   {favoriteBooks.map((book) => (
+                                        <CarouselItem key={book.id} className="basis-auto">
+                                        <Card key={book.id} book={book} />
+                                        </CarouselItem>
+                                    ))}
+                                </CarouselContent>
+                                <CarouselPrevious className="bg-neutral-800 text-white hover:bg-white hover:text-black border-none" />
+                                <CarouselNext className="bg-neutral-800 text-white hover:bg-white hover:text-black border-none" />
+                            </Carousel>
                     </div>
 
                     <div className="mb-6">
