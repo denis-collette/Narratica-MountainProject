@@ -91,10 +91,10 @@ export default function AuthorView() {
     const LikeButton = async () => {
         const newLikedState = !authorIsLiked;
         setAuthorIsLiked(newLikedState);
-        
+
         const userId = parseInt(localStorage.getItem("user_id") || "0");
         const authorId = parseInt(author_id || "0");
-    
+
         if (newLikedState) {
             await postFavoriteAuthor({ author: parseInt(author_id || "0"), user: userId });
         } else {
@@ -102,7 +102,7 @@ export default function AuthorView() {
             const favoriteEntry = favoriteList.find(
                 entry => entry.user === userId && entry.author === authorId
             );
-    
+
             if (favoriteEntry) {
                 await deleteFavoriteAuthor({ id: favoriteEntry.id });
             }
@@ -111,14 +111,14 @@ export default function AuthorView() {
 
     useEffect(() => {
         const checkIfLiked = async () => {
-            if(isAuthenticated()){
+            if (isAuthenticated()) {
                 const userId = parseInt(localStorage.getItem("user_id") || "0");
                 const favs = await fetchFavoriteAuthorId(userId);
                 const liked = favs.some(fav => fav.author === parseInt(author_id || "0"));
                 setAuthorIsLiked(liked);
             }
         };
-    
+
         if (author_id) {
             checkIfLiked();
         }
@@ -136,71 +136,75 @@ export default function AuthorView() {
                 <>
                     <h1 className="text-3xl font-semibold my-6 text-white">
                         Livres de {state.authorName} {loggedIn && (
-                        <button  onClick={() => LikeButton()}>
-                            {authorIsLiked ? (
-                                <GoHeartFill className="text-white hover:text-gray-300 transition text-xl w-5 h-5" />
-                            ):(
-                                <GoHeart className="text-white hover:text-red-500 transition text-xl" />
-                            )}
-                        </button>
-                    )}
+                            <button onClick={() => LikeButton()}>
+                                {authorIsLiked ? (
+                                    <GoHeartFill className="text-white hover:text-gray-300 transition text-xl w-5 h-5" />
+                                ) : (
+                                    <GoHeart className="text-white hover:text-red-500 transition text-xl" />
+                                )}
+                            </button>
+                        )}
                     </h1>
-                    
-                    <section className="relative mx-12">
-                        <Carousel
-                            opts={{
-                                align: "start",
-                                loop: true,
-                                slidesToScroll: 1,
-                                containScroll: "trimSnaps",
-                            }}
-                            className="w-full mb-8"
-                        >
-                            <CarouselContent className="gap-2">
-                                <CarouselItem className="basis-auto">
-                                    <button
-                                        onClick={() => setState((prev) => ({ ...prev, selectedTag: null }))}
-                                        className={`
+
+                    <section className='ml-4 w-1/2'>
+                        <section className="relative mx-12">
+                            <Carousel
+                                opts={{
+                                    align: "start",
+                                    loop: true,
+                                    slidesToScroll: 1,
+                                    containScroll: "trimSnaps",
+                                }}
+                                className="w-full mb-8"
+                            >
+                                <CarouselContent className="gap-2">
+                                    <CarouselItem className="basis-auto">
+                                        <button
+                                            onClick={() => setState((prev) => ({ ...prev, selectedTag: null }))}
+                                            className={`
                                             px-4 py-1 rounded-full text-sm font-medium
                                             transition-all duration-200 ease-in-out
                                             ${!state.selectedTag ? "bg-white text-black" : "bg-neutral-800 text-white hover:bg-neutral-700"}
                                         `}
-                                    >
-                                        Tous les Tags
-                                    </button>
-                                </CarouselItem>
+                                        >
+                                            All Tags
+                                        </button>
+                                    </CarouselItem>
 
-                                {state.tags.map((tag) => (
-                                    <CarouselItem key={tag.id} className="basis-auto">
-                                        <button
-                                            onClick={() =>
-                                                setState((prev) => ({
-                                                    ...prev,
-                                                    selectedTag: tag.id === state.selectedTag ? null : tag.id,
-                                                }))
-                                            }
-                                            className={`
+                                    {state.tags.map((tag) => (
+                                        <CarouselItem key={tag.id} className="basis-auto">
+                                            <button
+                                                onClick={() =>
+                                                    setState((prev) => ({
+                                                        ...prev,
+                                                        selectedTag: tag.id === state.selectedTag ? null : tag.id,
+                                                    }))
+                                                }
+                                                className={`
                                                 px-4 py-1 rounded-full text-sm font-medium
                                                 transition-all duration-200 ease-in-out
                                                 ${state.selectedTag === tag.id
-                                                    ? "bg-white text-black"
-                                                    : "bg-neutral-800 text-white hover:bg-neutral-700"}
+                                                        ? "bg-white text-black"
+                                                        : "bg-neutral-800 text-white hover:bg-neutral-700"}
                                             `}
-                                        >
-                                            {tag.name}
-                                        </button>
-                                    </CarouselItem>
-                                ))}
-                            </CarouselContent>
-                            <CarouselPrevious className="bg-neutral-800 text-white hover:bg-white hover:text-black border-none" />
-                            <CarouselNext className="bg-neutral-800 text-white hover:bg-white hover:text-black border-none" />
-                        </Carousel>
-                    </section>
+                                            >
+                                                {tag.name}
+                                            </button>
+                                        </CarouselItem>
+                                    ))}
+                                </CarouselContent>
+                                <CarouselPrevious className="bg-neutral-800 text-white hover:bg-white hover:text-black border-none" />
+                                <CarouselNext className="bg-neutral-800 text-white hover:bg-white hover:text-black border-none" />
+                            </Carousel>
+                        </section>
 
-                    <section className="flex flex-wrap justify-start gap-5 mt-6 mb-16">
-                        {filteredBooks.map((book) => (
-                            <Card key={book.id} book={book} />
-                        ))}
+                        <div className="flex justify-center w-screen">
+                            <section className="flex flex-wrap mb-25 gap-5 w-full max-w-[90%]">
+                                {filteredBooks.map((book) => (
+                                    <Card key={book.id} book={book} />
+                                ))}
+                            </section>
+                        </div>
                     </section>
                 </>
             )}

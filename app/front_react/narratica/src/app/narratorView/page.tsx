@@ -40,7 +40,7 @@ export default function NarratorView() {
     const narrator_id = searchParams.get("id") || "1";
 
 
-   
+
     useEffect(() => {
         const loadBooks = async () => {
             if (!narrator_id) {
@@ -87,51 +87,51 @@ export default function NarratorView() {
         return matchesTag && matchesSearch;
     });
 
-        const [narratorIsLiked, setNarratorIsLiked] = useState(false);
-        const [loggedIn, setLoggedIn] = useState(false);
+    const [narratorIsLiked, setNarratorIsLiked] = useState(false);
+    const [loggedIn, setLoggedIn] = useState(false);
 
-             useEffect(() => {
-            setLoggedIn(isAuthenticated());
-            console.log("cc")
-            }, []);
+    useEffect(() => {
+        setLoggedIn(isAuthenticated());
+        console.log("cc")
+    }, []);
 
-    
-        const LikeButton = async () => {
-            const newLikedState = !narratorIsLiked;
-            setNarratorIsLiked(newLikedState);
-            
-            const userId = parseInt(localStorage.getItem("user_id") || "0");
-            const narratorId = parseInt(narrator_id || "0");
-        
-            if (newLikedState) {
-                await PostFavoriteNarrator({ narrator: parseInt(narrator_id || "0"), user: userId });
-            } else {
-                const favoriteList = await fetchFavoriteNarratorId(userId);
-                const favoriteEntry = favoriteList.find(
-                    entry => entry.user === userId && entry.narrator === narratorId
-                );
-        
-                if (favoriteEntry) {
-                    await DeleteFavoriteNarrator({ id: favoriteEntry.id });
-                }
+
+    const LikeButton = async () => {
+        const newLikedState = !narratorIsLiked;
+        setNarratorIsLiked(newLikedState);
+
+        const userId = parseInt(localStorage.getItem("user_id") || "0");
+        const narratorId = parseInt(narrator_id || "0");
+
+        if (newLikedState) {
+            await PostFavoriteNarrator({ narrator: parseInt(narrator_id || "0"), user: userId });
+        } else {
+            const favoriteList = await fetchFavoriteNarratorId(userId);
+            const favoriteEntry = favoriteList.find(
+                entry => entry.user === userId && entry.narrator === narratorId
+            );
+
+            if (favoriteEntry) {
+                await DeleteFavoriteNarrator({ id: favoriteEntry.id });
+            }
+        }
+    };
+
+    useEffect(() => {
+        const checkIfLiked = async () => {
+            if (isAuthenticated()) {
+                const userId = parseInt(localStorage.getItem("user_id") || "0");
+                const favs = await fetchFavoriteNarratorId(userId);
+                const liked = favs.some(fav => fav.narrator === parseInt(narrator_id || "0"));
+                setNarratorIsLiked(liked);
             }
         };
-    
-        useEffect(() => {
-            const checkIfLiked = async () => {
-                if(isAuthenticated()){
-                        const userId = parseInt(localStorage.getItem("user_id") || "0");
-                        const favs = await fetchFavoriteNarratorId(userId);
-                        const liked = favs.some(fav => fav.narrator === parseInt(narrator_id || "0"));
-                        setNarratorIsLiked(liked);
-                    }
-            };
-            if (narrator_id) {
-                checkIfLiked();
-            }
-        }, [narrator_id]);
-    
-    
+        if (narrator_id) {
+            checkIfLiked();
+        }
+    }, [narrator_id]);
+
+
 
     return (
         <section className="px-6">
@@ -141,71 +141,75 @@ export default function NarratorView() {
                 <>
                     <h1 className="text-3xl font-semibold my-6 text-white">
                         Livres contés par {state.narratorName} {loggedIn && (
-                            <button  onClick={() => LikeButton()}>
+                            <button onClick={() => LikeButton()}>
                                 {narratorIsLiked ? (
                                     <GoHeartFill className="text-white hover:text-gray-300 transition text-xl w-5 h-5" />
-                                ):(
+                                ) : (
                                     <GoHeart className="text-white hover:text-red-500 transition text-xl" />
                                 )}
                             </button>
                         )}
                     </h1>
 
-                    <section className="relative mx-12">
-                        <Carousel
-                            opts={{
-                                align: "start",
-                                loop: true,
-                                slidesToScroll: 1,
-                                containScroll: "trimSnaps",
-                            }}
-                            className="w-full mb-8"
-                        >
-                            <CarouselContent className="gap-2">
-                                <CarouselItem className="basis-auto">
-                                    <button
-                                        onClick={() => setState((prev) => ({ ...prev, selectedTag: null }))}
-                                        className={`
+                    <section className='ml-4 w-1/2'>
+                        <section className="relative mx-12">
+                            <Carousel
+                                opts={{
+                                    align: "start",
+                                    loop: true,
+                                    slidesToScroll: 1,
+                                    containScroll: "trimSnaps",
+                                }}
+                                className="w-full mb-8"
+                            >
+                                <CarouselContent className="gap-2 max-w-full">
+                                    <CarouselItem className="basis-auto">
+                                        <button
+                                            onClick={() => setState((prev) => ({ ...prev, selectedTag: null }))}
+                                            className={`
                                             px-4 py-1 rounded-full text-sm font-medium
                                             transition-all duration-200 ease-in-out
                                             ${!state.selectedTag ? "bg-white text-black" : "bg-neutral-800 text-white hover:bg-neutral-700"}
                                         `}
-                                    >
-                                        Tous les Tags
-                                    </button>
-                                </CarouselItem>
+                                        >
+                                            All Tags
+                                        </button>
+                                    </CarouselItem>
 
-                                {state.tags.map((tag) => (
-                                    <CarouselItem key={tag.id} className="basis-auto">
-                                        <button
-                                            onClick={() =>
-                                                setState((prev) => ({
-                                                    ...prev,
-                                                    selectedTag: tag.id === state.selectedTag ? null : tag.id,
-                                                }))
-                                            }
-                                            className={`
+                                    {state.tags.map((tag) => (
+                                        <CarouselItem key={tag.id} className="basis-auto">
+                                            <button
+                                                onClick={() =>
+                                                    setState((prev) => ({
+                                                        ...prev,
+                                                        selectedTag: tag.id === state.selectedTag ? null : tag.id,
+                                                    }))
+                                                }
+                                                className={`
                                                 px-4 py-1 rounded-full text-sm font-medium
                                                 transition-all duration-200 ease-in-out
                                                 ${state.selectedTag === tag.id
-                                                    ? "bg-white text-black"
-                                                    : "bg-neutral-800 text-white hover:bg-neutral-700"}
+                                                        ? "bg-white text-black"
+                                                        : "bg-neutral-800 text-white hover:bg-neutral-700"}
                                             `}
-                                        >
-                                            {tag.name}
-                                        </button>
-                                    </CarouselItem>
-                                ))}
-                            </CarouselContent>
-                            <CarouselPrevious className="bg-neutral-800 text-white hover:bg-white hover:text-black border-none" />
-                            <CarouselNext className="bg-neutral-800 text-white hover:bg-white hover:text-black border-none" />
-                        </Carousel>
-                    </section>
+                                            >
+                                                {tag.name}
+                                            </button>
+                                        </CarouselItem>
+                                    ))}
+                                </CarouselContent>
+                                <CarouselPrevious className="bg-neutral-800 text-white hover:bg-white hover:text-black border-none" />
+                                <CarouselNext className="bg-neutral-800 text-white hover:bg-white hover:text-black border-none" />
+                            </Carousel>
+                        </section>
 
-                    <section className="flex flex-wrap justify-start gap-5 mt-6 mb-16">
-                        {filteredBooks.map((book) => (
-                            <Card key={book.id} book={book} />
-                        ))}
+                        <div className="flex justify-center w-screen">
+                            <section className="flex flex-wrap mb-25 gap-5 w-full max-w-[90%]">
+                                {filteredBooks.map((book) => (
+                                    <Card key={book.id} book={book} />
+                                ))}
+                            </section>
+                        </div>
                     </section>
                 </>
             )}
