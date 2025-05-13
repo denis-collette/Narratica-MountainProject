@@ -14,6 +14,8 @@ import { fetchAudioBooksById } from "../api/audio/getAudioBooksById";
 import { fetchAuthorById } from "../api/audio/getAuthorById";
 import { fetchNarratorById } from "../api/audio/getNarratorById";
 import { fetchPublisherById } from "../api/audio/getPublisherById";
+import { updateUserProfile } from "../api/userAuth/updateUserProfile";
+import { deleteUserProfile } from "../api/userAuth/deleteUserProfile";
 import { url } from "../api/baseUrl";
 
 interface FavoriteItem {
@@ -126,31 +128,15 @@ function ProfileView() {
         if (!userId) return;
 
         try {
-            const token = localStorage.getItem("access_token");
-            const form = new FormData();
-            form.append("username", formData.username);
-            form.append("email", formData.email);
-            form.append("first_name", formData.first_name);
-            form.append("last_name", formData.last_name);
+            const updatedUser = await updateUserProfile(Number(userId), formData);
 
-            if (formData.profile_img) {
-                form.append("profile_img", formData.profile_img);
+            localStorage.setItem("profile_img", updatedUser.profile_img || "");
+            if (updatedUser.profile_img) {
+                setProfileImgUrl(`${updatedUser.profile_img}?cb=${Date.now()}`);
             }
 
-            const res = await axios.patch(`${url}/api/user/${userId}/`, form, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    "Content-Type": "multipart/form-data",
-                },
-            });
-
-            localStorage.setItem("profile_img", res.data.profile_img || "");
-            if (res.data.profile_img) {
-                setProfileImgUrl(`${res.data.profile_img}?cb=${Date.now()}`);
-            }
-
+            setUserInfo(updatedUser);
             setEditMode(false);
-            setUserInfo(res.data);
             setPreviewImg(null);
         } catch (error) {
             console.error("❌ Failed to update profile:", error);
@@ -161,14 +147,11 @@ function ProfileView() {
         if (!confirm("Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible.")) return;
 
         try {
-            const token = localStorage.getItem("access_token");
-            await axios.delete(`${url}/api/user/${userId}/`, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
-            localStorage.clear();
-            router.push("/");
+            const success = await deleteUserProfile(Number(userId));
+            if (success) {
+                localStorage.clear();
+                router.push("/");
+            }
         } catch (error) {
             console.error("Erreur lors de la suppression du compte:", error);
         }
