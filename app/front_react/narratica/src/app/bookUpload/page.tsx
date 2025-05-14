@@ -10,24 +10,35 @@ import { MultiSelect } from "@/components/MultiSelect";
 import SelectOrCreate from "@/components/SelectOrCreate";
 import { fetchAllTags, Tag } from "../api/audio/getAllTags";
 import AudioFileUploader from "@/components/AudioFileUploader"
+import { fetchAllNarrators } from "../api/audio/getAllNarrators";
+import { fetchAllAuthors } from "../api/audio/getAllAuthors";
+import { postAudioBook } from "../api/audio/PostAudioBook";
+
+interface AudiobookPost {
+    bookInfo : 
+    {
+        title: string
+        description: string
+        cover_art_jpg: File | null
+        language: string
+        total_time: number
+        total_number_of_listening : number
+        authors: number | string
+        narrators: number | string
+        tags: number []
+        publisher :  number | string
+    };
+    chaptersInfo :
+    {
+    book: number
+    audio_data: File
+    total_time: string;
+    chapter_number: number;
+    }[]
+}
+
 
 // Données mockées pour le développement
-const mockTags = [
-    { id: 1, name: "Fantasy" },
-    { id: 2, name: "Horror" },
-    { id: 3, name: "Science Fiction" }
-];
-
-const mockAuthors = [
-    { id: "1", name: "J.K. Rowling" },
-    { id: "2", name: "Stephen King" }
-];
-
-const mockNarrators = [
-    { id: "1", name: "Morgan Freeman" },
-    { id: "2", name: "David Attenborough" }
-];
-
 const languages = [
     { id: "fr", name: "Français" },
     { id: "en", name: "Anglais" },
@@ -51,13 +62,13 @@ export default function BookUploadPage() {
     const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
     // États pour l'auteur
-    const [authors, setAuthors] = useState(mockAuthors);
+    const [authors, setAuthors] =  useState<Tag[]>([]);
     const [selectedAuthor, setSelectedAuthor] = useState("");
     const [isAddingNewAuthor, setIsAddingNewAuthor] = useState(false);
     const [newAuthorName, setNewAuthorName] = useState("");
 
     // États pour le narrateur
-    const [narrators, setNarrators] = useState(mockNarrators);
+    const [narrators, setNarrators] =  useState<Tag[]>([]);
     const [selectedNarrator, setSelectedNarrator] = useState("");
     const [isAddingNewNarrator, setIsAddingNewNarrator] = useState(false);
     const [newNarratorName, setNewNarratorName] = useState("");
@@ -87,6 +98,22 @@ export default function BookUploadPage() {
         loadTags();
     }, []);
 
+          useEffect(() => {
+        const loadAuthors = async () => {
+            const allAuthors = await fetchAllAuthors();
+            setAuthors(allAuthors);
+        };
+        loadAuthors();
+    }, []);
+
+       useEffect(() => {
+        const loadNarrators = async () => {
+            const allNarrators = await fetchAllNarrators();
+            setNarrators(allNarrators);
+        };
+        loadNarrators();
+    }, []);
+
     const handleTagSelection = (tagId: string) => {
         setSelectedTags(prev => {
             if (prev.includes(tagId)) {
@@ -100,6 +127,13 @@ export default function BookUploadPage() {
         setSelectedTags(prev => prev.filter(id => id !== tagId));
     };
 
+    const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+
+    const handleFilesSelected = (files: File[]) => {
+        setSelectedFiles(files);
+    };
+
+
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         // Validation basique
@@ -108,7 +142,33 @@ export default function BookUploadPage() {
             return;
         }
         setError("");
-        // À implémenter plus tard: logique d'envoi
+        
+        const audiobookPost: AudiobookPost = {
+        bookInfo: {
+            title: title,
+            description: description,
+            cover_art_jpg: null, 
+            language: selectedLanguage,
+            total_time: 0,
+            total_number_of_listening: 0,
+            narrators: selectedNarrator,
+            tags: [1],
+            publisher: 1,
+            authors: selectedAuthor,
+        },
+        chaptersInfo: selectedFiles.map((file, index) => ({
+            book: 0, // replace when book created 
+            audio_data: file,
+            total_time: "00:11:05", 
+            chapter_number: index + 1,
+        })),
+        };
+    if (coverImage) {
+        audiobookPost.bookInfo.cover_art_jpg = coverImage;
+    }
+
+    postAudioBook(audiobookPost)
+
     };
 
     return (
@@ -219,13 +279,10 @@ export default function BookUploadPage() {
                         onRemove={removeTag}
                         onAddNewTag={handleAddNewTag}
                     />
-                       <section className="relative">
-                        <AudioFileUploader></AudioFileUploader>
+                    <section className="relative">
+                        <AudioFileUploader onFilesSelected={handleFilesSelected}></AudioFileUploader>
                     </section>
-
-
                     {error && <p className="text-red-500 text-center">{error}</p>}
-
                     <button
                         type="submit"
                         className="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-3 rounded-md transition-colors duration-300"
@@ -243,3 +300,25 @@ export default function BookUploadPage() {
         </main>
     );
 }
+
+
+/*
+Post steps
+
+1) If user  entered custom tags, Author, Narrator, Publisher Post them and wait awnser (No need the api should do it)
+2) Post Audiobook
+3) Post chapters
+
+Because of the serializer an id must be passed but will never be used (can be random)
+
+postObj : [
+newtags:[...]
+Author[...]
+Narrator[...]
+Publisher[...]
+Audiobooks:[... containing the new user input too]
+chapters:[...]
+]
+
+
+*/
