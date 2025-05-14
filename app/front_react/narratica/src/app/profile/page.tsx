@@ -177,24 +177,9 @@ function ProfileView() {
     if (!userInfo) return <p className="text-white text-center mt-8">Utilisateur non trouvé</p>;
 
     return (
-        <main className="relative h-[calc(100vh-140px)]">
-            <div className="absolute top-0 left-0 w-full h-full z-0 ">
-                    <div
-                        style={{
-                        backgroundImage: `url(${previewImg || profileImgUrl || "https://github.com/shadcn.png" + `?cb=${Date.now()}`})`,
-                        backgroundSize: 'cover',
-                        backgroundPosition: 'center',
-                        filter: 'blur(150px)',
-                        }}
-                        className="w-full h-full"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#120e0c]"/>
-            </div>
-            
+        <main className="min-h-screen bg-black text-white mb-10">
             <section className="p-10">
                 <div className="flex items-start gap-10">
-                <div className='h-full w-3/4 bg-[rgba(67,67,67,0.42)] backdrop-blur-sm border border-white/10 overflow-y-auto pt-5 pb-5 rounded-3xl'>
-
                     <div>
                         <img
                             src={previewImg || profileImgUrl || "https://github.com/shadcn.png" + `?cb=${Date.now()}`}
@@ -269,16 +254,12 @@ function ProfileView() {
                             </>
                         )}
                     </div>
-                
+                </div>
 
                 <section className="mt-10">
                     <h2 className="text-2xl font-semibold mb-4">Favoris</h2>
 
-                    <div className="mb-6">
-                        <h3 className="text-xl font-semibold mb-2">Livres audio</h3>
-                    </div>
-
-                        <div className="w-10/12 mb-8 m-auto">
+                   <div className="w-10/12 mb-8 m-auto">
                             <Carousel
                                 opts={{
                                     align: "start",
@@ -286,13 +267,13 @@ function ProfileView() {
                                     slidesToScroll: 1,
                                     containScroll: "trimSnaps"
                                 }}
-                                 className="w-full mb-8"
+                                className="w-full mb-8"
                             >
                                 <CarouselContent className='gap-2 max-w-full'>
                                     {/* All Tags */}
 
                                     {/* Le reste des tags */}
-                                   {favoriteBooks.map((book) => (
+                                {favoriteBooks.map((book) => (
                                         <CarouselItem key={book.id} className="basis-auto">
                                         <Card key={book.id} book={book} />
                                         </CarouselItem>
@@ -302,61 +283,71 @@ function ProfileView() {
                                 <CarouselNext className="bg-neutral-800 text-white hover:bg-white hover:text-black border-none" />
                             </Carousel>
                         </div>
-                    <div className="flex w-10/12 justify-around m-auto">
-                        <div className="mb-6">
-                            <div className="group inline-flex items-center gap-x-2 px-3 py-1">
-                                <h3 className="text-xl font-semibold mb-2"> Auteurs</h3>
-                                <FaFeatherAlt className="text-white text-[0.7rem] group-hover:text-black transition" />
-                            </div>
-                            
-                            <ul className="list-disc list-inside">
-                                {favoriteAuthors.map((author) => (
-                                    <li key={author.id}>
-                                        <Link href={`/authorView?id=${author.id}`} className="underline hover:text-gray-300">
-                                            {author.name}
-                                        </Link>
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
 
-                        <div className="mb-6">
-                            <div className="group inline-flex items-center gap-x-2 px-3 py-1">
-                                <h3 className="text-xl font-semibold mb-2">Narrateurs</h3>
-                                <FaMicrophoneAlt className="text-white text-[0.7rem] group-hover:text-black transition" />
-                            </div>
-                            
-                            <ul className="list-disc list-inside">
-                                {favoriteNarrators.map((narrator) => (
-                                    <li key={narrator.id}>
-                                        <Link href={`/narratorView?id=${narrator.id}`} className="underline hover:text-gray-300">
-                                            {narrator.name}
-                                        </Link>
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-11/12 mx-auto mb-10">
 
-                        <div className="mb-6">
-                            <div className="group inline-flex items-center gap-x-2 px-3 py-1">
-                                <h3 className="text-xl font-semibold mb-2">Éditeurs</h3>
-                                <FaBuilding className="text-white text-[0.7rem] group-hover:text-black transition" />
-                            </div>
-                            
-                            <ul className="list-disc list-inside">
-                                {favoritePublishers.map((publisher) => (
-                                    <li key={publisher.id}>
-                                        <Link href={`/publisherView?id=${publisher.id}`} className="underline hover:text-gray-300">
-                                            {publisher.name}
-                                        </Link>
-                                    </li>
-                                ))}
-                            </ul>
+
+                    {/* Auteurs */}
+                    <div className="bg-white/5  p-4 rounded-lg backdrop-blur-sm border border-white/10 shadow-md">
+                        <div className="inline-flex items-center gap-2 mb-3">
+                        <h3 className="text-xl font-semibold">Auteurs</h3>
+                        <FaFeatherAlt className="text-white text-sm" />
                         </div>
+                        <ul className="list-disc list-inside space-y-1 pl-2">
+                        {favoriteAuthors.map((author) => (
+                            <li key={author.id}>
+                            <Link
+                                href={`/authorView?id=${author.id}`}
+                                className="underline hover:text-gray-300 transition-colors"
+                            >
+                                {author.name}
+                            </Link>
+                            </li>
+                        ))}
+                        </ul>
+                    </div>
+
+                    {/* Narrateurs */}
+                    <div className="bg-white/5 p-4 rounded-lg backdrop-blur-sm border border-white/10 shadow-md">
+                        <div className="inline-flex items-center gap-2 mb-3">
+                        <h3 className="text-xl font-semibold">Narrateurs</h3>
+                        <FaMicrophoneAlt className="text-white text-sm" />
+                        </div>
+                        <ul className="list-disc list-inside space-y-1 pl-2">
+                        {favoriteNarrators.map((narrator) => (
+                            <li key={narrator.id}>
+                            <Link
+                                href={`/narratorView?id=${narrator.id}`}
+                                className="underline hover:text-gray-300 transition-colors"
+                            >
+                                {narrator.name}
+                            </Link>
+                            </li>
+                        ))}
+                        </ul>
+                    </div>
+
+                    {/* Éditeurs */}
+                    <div className="bg-white/5 p-4 rounded-lg backdrop-blur-sm border border-white/10 shadow-md">
+                        <div className="inline-flex items-center gap-2 mb-3">
+                        <h3 className="text-xl font-semibold">Éditeurs</h3>
+                        <FaBuilding className="text-white text-sm" />
+                        </div>
+                        <ul className="list-disc list-inside space-y-1 pl-2">
+                        {favoritePublishers.map((publisher) => (
+                            <li key={publisher.id}>
+                            <Link
+                                href={`/publisherView?id=${publisher.id}`}
+                                className="underline hover:text-gray-300 transition-colors"
+                            >
+                                {publisher.name}
+                            </Link>
+                            </li>
+                        ))}
+                        </ul>
+                    </div>
                     </div>
                 </section>
-                </div>
-                </div>
             </section>
         </main>
     );
