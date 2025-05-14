@@ -2,18 +2,67 @@ from django.contrib.auth import get_user_model, authenticate
 from rest_framework import serializers
 from rest_framework.exceptions import AuthenticationFailed
 from Narratica.models import *
-from .utils.aws_s3 import upload_image_to_s3, delete_image_from_s3
+from .utils.aws_s3 import upload_image_to_s3, delete_file_from_s3, upload_audio_to_s3
 
 class AudiobookSerializer(serializers.ModelSerializer):
     class Meta:
         model = Audiobook
         fields = '__all__'
         read_only_fields = ['id']
+        
+    def validate_cover_art_jpg(self, value):
+        if hasattr(value, 'read'):  # If it's a file-like object
+            return upload_image_to_s3(value)
+        return value  # Already a URL or string
+
+    def update(self, instance, validated_data):
+        new_image = validated_data.get('cover_art_jpg', None)
+        old_image = instance.cover_art_jpg
+
+        # Upload new image if it's a file
+        if new_image and hasattr(new_image, 'read'):
+            validated_data['cover_art_jpg'] = upload_image_to_s3(new_image)
+            # Delete old image if it existed
+            if old_image:
+                delete_file_from_s3(old_image)
+
+        return super().update(instance, validated_data)
+
+    def delete(self):
+        # This is normally handled in the ViewSet, but adding for context
+        image_url = self.instance.cover_art_jpg
+        if image_url:
+            delete_file_from_s3(image_url)
+        self.instance.delete()
 
 class BookChapterSerializer(serializers.ModelSerializer):
     class Meta:
         model = BookChapter
         fields = '__all__'
+        read_only_fields = ['id', 'number_of_listening', 'upload_date']
+    
+    def validate_audio_data(self, value):
+        if hasattr(value, 'read'):
+            return upload_audio_to_s3(value)
+        return value  # Already a URL or string
+        
+    def create(self, validated_data):
+        audio_file = self.context['request'].FILES.get('audio_file')
+        if audio_file:
+            validated_data['audio_file'] = upload_audio_to_s3(audio_file)
+        return super().create(validated_data)
+
+    def update(self, instance, validated_data):
+        new_audio = validated_data.get('audio_data', None)
+        old_audio = instance.audio_data
+
+        # Upload new audio if file-like
+        if new_audio and hasattr(new_audio, 'read'):
+            validated_data['audio_data'] = upload_image_to_s3(new_audio)
+            if old_audio:
+                delete_file_from_s3(old_audio)
+
+        return super().update(instance, validated_data)
 
 class TagsSerializer(serializers.ModelSerializer):
     class Meta:
@@ -140,7 +189,7 @@ class UserSerializer(serializers.ModelSerializer):
         if profile_img is not None:
             # Delete the old image from S3 if it exists and is a URL (not a local file or empty string)
             if instance.profile_img and isinstance(instance.profile_img, str):
-                delete_image_from_s3(instance.profile_img)
+                delete_file_from_s3(instance.profile_img)
 
             if profile_img == "":
                 instance.profile_img = None

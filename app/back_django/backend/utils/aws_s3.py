@@ -44,7 +44,7 @@ def upload_image_to_s3(image_file):
     except Exception as e:
         raise Exception(f"Error uploading to S3: {e}")
 
-def delete_image_from_s3(image_url):
+def delete_file_from_s3(file_url):
     s3 = boto3.client(
         's3',
         aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
@@ -53,5 +53,33 @@ def delete_image_from_s3(image_url):
     bucket_name = settings.AWS_STORAGE_BUCKET_NAME
 
     # Extract the object key from the full URL
-    path = urlparse(image_url).path.lstrip("/")
+    path = urlparse(file_url).path.lstrip("/")
     s3.delete_object(Bucket=bucket_name, Key=path)
+
+def upload_audio_to_s3(audio_file):
+    s3 = boto3.client(
+        's3',
+        aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
+        aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
+        region_name=settings.AWS_S3_REGION_NAME,
+        config=Config(signature_version='s3v4'),
+    )
+
+    file_name = f"audio_{datetime.now().strftime('%Y%m%d%H%M%S')}_{audio_file.name}"
+    
+    try:
+        audio_file.seek(0)
+        s3.upload_fileobj(
+            audio_file,
+            settings.AWS_STORAGE_BUCKET_NAME,
+            file_name,
+            ExtraArgs={
+                'ACL': 'public-read',
+                'ContentType': audio_file.content_type
+            }
+        )
+        return f"https://{settings.AWS_STORAGE_BUCKET_NAME}.s3.{settings.AWS_S3_REGION_NAME}.amazonaws.com/{file_name}"
+    except NoCredentialsError:
+        raise Exception("Credentials not available.")
+    except Exception as e:
+        raise Exception(f"Error uploading audio to S3: {e}")

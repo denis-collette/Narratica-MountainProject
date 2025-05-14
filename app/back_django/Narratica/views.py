@@ -1,19 +1,21 @@
 from django.conf import settings
 from django.contrib.auth import get_user_model
-from django.db.models import Q, Sum
+from django.db.models import Sum
 from rest_framework import viewsets, generics, status
-from rest_framework.decorators import action, api_view
+from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework_simplejwt.tokens import RefreshToken
 from django_filters.rest_framework import DjangoFilterBackend
 
 from Narratica.models import *
 from backend.serializers import *
 
+from backend.utils.aws_s3 import upload_image_to_s3, upload_audio_to_s3, delete_file_from_s3
+
 User = get_user_model()
+
 
 ### AUDIOBOOKS ###
 class AudiobookViewSet(viewsets.ModelViewSet):
@@ -81,6 +83,53 @@ class AudiobookViewSet(viewsets.ModelViewSet):
 
         serializer = self.get_serializer(books, many=True)
         return Response(serializer.data)
+    
+    def create(self, request, *args, **kwargs):
+        data = request.data.copy()
+        
+        if 'cover_art_jpg' in request.FILES:
+            image_file = request.FILES['cover_art_jpg']
+            image_url = upload_image_to_s3(image_file)
+            data['cover_art_jpg'] = image_url
+
+        serializer = self.get_serializer(data=data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        data = request.data.copy()
+
+        # Replace image if new one provided
+        if 'cover_art_jpg' in request.FILES:
+            if instance.cover_art_jpg:
+                delete_file_from_s3(instance.cover_art_jpg)
+            image_file = request.FILES['cover_art_jpg']
+            image_url = upload_image_to_s3(image_file)
+            data['cover_art_jpg'] = image_url
+
+        serializer = self.get_serializer(instance, data=data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
+    
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+
+        # Delete cover image
+        if instance.cover_art_jpg:
+            try:
+                delete_file_from_s3(instance.cover_art_jpg)
+            except Exception as e:
+                logger.warning(f"Failed to delete cover image from S3: {e}")
+
+        # Delete all chapter audio files related to this book
+        for chapter in instance.chapters.all():
+            if chapter.audio_file:
+                delete_file_from_s3(chapter.audio_file)
+
+        return super().destroy(request, *args, **kwargs)
 
 
 ### BOOK CHAPTERS ###
@@ -115,6 +164,46 @@ class BookChapterViewSet(viewsets.ModelViewSet):
             return Response({"error": "Chapter not found."}, status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+    
+    def create(self, request, *args, **kwargs):
+        data = request.data.copy()
+
+        if 'audio_file' in request.FILES:
+            audio = request.FILES['audio_file']
+            audio_url = upload_audio_to_s3(audio)
+            data['audio_data'] = audio_url
+
+        serializer = self.get_serializer(data=data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        data = request.data.copy()
+
+        if 'audio_file' in request.FILES:
+            if instance.audio_data:
+                delete_file_from_s3(instance.audio_data)
+            audio = request.FILES['audio_file']
+            audio_url = upload_file_to_s3(audio)
+            data['audio_data'] = audio_url
+
+        serializer = self.get_serializer(instance, data=data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
+    
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+
+        if instance.audio_data:
+            try:
+                delete_file_from_s3(instance.audio_data)
+            except Exception as e:
+                logger.warning(f"Failed to delete audio file from S3: {e}")
+
+        return super().destroy(request, *args, **kwargs)
 
 
 ### AUTHORS, NARRATORS, PUBLISHERS ###
@@ -268,10 +357,9 @@ class UserViewSet(viewsets.ModelViewSet):
         user = self.get_object()
         profile_img_url = user.profile_img
 
-        # Optional: Delete the image from S3 if present
+        # Delete the image from S3 if present
         if profile_img_url:
-            from backend.utils.aws_s3 import delete_image_from_s3  # Adjust path if needed
-            delete_image_from_s3(profile_img_url)
+            delete_file_from_s3(profile_img_url)
 
         user.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
