@@ -91,9 +91,10 @@ export default function HomePage() {
                         <section className="relative mx-12 mb-8">
                             <SkeletonCarousel />
                         </section>
-                        <div className='flex justify-center w-screen'>
-                            <section className="flex flex-wrap justify-center gap-5 mb-25  w-11/12">
-                                {[...Array(10)].map((_, index) => (
+
+                        <div className="flex justify-center w-screen">
+                            <section className="flex flex-wrap mb-25 gap-5 w-full max-w-[90%]">
+                                {[...Array(12)].map((_, index) => (
                                     <SkeletonCard key={index} />
                                 ))}
                             </section>
