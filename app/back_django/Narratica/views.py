@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.db.models import Sum
+from django.shortcuts import get_object_or_404
 from rest_framework import viewsets, generics, status
 from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -87,10 +88,31 @@ class AudiobookViewSet(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
         data = request.data.copy()
         
+        # Handle cover_art_jpg upload
         if 'cover_art_jpg' in request.FILES:
             image_file = request.FILES['cover_art_jpg']
             image_url = upload_image_to_s3(image_file)
             data['cover_art_jpg'] = image_url
+            
+        # Auto-create Author if needed
+        author_name = data.get('author_name')
+        if author_name:
+            author, _ = Author.objects.get_or_create(name=author_name.strip())
+            data['author'] = author.id
+
+        # Auto-create Narrator if needed
+        narrator_name = data.get('narrator_name')
+        if narrator_name:
+            narrator, _ = Narrator.objects.get_or_create(name=narrator_name.strip())
+            data['narrator'] = narrator.id
+
+        # Auto-create Tags if needed
+        tag_names = request.data.getlist('tag_names[]')  # From frontend
+        tag_ids = []
+        for tag_name in tag_names:
+            tag, _ = Tag.objects.get_or_create(name=tag_name.strip())
+            tag_ids.append(tag.id)
+        data.setlist('tags', tag_ids)
 
         serializer = self.get_serializer(data=data)
         serializer.is_valid(raise_exception=True)
@@ -127,9 +149,26 @@ class AudiobookViewSet(viewsets.ModelViewSet):
         # Delete all chapter audio files related to this book
         for chapter in instance.chapters.all():
             if chapter.audio_file:
-                delete_file_from_s3(chapter.audio_file)
+                try:
+                    delete_file_from_s3(chapter.audio_file)
+                except Exception as e:
+                    logger.warning(f"Failed to delete chapter audio file from S3: {e}")
+        
+        # Delete unused tags
+        for tag in instance.tags.all():
+            if tag.audiobook_set.count() == 1:  # Only linked to this one
+                tag.delete()
 
         return super().destroy(request, *args, **kwargs)
+    
+    def perform_create(self, serializer):
+        user = self.request.user
+
+        # 1. Get or create the publisher based on username
+        publisher, _ = Publisher.objects.get_or_create(name=user.username)
+
+        # 2. Save the audiobook with the publisher
+        serializer.save(publisher=publisher)
 
 
 ### BOOK CHAPTERS ###

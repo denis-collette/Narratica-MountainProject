@@ -5,11 +5,17 @@ from Narratica.models import *
 from .utils.aws_s3 import upload_image_to_s3, delete_file_from_s3, upload_audio_to_s3
 
 class AudiobookSerializer(serializers.ModelSerializer):
+    tags = serializers.PrimaryKeyRelatedField(
+        many=True,
+        queryset=Tag.objects.all(),
+        required=False
+    )
+
     class Meta:
         model = Audiobook
         fields = '__all__'
         read_only_fields = ['id']
-        
+
     def validate_cover_art_jpg(self, value):
         if hasattr(value, 'read'):  # If it's a file-like object
             return upload_image_to_s3(value)
