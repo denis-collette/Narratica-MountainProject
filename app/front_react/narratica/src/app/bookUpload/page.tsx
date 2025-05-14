@@ -1,22 +1,15 @@
 "use client"
-import { use, useEffect, useState } from "react";
-import { cn } from "@/lib/utils";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { FaUser, FaLock } from "react-icons/fa";
-import { loginUser } from "../api/userAuth/login";
-import { LuUser, LuScrollText, LuClock, LuFileAudio } from "react-icons/lu";
+import { FaUser } from "react-icons/fa";
+import { LuUser, LuScrollText, LuFileAudio } from "react-icons/lu";
 import { FaBookMedical, FaRegImage } from "react-icons/fa6";
-import { IoClose, IoLanguage } from "react-icons/io5";
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select"
+import { IoLanguage } from "react-icons/io5";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { MultiSelect } from "@/components/MultiSelect";
+import SelectOrCreate from "@/components/SelectOrCreate";
 import { fetchAllTags, Tag } from "../api/audio/getAllTags";
 import { MultiSelect } from "@/components/MultiSelect";
-import AudioFileUploader from "@/components/AudioFileUploader"
 
 const languages = [
     { id: "fr", name: "Français" },
@@ -29,12 +22,47 @@ const languages = [
 
 
 
-export default function LoginPage() {
-    const [tags, setTags] = useState<Tag[]>([]);
-    const [selectedTag, setSelectedTag] = useState<string[]>([]);
-    const [selectedLanguage, setSelectedLanguage] = useState<string>("");
-    const [error, setError] = useState("");
+export default function BookUploadPage() {
     const router = useRouter();
+
+    // États pour le formulaire
+    const [title, setTitle] = useState("");
+    const [description, setDescription] = useState("");
+    const [selectedLanguage, setSelectedLanguage] = useState("");
+    const [coverImage, setCoverImage] = useState<File | null>(null);
+
+    // États pour les tags
+    const [tags, setTags] = useState<Tag[]>([]);
+    const [selectedTags, setSelectedTags] = useState<string[]>([]);
+
+    // États pour l'auteur
+    const [authors, setAuthors] = useState(mockAuthors);
+    const [selectedAuthor, setSelectedAuthor] = useState("");
+    const [isAddingNewAuthor, setIsAddingNewAuthor] = useState(false);
+    const [newAuthorName, setNewAuthorName] = useState("");
+
+    // États pour le narrateur
+    const [narrators, setNarrators] = useState(mockNarrators);
+    const [selectedNarrator, setSelectedNarrator] = useState("");
+    const [isAddingNewNarrator, setIsAddingNewNarrator] = useState(false);
+    const [newNarratorName, setNewNarratorName] = useState("");
+
+    // État pour les erreurs
+    const [error, setError] = useState("");
+
+
+    const [isAddingNewTag, setIsAddingNewTag] = useState(false);
+
+    // Gestionnaires d'événements
+
+    const handleAddNewTag = (name: string) => {
+        const newTag: Tag = {
+            id: Date.now(),
+            name: name
+        };
+        setTags(prev => [...prev, newTag]);
+        setSelectedTags(prev => [...prev, newTag.id.toString()]);
+    };
 
     useEffect(() => {
         const loadTags = async () => {
@@ -45,7 +73,7 @@ export default function LoginPage() {
     }, []);
 
     const handleTagSelection = (tagId: string) => {
-        setSelectedTag(prev => {
+        setSelectedTags(prev => {
             if (prev.includes(tagId)) {
                 return prev.filter(id => id !== tagId);
             }
@@ -54,37 +82,18 @@ export default function LoginPage() {
     };
 
     const removeTag = (tagId: string) => {
-        setSelectedTag(prev => prev.filter(id => id !== tagId));
+        setSelectedTags(prev => prev.filter(id => id !== tagId));
     };
 
-    const SelectedTags = ({ selectedTags, tags, onRemove }: {
-        selectedTags: string[],
-        tags: Tag[],
-        onRemove: (id: string) => void
-    }) => {
-        return (
-            <div className="flex flex-wrap gap-2 mt-2">
-                {selectedTags.map(tagId => {
-                    const tag = tags.find(t => t.id.toString() === tagId);
-                    if (!tag) return null;
-                    return (
-                        <span
-                            key={tagId}
-                            className="bg-green-500 text-white px-3 py-1 rounded-full text-sm flex items-center gap-2"
-                        >
-                            {tag.name}
-                            <button
-                                type="button"
-                                onClick={() => onRemove(tagId)}
-                                className="hover:text-gray-200"
-                            >
-                                <IoClose className="size-4" />
-                            </button>
-                        </span>
-                    );
-                })}
-            </div>
-        );
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        // Validation basique
+        if (!title || !selectedAuthor || !selectedNarrator || !selectedLanguage) {
+            setError("Veuillez remplir tous les champs obligatoires");
+            return;
+        }
+        setError("");
+        // À implémenter plus tard: logique d'envoi
     };
 
     return (
@@ -93,15 +102,15 @@ export default function LoginPage() {
                 <img src="./favicon.ico" className="w-16 mx-auto mb-6" alt="Favicon" />
                 <h1 className="text-white font-bold text-3xl text-center mb-8">Ajouter un livre audio</h1>
 
-                <form className="space-y-6">
+                <form className="space-y-6" onSubmit={handleSubmit}>
                     <section className="relative">
                         <label className="text-white text-lg mb-2 block">Titre</label>
                         <section className="relative">
                             <FaBookMedical className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
                             <input
                                 type="text"
-                                // value={username}
-                                // onChange={(e) => setUsername(e.target.value)}
+                                value={title}
+                                onChange={(e) => setTitle(e.target.value)}
                                 className="w-full bg-[#2b2b2b] text-white pl-10 pr-4 py-3 rounded-md focus:outline-none"
                                 placeholder="Titre du livre audio"
                             />
@@ -109,41 +118,41 @@ export default function LoginPage() {
                     </section>
 
                     <section className="grid grid-cols-2 gap-4">
-                        <section className="relative">
-                            <label className="text-white text-lg mb-2 block">Auteur</label>
-                            <section className="relative">
-                                <FaUser className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                                <input
-                                    className="w-full bg-[#2b2b2b] text-white pl-10 pr-4 py-3 rounded-md focus:outline-none"
-                                    type="text"
-                                    name="first_name"
-                                    placeholder="Nom de l'auteur"
-                                />
-                            </section>
-                        </section>
+                        <SelectOrCreate
+                            label="Auteur"
+                            options={authors}
+                            selectedValue={selectedAuthor}
+                            onSelect={setSelectedAuthor}
+                            isAddingNew={isAddingNewAuthor}
+                            setIsAddingNew={setIsAddingNewAuthor}
+                            newName={newAuthorName}
+                            setNewName={setNewAuthorName}
+                            icon={<LuUser />}
+                            placeholder="Sélectionnez un auteur"
+                        />
 
-                        <section className="relative">
-                            <label className="text-white text-lg mb-2 block">Narrateur</label>
-                            <section className="relative">
-                                <FaUser className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                                <input
-                                    className="w-full bg-[#2b2b2b] text-white pl-10 pr-4 py-3 rounded-md focus:outline-none"
-                                    type="text"
-                                    name="last_name"
-                                    placeholder="Nom du narrateur"
-                                />
-                            </section>
-                        </section>
+                        <SelectOrCreate
+                            label="Narrateur"
+                            options={narrators}
+                            selectedValue={selectedNarrator}
+                            onSelect={setSelectedNarrator}
+                            isAddingNew={isAddingNewNarrator}
+                            setIsAddingNew={setIsAddingNewNarrator}
+                            newName={newNarratorName}
+                            setNewName={setNewNarratorName}
+                            icon={<LuUser />}
+                            placeholder="Sélectionnez un narrateur"
+                        />
                     </section>
 
                     <section className="relative">
-                        <label className="text-white text-lg mb-2 block">Image du livre</label>
+                        <label className="text-white text-lg mb-2 block">Image de couverture</label>
                         <section className="relative">
                             <FaRegImage className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
                             <input
-                                className="w-full bg-[#2b2b2b] text-white pl-10 pr-4 py-3 rounded-md file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:bg-green-500 file:text-white hover:file:bg-green-600"
                                 type="file"
-                                name="profile_img"
+                                onChange={(e) => setCoverImage(e.target.files?.[0] || null)}
+                                className="w-full bg-[#2b2b2b] text-white pl-10 pr-4 py-3 rounded-md file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:bg-green-500 file:text-white hover:file:bg-green-600"
                                 accept="image/*"
                             />
                         </section>
@@ -154,8 +163,9 @@ export default function LoginPage() {
                         <section className="relative">
                             <LuScrollText className="absolute left-3 top-6 transform -translate-y-1/2 text-gray-400" />
                             <textarea
-                                className="w-full bg-[#2b2b2b] text-white pl-10 pr-4 py-3 rounded-md focus:outline-none 
-                      min-h-[100px] max-h-[200px] overflow-y-auto resize-none"
+                                value={description}
+                                onChange={(e) => setDescription(e.target.value)}
+                                className="w-full bg-[#2b2b2b] text-white pl-10 pr-4 py-3 rounded-md focus:outline-none min-h-[100px] max-h-[200px] overflow-y-auto resize-none"
                                 placeholder="Description du livre audio"
                             />
                         </section>
@@ -184,15 +194,15 @@ export default function LoginPage() {
                         </section>
                     </section>
 
-
                     <MultiSelect
                         icon={<LuFileAudio />}
                         label="Genres"
                         placeholder="Sélectionnez des genres"
                         options={tags}
-                        selectedValues={selectedTag}
+                        selectedValues={selectedTags}
                         onSelect={handleTagSelection}
                         onRemove={removeTag}
+                        onAddNewTag={handleAddNewTag}
                     />
 
                     <section className="relative">

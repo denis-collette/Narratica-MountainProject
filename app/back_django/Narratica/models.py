@@ -58,7 +58,6 @@ class Audiobook(models.Model):
     narrator = models.ForeignKey(Narrator, on_delete=models.CASCADE,  related_name="narrations")
     publisher = models.ForeignKey(Publisher, on_delete=models.CASCADE,  related_name="publications")
     cover_art_jpg = models.TextField(blank=True)  # Cloud storage link
-    cover_art_thumbnail = models.TextField(blank=True, null=True)  # Cloud storage link
     language = models.CharField(max_length=50)
     tags = models.ManyToManyField(Tag, blank=True)
     total_time = models.DurationField(blank=True, null=True)

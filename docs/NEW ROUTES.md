@@ -225,3 +225,86 @@ Check below [full version](#gpt-lapi).
 | Method | URL | Description |
 |--------|-----|-------------|
 | GET | /api/search/{query}/ | Search authors, books, narrators… |
+
+
+## 📘 Audiobook Upload
+
+### **Endpoint**: `POST /api/audiobooks/upload/`
+
+Used to upload a new audiobook, including its metadata and cover image.
+
+### **Payload Format (multipart/form-data)**:
+
+| Field             | Type            | Required | Description |
+|------------------|-----------------|----------|-------------|
+| `title`          | string          | ✅       | Title of the audiobook |
+| `description`    | string          | ✅       | Description or synopsis |
+| `cover_art_jpg`  | file (image)    | ✅       | JPEG image for the cover art |
+| `language`       | string          | ✅       | Language code (e.g., "en", "fr") |
+| `authors`        | string (JSON)   | ✅       | JSON array of author names (auto-create if not existing) |
+| `narrators`      | string (JSON)   | ✅       | JSON array of narrator names (auto-create if not existing) |
+| `tags`           | string (JSON)   | ✅       | JSON array of tags (auto-create if not existing) |
+
+**Example** (`multipart/form-data`):
+```
+title: "La Guerre des Étoiles"
+description: "Une saga épique..."
+cover_art_jpg: [upload file]
+language: "fr"
+authors: ["Jean Dupont"]
+narrators: ["Claire Dubois"]
+tags: ["science-fiction", "aventure"]
+```
+
+---
+
+## 📕 Chapter Upload
+
+### **Endpoint**: `POST /api/book-chapters/upload/`
+
+Uploads a single chapter and associates it with an existing audiobook.
+
+### **Payload Format (multipart/form-data)**:
+
+| Field           | Type            | Required | Description |
+|----------------|-----------------|----------|-------------|
+| `audiobook_id` | integer         | ✅       | ID of the audiobook |
+| `title`        | string          | ✅       | Chapter title |
+| `audio_data`   | file (audio)    | ✅       | Audio file (MP3 or WAV) |
+| `duration`     | float (seconds) | ✅       | Duration in seconds |
+| `chapter_index`| integer         | ✅       | Order of the chapter |
+
+**Example**:
+```
+audiobook_id: 42
+title: "Chapitre 1 : L'Éveil"
+audio_data: [upload audio file]
+duration: 300.5
+chapter_index: 1
+```
+
+---
+
+## 🗑 Audiobook Deletion
+
+### **Endpoint**: `DELETE /api/audiobooks/{id}/delete/`
+
+Deletes the audiobook and all associated chapters + S3 files.
+
+---
+
+## 🔁 Audiobook Update
+
+### **Endpoint**: `PUT /api/audiobooks/{id}/update/`
+
+Update the metadata of an audiobook. Supports re-upload of `cover_art_jpg`.
+
+---
+
+## 🛠 Notes
+
+- All uploads should be made authenticated with the user's access token.
+- Auto-creation of authors, narrators, and tags is handled server-side.
+- S3 paths are automatically assigned and managed (including cleanup).
+
+---
