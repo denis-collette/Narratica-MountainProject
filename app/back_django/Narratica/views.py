@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.contrib.auth import get_user_model
-from django.db.models import Q
+from django.db.models import Q, Sum
 from rest_framework import viewsets, generics, status
 from rest_framework.decorators import action, api_view
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -83,11 +83,38 @@ class AudiobookViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
-### AUDIOBOOKS ###
+### BOOK CHAPTERS ###
 class BookChapterViewSet(viewsets.ModelViewSet):
     permission_classes = [AllowAny]
     queryset = BookChapter.objects.all()
     serializer_class = BookChapterSerializer
+    
+    @action(detail=True, methods=['post'], url_path='increment-listening')
+    def increment_listening(self, request, pk=None):
+        try:
+            chapter = self.get_object()
+            chapter.number_of_listening += 1
+            chapter.save()
+            
+            audiobook = chapter.book
+            total_listening = audiobook.chapters.aggregate(
+                total=Sum('number_of_listening')
+            )['total'] or 0
+            audiobook.total_number_of_listening = total_listening
+            audiobook.save()
+            
+            return Response({
+                "message": "Listening count updated.",
+                "chapter_id": chapter.id,
+                "chapter_count": chapter.number_of_listening,
+                "audiobook_id": audiobook.id,
+                "audiobook_total": total_listening,
+            }, status=status.HTTP_200_OK)
+            
+        except BookChapter.DoesNotExist:
+            return Response({"error": "Chapter not found."}, status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 
 ### AUTHORS, NARRATORS, PUBLISHERS ###

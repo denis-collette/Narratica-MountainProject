@@ -2,6 +2,7 @@
 
 import { Chapter } from '@/app/api/audio/getAllChaptersFromAudioBookId';
 import React, { createContext, useState, useContext, useRef, useEffect } from 'react';
+import { incrementPlay } from "@/app/api/audio/incrementPlay";
 
 //#region Interfaces
 
@@ -193,6 +194,11 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
         audio.src = chapter.audio_data;
         audio.load();
+
+        // Incrémente le nombre d'écoutes du chapitre
+        if (chapter.id) {
+            incrementPlay(chapter.id);
+        }
 
         setAudioState((prev) => ({
             ...prev,

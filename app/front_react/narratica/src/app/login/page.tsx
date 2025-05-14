@@ -30,9 +30,9 @@ export default function LoginPage() {
                 <h1 className="text-white font-bold text-3xl text-center mb-8">Se connecter</h1>
 
                 <form className="space-y-6" onSubmit={handleSubmit}>
-                    <div className="relative">
+                    <section className="relative">
                         <label className="text-white text-lg mb-2 block">Nom d'utilisateur</label>
-                        <div className="relative">
+                        <section className="relative">
                             <LuUser className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
                             <input
                                 type="text"
@@ -41,12 +41,12 @@ export default function LoginPage() {
                                 className="w-full bg-[#2b2b2b] text-white pl-10 pr-4 py-3 rounded-md focus:outline-none"
                                 placeholder="Votre nom d'utilisateur"
                             />
-                        </div>
-                    </div>
+                        </section>
+                    </section>
 
-                    <div className="relative">
+                    <section className="relative">
                         <label className="text-white text-lg mb-2 block">Mot de passe</label>
-                        <div className="relative">
+                        <section className="relative">
                             <FaLock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
                             <input
                                 type="password"
@@ -55,8 +55,8 @@ export default function LoginPage() {
                                 className="w-full bg-[#2b2b2b] text-white pl-10 pr-4 py-3 rounded-md focus:outline-none"
                                 placeholder="••••••••"
                             />
-                        </div>
-                    </div>
+                        </section>
+                    </section>
 
                     {error && <p className="text-red-500 text-center">{error}</p>}
 

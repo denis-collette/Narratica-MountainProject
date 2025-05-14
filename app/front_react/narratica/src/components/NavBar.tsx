@@ -72,6 +72,7 @@ export default function NavBar() {
                     {loggedIn ? (
                         <>
                             <li><button onClick={handleLogout} className="px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ease-in-out bg-neutral-800 text-white hover:bg-neutral-700 hover:text-white">Logout</button></li>
+                            <Link href="/bookUpload" className="px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ease-in-out bg-neutral-800 text-white hover:bg-neutral-700 hover:text-white">Upload</Link>
                             <Avatar>
                                 <Link href="/profile">
                                     <AvatarImage src={profileImg || "https://github.com/shadcn.png"}
