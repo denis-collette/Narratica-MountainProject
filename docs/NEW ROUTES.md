@@ -229,7 +229,7 @@ Check below [full version](#gpt-lapi).
 
 ## 📘 Audiobook Upload
 
-### **Endpoint**: `POST /api/audiobooks/upload/`
+### **Endpoint**: `POST /api/audiobooks/`
 
 Used to upload a new audiobook, including its metadata and cover image.
 
@@ -260,7 +260,7 @@ tags: ["science-fiction", "aventure"]
 
 ## 📕 Chapter Upload
 
-### **Endpoint**: `POST /api/book-chapters/upload/`
+### **Endpoint**: `POST /api/bookchapters/`
 
 Uploads a single chapter and associates it with an existing audiobook.
 
@@ -295,7 +295,7 @@ Deletes the audiobook and all associated chapters + S3 files.
 
 ## 🔁 Audiobook Update
 
-### **Endpoint**: `PUT /api/audiobooks/{id}/update/`
+### **Endpoint**: `PUT /api/audiobooks/{id}/`
 
 Update the metadata of an audiobook. Supports re-upload of `cover_art_jpg`.
 
