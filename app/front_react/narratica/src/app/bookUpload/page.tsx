@@ -111,130 +111,134 @@ export default function BookUploadPage() {
     };
 
     return (
-        <main className="flex justify-center items-center min-h-screen bg-gradient-to-b from-[#000000] from-0% to-[#120e0c] to-90%">
-            <section className="flex-row justify-center items-center bg-[#1b1b1b] p-8 rounded-lg shadow-lg w-[450px] mb-30 mt-10">
-                <img src="./favicon.ico" className="w-16 mx-auto mb-6" alt="Favicon" />
-                <h1 className="text-white font-bold text-3xl text-center mb-8">Ajouter un livre audio</h1>
+        <section className="fixed inset-0 overflow-y-auto [&::-webkit-scrollbar]:hidden mb-25 mt-15">
+            <section className="min-h-screen bg-gradient-to-b from-[#000000] from-0% to-[#120e0c] to-90% py-10">
+                <section className="mx-auto bg-[#1b1b1b] p-8 rounded-lg shadow-lg w-[450px] relative">
+                    <img src="./favicon.ico" className="w-16 mx-auto mb-6" alt="Favicon" />
+                    <h1 className="text-white font-bold text-3xl text-center mb-8">
+                        Ajouter un livre audio
+                    </h1>
 
-                <form className="space-y-6" onSubmit={handleSubmit}>
-                    <section className="relative">
-                        <label className="text-white text-lg mb-2 block">Titre</label>
+                    <form className="space-y-6" onSubmit={handleSubmit}>
                         <section className="relative">
-                            <FaBookMedical className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                            <input
-                                type="text"
-                                value={title}
-                                onChange={(e) => setTitle(e.target.value)}
-                                className="w-full bg-[#2b2b2b] text-white pl-10 pr-4 py-3 rounded-md focus:outline-none"
-                                placeholder="Titre du livre audio"
+                            <label className="text-white text-lg mb-2 block">Titre</label>
+                            <section className="relative">
+                                <FaBookMedical className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                                <input
+                                    type="text"
+                                    value={title}
+                                    onChange={(e) => setTitle(e.target.value)}
+                                    className="w-full bg-[#2b2b2b] text-white pl-10 pr-4 py-3 rounded-md focus:outline-none"
+                                    placeholder="Titre du livre audio"
+                                />
+                            </section>
+                        </section>
+
+                        <section className="grid grid-cols-2 gap-4">
+                            <SelectOrCreate
+                                label="Auteur"
+                                options={authors}
+                                selectedValue={selectedAuthor}
+                                onSelect={setSelectedAuthor}
+                                isAddingNew={isAddingNewAuthor}
+                                setIsAddingNew={setIsAddingNewAuthor}
+                                newName={newAuthorName}
+                                setNewName={setNewAuthorName}
+                                icon={<LuUser />}
+                                placeholder="Sélectionnez un auteur"
+                            />
+
+                            <SelectOrCreate
+                                label="Narrateur"
+                                options={narrators}
+                                selectedValue={selectedNarrator}
+                                onSelect={setSelectedNarrator}
+                                isAddingNew={isAddingNewNarrator}
+                                setIsAddingNew={setIsAddingNewNarrator}
+                                newName={newNarratorName}
+                                setNewName={setNewNarratorName}
+                                icon={<LuUser />}
+                                placeholder="Sélectionnez un narrateur"
                             />
                         </section>
-                    </section>
 
-                    <section className="grid grid-cols-2 gap-4">
-                        <SelectOrCreate
-                            label="Auteur"
-                            options={authors}
-                            selectedValue={selectedAuthor}
-                            onSelect={setSelectedAuthor}
-                            isAddingNew={isAddingNewAuthor}
-                            setIsAddingNew={setIsAddingNewAuthor}
-                            newName={newAuthorName}
-                            setNewName={setNewAuthorName}
-                            icon={<LuUser />}
-                            placeholder="Sélectionnez un auteur"
+                        <section className="relative">
+                            <label className="text-white text-lg mb-2 block">Image de couverture</label>
+                            <section className="relative">
+                                <FaRegImage className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                                <input
+                                    type="file"
+                                    onChange={(e) => setCoverImage(e.target.files?.[0] || null)}
+                                    className="w-full bg-[#2b2b2b] text-white pl-10 pr-4 py-3 rounded-md file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:bg-green-500 file:text-white hover:file:bg-green-600"
+                                    accept="image/*"
+                                />
+                            </section>
+                        </section>
+
+                        <section className="relative">
+                            <label className="text-white text-lg mb-2 block">Description</label>
+                            <section className="relative">
+                                <LuScrollText className="absolute left-3 top-6 transform -translate-y-1/2 text-gray-400" />
+                                <textarea
+                                    value={description}
+                                    onChange={(e) => setDescription(e.target.value)}
+                                    className="w-full bg-[#2b2b2b] text-white pl-10 pr-4 py-3 rounded-md focus:outline-none min-h-[100px] max-h-[200px] overflow-y-auto resize-none"
+                                    placeholder="Description du livre audio"
+                                />
+                            </section>
+                        </section>
+
+                        <section className="relative">
+                            <label className="text-white text-lg mb-2 block">Langue</label>
+                            <section className="relative">
+                                <IoLanguage className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 z-10" />
+                                <Select value={selectedLanguage} onValueChange={setSelectedLanguage}>
+                                    <SelectTrigger className="w-full bg-[#2b2b2b] text-white pl-10 pr-4 py-3 rounded-md focus:outline-none appearance-none cursor-pointer">
+                                        <SelectValue placeholder="Sélectionnez une langue" />
+                                    </SelectTrigger>
+                                    <SelectContent className="bg-[#2b2b2b] text-white border border-gray-600">
+                                        {languages.map((language) => (
+                                            <SelectItem
+                                                key={language.id}
+                                                value={language.id}
+                                                className="hover:bg-[#3b3b3b]"
+                                            >
+                                                {language.name}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                            </section>
+                        </section>
+
+                        <MultiSelect
+                            icon={<LuFileAudio />}
+                            label="Genres"
+                            placeholder="Sélectionnez des genres"
+                            options={tags}
+                            selectedValues={selectedTags}
+                            onSelect={handleTagSelection}
+                            onRemove={removeTag}
+                            onAddNewTag={handleAddNewTag}
                         />
 
-                        <SelectOrCreate
-                            label="Narrateur"
-                            options={narrators}
-                            selectedValue={selectedNarrator}
-                            onSelect={setSelectedNarrator}
-                            isAddingNew={isAddingNewNarrator}
-                            setIsAddingNew={setIsAddingNewNarrator}
-                            newName={newNarratorName}
-                            setNewName={setNewNarratorName}
-                            icon={<LuUser />}
-                            placeholder="Sélectionnez un narrateur"
-                        />
-                    </section>
+                        {error && <p className="text-red-500 text-center">{error}</p>}
 
-                    <section className="relative">
-                        <label className="text-white text-lg mb-2 block">Image de couverture</label>
-                        <section className="relative">
-                            <FaRegImage className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                            <input
-                                type="file"
-                                onChange={(e) => setCoverImage(e.target.files?.[0] || null)}
-                                className="w-full bg-[#2b2b2b] text-white pl-10 pr-4 py-3 rounded-md file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:bg-green-500 file:text-white hover:file:bg-green-600"
-                                accept="image/*"
-                            />
-                        </section>
-                    </section>
+                        <button
+                            type="submit"
+                            className="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-3 rounded-md transition-colors duration-300"
+                        >
+                            Publier
+                        </button>
+                    </form>
 
-                    <section className="relative">
-                        <label className="text-white text-lg mb-2 block">Description</label>
-                        <section className="relative">
-                            <LuScrollText className="absolute left-3 top-6 transform -translate-y-1/2 text-gray-400" />
-                            <textarea
-                                value={description}
-                                onChange={(e) => setDescription(e.target.value)}
-                                className="w-full bg-[#2b2b2b] text-white pl-10 pr-4 py-3 rounded-md focus:outline-none min-h-[100px] max-h-[200px] overflow-y-auto resize-none"
-                                placeholder="Description du livre audio"
-                            />
-                        </section>
-                    </section>
-
-                    <section className="relative">
-                        <label className="text-white text-lg mb-2 block">Langue</label>
-                        <section className="relative">
-                            <IoLanguage className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 z-10" />
-                            <Select value={selectedLanguage} onValueChange={setSelectedLanguage}>
-                                <SelectTrigger className="w-full bg-[#2b2b2b] text-white pl-10 pr-4 py-3 rounded-md focus:outline-none appearance-none cursor-pointer">
-                                    <SelectValue placeholder="Sélectionnez une langue" />
-                                </SelectTrigger>
-                                <SelectContent className="bg-[#2b2b2b] text-white border border-gray-600">
-                                    {languages.map((language) => (
-                                        <SelectItem
-                                            key={language.id}
-                                            value={language.id}
-                                            className="hover:bg-[#3b3b3b]"
-                                        >
-                                            {language.name}
-                                        </SelectItem>
-                                    ))}
-                                </SelectContent>
-                            </Select>
-                        </section>
-                    </section>
-
-                    <MultiSelect
-                        icon={<LuFileAudio />}
-                        label="Genres"
-                        placeholder="Sélectionnez des genres"
-                        options={tags}
-                        selectedValues={selectedTags}
-                        onSelect={handleTagSelection}
-                        onRemove={removeTag}
-                        onAddNewTag={handleAddNewTag}
-                    />
-
-                    {error && <p className="text-red-500 text-center">{error}</p>}
-
-                    <button
-                        type="submit"
-                        className="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-3 rounded-md transition-colors duration-300"
-                    >
-                        Publier
-                    </button>
-                </form>
-
-                <p className="text-center mt-6">
-                    <a href="/" className="text-green-500 hover:text-green-400 hover:underline">
-                        Retour à la page d'accueil
-                    </a>
-                </p>
+                    <p className="text-center mt-6">
+                        <a href="/" className="text-green-500 hover:text-green-400 hover:underline">
+                            Retour à la page d'accueil
+                        </a>
+                    </p>
+                </section>
             </section>
-        </main>
+        </section>
     );
 }
