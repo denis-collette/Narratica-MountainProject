@@ -9,7 +9,24 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { MultiSelect } from "@/components/MultiSelect";
 import SelectOrCreate from "@/components/SelectOrCreate";
 import { fetchAllTags, Tag } from "../api/audio/getAllTags";
-import { MultiSelect } from "@/components/MultiSelect";
+import AudioFileUploader from "@/components/AudioFileUploader"
+
+// Données mockées pour le développement
+const mockTags = [
+    { id: 1, name: "Fantasy" },
+    { id: 2, name: "Horror" },
+    { id: 3, name: "Science Fiction" }
+];
+
+const mockAuthors = [
+    { id: "1", name: "J.K. Rowling" },
+    { id: "2", name: "Stephen King" }
+];
+
+const mockNarrators = [
+    { id: "1", name: "Morgan Freeman" },
+    { id: "2", name: "David Attenborough" }
+];
 
 const languages = [
     { id: "fr", name: "Français" },
@@ -19,8 +36,6 @@ const languages = [
     { id: "nl", name: "Néerlandais" },
     { id: "it", name: "Italien" }
 ];
-
-
 
 export default function BookUploadPage() {
     const router = useRouter();
@@ -98,7 +113,7 @@ export default function BookUploadPage() {
 
     return (
         <main className="flex justify-center items-center min-h-screen bg-gradient-to-b from-[#000000] from-0% to-[#120e0c] to-90%">
-            <section className="flex-row justify-center items-center bg-[#1b1b1b] p-8 rounded-lg shadow-lg w-[450px] mb-30 mt-10">
+            <section className="flex-row justify-center items-center bg-[#1b1b1b] p-8 rounded-lg shadow-lg w-[1/4] mb-30 mt-10">
                 <img src="./favicon.ico" className="w-16 mx-auto mb-6" alt="Favicon" />
                 <h1 className="text-white font-bold text-3xl text-center mb-8">Ajouter un livre audio</h1>
 
@@ -204,12 +219,13 @@ export default function BookUploadPage() {
                         onRemove={removeTag}
                         onAddNewTag={handleAddNewTag}
                     />
-
-                    <section className="relative">
+                       <section className="relative">
                         <AudioFileUploader></AudioFileUploader>
                     </section>
 
+
                     {error && <p className="text-red-500 text-center">{error}</p>}
+
                     <button
                         type="submit"
                         className="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-3 rounded-md transition-colors duration-300"
