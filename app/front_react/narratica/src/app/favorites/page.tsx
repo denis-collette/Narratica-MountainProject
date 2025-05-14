@@ -129,7 +129,7 @@ function ProfileView() {
             >
             <section className="px-10">
                 <section >
-                    <h2 className="text-4xl md:text-5xl font-bold text-center text-white drop-shadow-md mb-4 tracking-wide">
+                    <h2 className="text-center text-6xl font-bold mb-7 center text-white drop-shadow-md mb-4 tracking-wide">
                     Favoris
                     </h2>
 
