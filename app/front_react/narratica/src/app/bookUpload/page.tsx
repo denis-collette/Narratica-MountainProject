@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/select"
 import { fetchAllTags, Tag } from "../api/audio/getAllTags";
 import { MultiSelect } from "@/components/MultiSelect";
+import AudioFileUploader from "@/components/AudioFileUploader"
 
 const languages = [
     { id: "fr", name: "Français" },
@@ -25,6 +26,8 @@ const languages = [
     { id: "nl", name: "Néerlandais" },
     { id: "it", name: "Italien" }
 ];
+
+
 
 export default function LoginPage() {
     const [tags, setTags] = useState<Tag[]>([]);
@@ -192,8 +195,11 @@ export default function LoginPage() {
                         onRemove={removeTag}
                     />
 
-                    {error && <p className="text-red-500 text-center">{error}</p>}
+                    <section className="relative">
+                        <AudioFileUploader></AudioFileUploader>
+                    </section>
 
+                    {error && <p className="text-red-500 text-center">{error}</p>}
                     <button
                         type="submit"
                         className="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-3 rounded-md transition-colors duration-300"
