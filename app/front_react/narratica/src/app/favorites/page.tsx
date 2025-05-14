@@ -160,7 +160,7 @@ function ProfileView() {
                             <li key={author.id}>
                             <Link
                                 href={`/authorView?id=${author.id}`}
-                                className="underline hover:text-gray-300 transition-colors"
+                                className=" hover:text-gray-300 transition-colors"
                             >
                                 {author.name}
                             </Link>
@@ -180,7 +180,7 @@ function ProfileView() {
                             <li key={narrator.id}>
                             <Link
                                 href={`/narratorView?id=${narrator.id}`}
-                                className="underline hover:text-gray-300 transition-colors"
+                                className=" hover:text-gray-300 transition-colors"
                             >
                                 {narrator.name}
                             </Link>
@@ -200,7 +200,7 @@ function ProfileView() {
                             <li key={publisher.id}>
                             <Link
                                 href={`/publisherView?id=${publisher.id}`}
-                                className="underline hover:text-gray-300 transition-colors"
+                                className=" hover:text-gray-300 transition-colors"
                             >
                                 {publisher.name}
                             </Link>
@@ -209,7 +209,6 @@ function ProfileView() {
                         </ul>
                     </div>
                     </div>
-                   
                 </section>
             </section>
             </div>

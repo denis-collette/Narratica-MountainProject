@@ -21,7 +21,7 @@ const Card = ({ book }: Props) => {
 
     return (
         <Link href={{ pathname: "/bookView", query: ({ id: book.id }) }}>
-            <section className='rounded-lg  w-3xs shadow-lg border border-white/10  bg-gray-400/40 hover:bg-gray-400/60 '>
+            <section className='rounded-lg  w-3xs shadow-lg border border-white/10  bg-white/30  hover:bg-white/40  '>
                 <section className='relative w-full aspect-square'>
                     <img className='object-cover rounded-lg p-2 w-full h-full' src={book.cover_art_jpg} alt={`Image pour ${book.title}`} />
                 </section>
@@ -29,10 +29,10 @@ const Card = ({ book }: Props) => {
                     <h2 className='text-white text-[1em] font-bold'>
                         {book.title}
                     </h2>
-                    <h3 className='text-[hsl(0,_0%,_70%)] text-xs'>
+                    <h3 className='text-white  text-xs'>
                         Auteur : {book.authorName}
                     </h3>
-                    <h3 className='text-[hsl(0,_0%,_70%)] text-xs '>
+                    <h3 className='text-white  text-xs '>
                         Narrateur : {book.narratorName}
                     </h3>
                 </section>
